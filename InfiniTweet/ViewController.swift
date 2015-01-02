@@ -57,6 +57,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: self.view.window)
         
         self.keyboardIsShown = false
+        self.tweetView.becomeFirstResponder()
     }
     
     override func viewWillDisappear(animated: Bool) {

@@ -541,6 +541,7 @@
 				45B0D51A1A56590B00B4B500 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		45B0D51B1A56590B00B4B500 /* Build configuration list for PBXNativeTarget "InfiniTweetTests" */ = {
 			isa = XCConfigurationList;
@@ -549,6 +550,7 @@
 				45B0D51D1A56590B00B4B500 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		45B0D52D1A566D1A00B4B500 /* Build configuration list for PBXNativeTarget "InfiniTweet Image" */ = {
 			isa = XCConfigurationList;
@@ -557,6 +559,7 @@
 				45B0D52F1A566D1A00B4B500 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
