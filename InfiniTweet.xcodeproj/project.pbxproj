@@ -13,6 +13,9 @@
 		45B0D5061A56590B00B4B500 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45B0D5051A56590B00B4B500 /* Images.xcassets */; };
 		45B0D5091A56590B00B4B500 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B0D5071A56590B00B4B500 /* LaunchScreen.xib */; };
 		45B0D5151A56590B00B4B500 /* InfiniTweetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B0D5141A56590B00B4B500 /* InfiniTweetTests.swift */; };
+		45B0D5271A566D1A00B4B500 /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B0D5261A566D1A00B4B500 /* ActionViewController.swift */; };
+		45B0D5291A566D1A00B4B500 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45B0D5281A566D1A00B4B500 /* MainInterface.storyboard */; };
+		45B0D52C1A566D1A00B4B500 /* InfiniTweet Image.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 45B0D5221A566D1A00B4B500 /* InfiniTweet Image.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,7 +26,28 @@
 			remoteGlobalIDString = 45B0D4F81A56590B00B4B500;
 			remoteInfo = InfiniTweet;
 		};
+		45B0D52A1A566D1A00B4B500 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45B0D4F11A56590B00B4B500 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 45B0D5211A566D1A00B4B500;
+			remoteInfo = InfiniTweetAction;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		45B0D5301A566D1A00B4B500 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				45B0D52C1A566D1A00B4B500 /* InfiniTweet Image.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		45B0D4F91A56590B00B4B500 /* InfiniTweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfiniTweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,6 +60,10 @@
 		45B0D50E1A56590B00B4B500 /* InfiniTweetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InfiniTweetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		45B0D5131A56590B00B4B500 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45B0D5141A56590B00B4B500 /* InfiniTweetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniTweetTests.swift; sourceTree = "<group>"; };
+		45B0D5221A566D1A00B4B500 /* InfiniTweet Image.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "InfiniTweet Image.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		45B0D5251A566D1A00B4B500 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		45B0D5261A566D1A00B4B500 /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
+		45B0D5281A566D1A00B4B500 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +81,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		45B0D51F1A566D1A00B4B500 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -61,6 +96,7 @@
 			children = (
 				45B0D4FB1A56590B00B4B500 /* InfiniTweet */,
 				45B0D5111A56590B00B4B500 /* InfiniTweetTests */,
+				45B0D5231A566D1A00B4B500 /* InfiniTweet Action */,
 				45B0D4FA1A56590B00B4B500 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -70,6 +106,7 @@
 			children = (
 				45B0D4F91A56590B00B4B500 /* InfiniTweet.app */,
 				45B0D50E1A56590B00B4B500 /* InfiniTweetTests.xctest */,
+				45B0D5221A566D1A00B4B500 /* InfiniTweet Image.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,6 +149,25 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		45B0D5231A566D1A00B4B500 /* InfiniTweet Action */ = {
+			isa = PBXGroup;
+			children = (
+				45B0D5261A566D1A00B4B500 /* ActionViewController.swift */,
+				45B0D5281A566D1A00B4B500 /* MainInterface.storyboard */,
+				45B0D5241A566D1A00B4B500 /* Supporting Files */,
+			);
+			name = "InfiniTweet Action";
+			path = InfiniTweetAction;
+			sourceTree = "<group>";
+		};
+		45B0D5241A566D1A00B4B500 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				45B0D5251A566D1A00B4B500 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -122,10 +178,12 @@
 				45B0D4F51A56590B00B4B500 /* Sources */,
 				45B0D4F61A56590B00B4B500 /* Frameworks */,
 				45B0D4F71A56590B00B4B500 /* Resources */,
+				45B0D5301A566D1A00B4B500 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				45B0D52B1A566D1A00B4B500 /* PBXTargetDependency */,
 			);
 			name = InfiniTweet;
 			productName = InfiniTweet;
@@ -150,6 +208,23 @@
 			productReference = 45B0D50E1A56590B00B4B500 /* InfiniTweetTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		45B0D5211A566D1A00B4B500 /* InfiniTweet Image */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 45B0D52D1A566D1A00B4B500 /* Build configuration list for PBXNativeTarget "InfiniTweet Image" */;
+			buildPhases = (
+				45B0D51E1A566D1A00B4B500 /* Sources */,
+				45B0D51F1A566D1A00B4B500 /* Frameworks */,
+				45B0D5201A566D1A00B4B500 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "InfiniTweet Image";
+			productName = InfiniTweetAction;
+			productReference = 45B0D5221A566D1A00B4B500 /* InfiniTweet Image.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -165,6 +240,9 @@
 					45B0D50D1A56590B00B4B500 = {
 						CreatedOnToolsVersion = 6.1.1;
 						TestTargetID = 45B0D4F81A56590B00B4B500;
+					};
+					45B0D5211A566D1A00B4B500 = {
+						CreatedOnToolsVersion = 6.1.1;
 					};
 				};
 			};
@@ -183,6 +261,7 @@
 			targets = (
 				45B0D4F81A56590B00B4B500 /* InfiniTweet */,
 				45B0D50D1A56590B00B4B500 /* InfiniTweetTests */,
+				45B0D5211A566D1A00B4B500 /* InfiniTweet Image */,
 			);
 		};
 /* End PBXProject section */
@@ -202,6 +281,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		45B0D5201A566D1A00B4B500 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				45B0D5291A566D1A00B4B500 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +312,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		45B0D51E1A566D1A00B4B500 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				45B0D5271A566D1A00B4B500 /* ActionViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -232,6 +327,11 @@
 			isa = PBXTargetDependency;
 			target = 45B0D4F81A56590B00B4B500 /* InfiniTweet */;
 			targetProxy = 45B0D50F1A56590B00B4B500 /* PBXContainerItemProxy */;
+		};
+		45B0D52B1A566D1A00B4B500 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 45B0D5211A566D1A00B4B500 /* InfiniTweet Image */;
+			targetProxy = 45B0D52A1A566D1A00B4B500 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -289,9 +389,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Infinitweet;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -325,8 +426,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = Infinitweet;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -336,7 +438,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = InfiniTweet/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -346,7 +450,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = InfiniTweet/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -386,6 +492,36 @@
 			};
 			name = Release;
 		};
+		45B0D52E1A566D1A00B4B500 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = InfiniTweetAction/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		45B0D52F1A566D1A00B4B500 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = InfiniTweetAction/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -411,6 +547,14 @@
 			buildConfigurations = (
 				45B0D51C1A56590B00B4B500 /* Debug */,
 				45B0D51D1A56590B00B4B500 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		45B0D52D1A566D1A00B4B500 /* Build configuration list for PBXNativeTarget "InfiniTweet Image" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				45B0D52E1A566D1A00B4B500 /* Debug */,
+				45B0D52F1A566D1A00B4B500 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
