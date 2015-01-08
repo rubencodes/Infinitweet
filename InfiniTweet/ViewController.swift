@@ -7,18 +7,59 @@
 //
 
 import UIKit
+import iAd
 
 class ViewController: UIViewController, UITextViewDelegate {
+    @IBOutlet var navItem: UINavigationItem!
     @IBOutlet weak var tweetView: UITextView!
-    var text : String?
+    var text = ""
     var keyboardIsShown : Bool?
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        var clearButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Trash, target: self, action: "clearTextField")
+        var shareButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "shareInfinitweet")
+        navItem.setRightBarButtonItems([shareButton, clearButton], animated: false)
         
+        super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.automaticallyAdjustsScrollViewInsets = false
+        self.tweetView.text = text
+        self.tweetView.delegate = self
+        self.tweetView.textContainer.lineFragmentPadding = 0
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: self.view.window)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: self.view.window)
+        
+        self.keyboardIsShown = false
+        
+        var defaults = NSUserDefaults.standardUserDefaults()
         // Do any additional setup after loading the view, typically from a nib.
-        if !NSUserDefaults.standardUserDefaults().boolForKey("HasLaunched") {
+        if !defaults.boolForKey("TutorialShown") {
+            defaults.setObject("Helvetica", forKey: "DefaultFont")
+            defaults.setObject(CGFloat(14.0), forKey: "DefaultFontSize")
+            defaults.setObject("000000", forKey: "DefaultColor")
+            defaults.setObject("ffffff", forKey: "DefaultBackgroundColor")
+            defaults.synchronize()
             beginTutorial()
+        } else {
+            var fontName = defaults.objectForKey("DefaultFont") as String
+            var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
+            var font = UIFont(name: fontName, size: fontSize)
+            
+            var colorString = defaults.objectForKey("DefaultColor") as String
+            var color = colorString.hexStringToUIColor()
+            var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
+            var backgroundColor = backgroundColorString.hexStringToUIColor()
+            
+            tweetView.font = font
+            tweetView.textColor = color
+            tweetView.backgroundColor = backgroundColor
+            tweetView.becomeFirstResponder()
         }
     }
     
@@ -36,28 +77,14 @@ class ViewController: UIViewController, UITextViewDelegate {
             style: UIAlertActionStyle.Default,
             handler: {
                 (action : UIAlertAction!) in
-                defaults.setBool(true, forKey: "HasLaunched")
+                defaults.setBool(true, forKey: "TutorialShown")
                 defaults.synchronize()
+                self.tweetView.becomeFirstResponder()
         })
         
         tutorial.addAction(OK)
         
         self.presentViewController(tutorial, animated: true, completion: nil)
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.automaticallyAdjustsScrollViewInsets = false
-        self.tweetView.text = text
-        self.tweetView.delegate = self
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: self.view.window)
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: self.view.window)
-        
-        self.keyboardIsShown = false
-        self.tweetView.becomeFirstResponder()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -121,43 +148,113 @@ class ViewController: UIViewController, UITextViewDelegate {
     func textViewDidChange(textView: UITextView) {
         self.text = self.tweetView.text
     }
-
     
-    @IBAction func generateAndShare(sender: AnyObject) {
-        var defaults = NSUserDefaults.standardUserDefaults()
-        //size of text
-        var textAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(14.0)]
-        var size = (self.text! as NSString).boundingRectWithSize(CGSizeMake(400, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
-        var adjustedSize = CGSizeMake(CGFloat(ceilf(Float(size.width))), CGFloat(ceilf(Float(size.height))))
+    func generateInfinitweetWithFont(font : UIFont, color : UIColor, background : UIColor, text : String) -> UIImage {
+        //set text properties
+        var textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: color]
+        
+        //set image properties
+        var imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(self.view.frame.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
+        var adjustedImageSize = CGSizeMake(CGFloat(ceilf(Float(imageSize.width))), CGFloat(ceilf(Float(imageSize.height))))
         
         //generate image
-        UIGraphicsBeginImageContextWithOptions(adjustedSize, true, 0.0)
+        UIGraphicsBeginImageContextWithOptions(adjustedImageSize, true, 0.0)
         var image = UIGraphicsGetImageFromCurrentImageContext()
+        
         image.drawInRect(CGRectMake(0,0,image.size.width,image.size.height))
         var rect = CGRectMake(0, 0, image.size.width, image.size.height)
         
-        UIColor.whiteColor().set()
+        background.set()
         CGContextFillRect(UIGraphicsGetCurrentContext(), rect)
-            
-        UIColor.blackColor().set()
-        self.text!.drawInRect(CGRectIntegral(rect), withAttributes: textAttributes)
+        
+        //draw text
+        text.drawInRect(CGRectIntegral(rect), withAttributes: textAttributes)
+        //save new image
         var newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        var shareText : String?
-        if !defaults.boolForKey("FirstShare") {
-            shareText = "Sharing from @Infinitweet for the first time!"
-            defaults.setBool(true, forKey: "FirstShare")
-            defaults.synchronize()
+        return newImage
+    }
+    
+    func shareInfinitweet() {
+        if self.text != "" {
+            var defaults = NSUserDefaults.standardUserDefaults()
+            
+            var fontName = defaults.objectForKey("DefaultFont") as String
+            var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
+            var font = UIFont(name: fontName, size: fontSize)
+            
+            var colorString = defaults.objectForKey("DefaultColor") as String
+            var color = colorString.hexStringToUIColor()
+            var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
+            var backgroundColor = backgroundColorString.hexStringToUIColor()
+            
+            var imageToShare = generateInfinitweetWithFont(font!, color: color, background: backgroundColor, text: self.text)
+            
+            var shareText : String?
+            if !defaults.boolForKey("FirstShare") {
+                shareText = "Sharing from @Infinitweet for the first time!"
+                defaults.setBool(true, forKey: "FirstShare")
+                defaults.synchronize()
+            } else {
+                shareText = "Tired of character limits? @Infinitytweet!"
+            }
+            
+            //add objects to share
+            var items = [AnyObject]()
+            items.append(imageToShare)
+            let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+            self.presentViewController(activityViewController, animated: true, completion: nil)
         } else {
-            shareText = "Tired of character limits? @Infinitytweet!"
+            var title = "Oops!"
+            var message = "Please enter some text first, then we'll turn it into a shareable image."
+            
+            var error = UIAlertController(title: title,
+                message: message,
+                preferredStyle: UIAlertControllerStyle.Alert)
+            
+            var OK = UIAlertAction(title: "OK",
+                style: UIAlertActionStyle.Default,
+                handler: {
+                    (action : UIAlertAction!) in
+                    self.tweetView.becomeFirstResponder()
+                    return
+            })
+            
+            error.addAction(OK)
+            
+            self.presentViewController(error, animated: true, completion: nil)
         }
-        
-        //add objects to share
-        var items = [AnyObject]()
-        items.append(newImage)
-        let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
-        self.presentViewController(activityViewController, animated: true, completion: nil)
+    }
+    
+    func clearTextField() {
+        self.tweetView.text = ""
+        self.text = ""
     }
 }
 
+
+extension String {
+    // This function converts from HTML colors (hex strings of the form '#ffffff') to UIColors
+    mutating func hexStringToUIColor() -> UIColor {
+        var cString:String = self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
+        
+        if (cString.hasPrefix("#")) {
+            cString = cString.substringFromIndex(advance(cString.startIndex, 1))
+        }
+        
+        if (countElements(cString) != 6) {
+            return UIColor.grayColor()
+        }
+        
+        var rgbValue:UInt32 = 0
+        NSScanner(string: cString).scanHexInt(&rgbValue)
+        
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+}

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4567D7901A5A7F7800D2D820 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */; };
+		4567D7921A5A801800D2D820 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4567D7911A5A801800D2D820 /* SettingsViewController.swift */; };
+		4567D7941A5A81B900D2D820 /* colorPalette.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4567D7931A5A81B900D2D820 /* colorPalette.plist */; };
 		45B0D4FF1A56590B00B4B500 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B0D4FE1A56590B00B4B500 /* AppDelegate.swift */; };
 		45B0D5011A56590B00B4B500 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B0D5001A56590B00B4B500 /* ViewController.swift */; };
 		45B0D5041A56590B00B4B500 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45B0D5021A56590B00B4B500 /* Main.storyboard */; };
@@ -50,6 +53,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
+		4567D7911A5A801800D2D820 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		4567D7931A5A81B900D2D820 /* colorPalette.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = colorPalette.plist; sourceTree = "<group>"; };
 		45B0D4F91A56590B00B4B500 /* InfiniTweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfiniTweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45B0D4FD1A56590B00B4B500 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45B0D4FE1A56590B00B4B500 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -117,6 +123,9 @@
 				45B0D4FE1A56590B00B4B500 /* AppDelegate.swift */,
 				45B0D5001A56590B00B4B500 /* ViewController.swift */,
 				45B0D5021A56590B00B4B500 /* Main.storyboard */,
+				4567D7911A5A801800D2D820 /* SettingsViewController.swift */,
+				4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */,
+				4567D7931A5A81B900D2D820 /* colorPalette.plist */,
 				45B0D5051A56590B00B4B500 /* Images.xcassets */,
 				45B0D5071A56590B00B4B500 /* LaunchScreen.xib */,
 				45B0D4FC1A56590B00B4B500 /* Supporting Files */,
@@ -273,6 +282,7 @@
 			files = (
 				45B0D5041A56590B00B4B500 /* Main.storyboard in Resources */,
 				45B0D5091A56590B00B4B500 /* LaunchScreen.xib in Resources */,
+				4567D7941A5A81B900D2D820 /* colorPalette.plist in Resources */,
 				45B0D5061A56590B00B4B500 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,6 +311,8 @@
 			files = (
 				45B0D5011A56590B00B4B500 /* ViewController.swift in Sources */,
 				45B0D4FF1A56590B00B4B500 /* AppDelegate.swift in Sources */,
+				4567D7901A5A7F7800D2D820 /* ColorPickerViewController.swift in Sources */,
+				4567D7921A5A801800D2D820 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,7 +428,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = YES;
+				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

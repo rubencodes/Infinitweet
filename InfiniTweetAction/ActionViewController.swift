@@ -8,11 +8,12 @@
 
 import UIKit
 import MobileCoreServices
+import iAd
 
 class ActionViewController: UIViewController {
     @IBOutlet weak var tweetView: UITextView!
-    var text : String?
-
+    var text = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -29,7 +30,7 @@ class ActionViewController: UIViewController {
                     itemProvider.loadItemForTypeIdentifier(kUTTypeText as NSString, options: nil, completionHandler: { (text, error) in
                         if text != nil {
                             NSOperationQueue.mainQueue().addOperationWithBlock {
-                                self.text = text as? String
+                                self.text = text as String
                                 self.tweetView.text = text as? String
                             }
                         }
@@ -46,7 +47,7 @@ class ActionViewController: UIViewController {
             }
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -58,31 +59,86 @@ class ActionViewController: UIViewController {
         self.extensionContext!.completeRequestReturningItems(self.extensionContext!.inputItems, completionHandler: nil)
     }
     
-    @IBAction func generateAndShare(sender: AnyObject) {
-        //size of text
-        var textAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(14.0)]
-        var size = (self.text! as NSString).boundingRectWithSize(CGSizeMake(400, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
-        var adjustedSize = CGSizeMake(CGFloat(ceilf(Float(size.width))), CGFloat(ceilf(Float(size.height))))
+    func generateInfinitweetWithFont(font : UIFont, color : UIColor, background : UIColor, text : String) -> UIImage {
+        //set text properties
+        var textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: color]
+        
+        //set image properties
+        var imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(self.view.frame.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
+        var adjustedImageSize = CGSizeMake(CGFloat(ceilf(Float(imageSize.width))), CGFloat(ceilf(Float(imageSize.height))))
         
         //generate image
-        UIGraphicsBeginImageContextWithOptions(adjustedSize, true, 0.0)
+        UIGraphicsBeginImageContextWithOptions(adjustedImageSize, true, 0.0)
         var image = UIGraphicsGetImageFromCurrentImageContext()
         image.drawInRect(CGRectMake(0,0,image.size.width,image.size.height))
         var rect = CGRectMake(0, 0, image.size.width, image.size.height)
         
-        UIColor.whiteColor().set()
+        background.set()
         CGContextFillRect(UIGraphicsGetCurrentContext(), rect)
         
-        UIColor.blackColor().set()
-        self.text!.drawInRect(CGRectIntegral(rect), withAttributes: textAttributes)
+        //draw text
+        text.drawInRect(CGRectIntegral(rect), withAttributes: textAttributes)
+        //save new image
         var newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
+        return newImage
+    }
+    
+    @IBAction func generateAndShare(sender: AnyObject) {
+        var defaults = NSUserDefaults.standardUserDefaults()
+        
+        var fontName = defaults.objectForKey("DefaultFont") as String
+        var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
+        var font = UIFont(name: fontName, size: fontSize)
+        
+        var colorString = defaults.objectForKey("DefaultColor") as String
+        var color = colorString.hexStringToUIColor()
+        var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
+        var backgroundColor = backgroundColorString.hexStringToUIColor()
+        
+        var imageToShare = generateInfinitweetWithFont(font!, color: color, background: backgroundColor, text: self.text)
+        
+        var shareText : String?
+        if !defaults.boolForKey("FirstShare") {
+            shareText = "Sharing from @Infinitweet for the first time!"
+            defaults.setBool(true, forKey: "FirstShare")
+            defaults.synchronize()
+        } else {
+            shareText = "Tired of character limits? @Infinitytweet!"
+        }
+        
         //add objects to share
         var items = [AnyObject]()
-        items.append(newImage)
+        items.append(imageToShare)
         let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
         self.presentViewController(activityViewController, animated: true, completion: nil)
     }
 
+}
+
+
+extension String {
+    // This function converts from HTML colors (hex strings of the form '#ffffff') to UIColors
+    mutating func hexStringToUIColor() -> UIColor {
+        var cString:String = self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
+        
+        if (cString.hasPrefix("#")) {
+            cString = cString.substringFromIndex(advance(cString.startIndex, 1))
+        }
+        
+        if (countElements(cString) != 6) {
+            return UIColor.grayColor()
+        }
+        
+        var rgbValue:UInt32 = 0
+        NSScanner(string: cString).scanHexInt(&rgbValue)
+        
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
 }
