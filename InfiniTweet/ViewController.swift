@@ -44,6 +44,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             defaults.setObject(CGFloat(14.0), forKey: "DefaultFontSize")
             defaults.setObject("000000", forKey: "DefaultColor")
             defaults.setObject("ffffff", forKey: "DefaultBackgroundColor")
+            defaults.setFloat(20, forKey: "DefaultPadding")
             defaults.synchronize()
             beginTutorial()
         } else {
@@ -149,26 +150,29 @@ class ViewController: UIViewController, UITextViewDelegate {
         self.text = self.tweetView.text
     }
     
-    func generateInfinitweetWithFont(font : UIFont, color : UIColor, background : UIColor, text : String) -> UIImage {
+    func generateInfinitweetWithFont(font : UIFont, color : UIColor, background : UIColor, text : String, padding : CGFloat) -> UIImage {
         //set text properties
         var textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: color]
         
         //set image properties
         var imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(self.view.frame.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
-        var adjustedImageSize = CGSizeMake(CGFloat(ceilf(Float(imageSize.width))), CGFloat(ceilf(Float(imageSize.height))))
+        var adjustedWidth = CGFloat(ceilf(Float(imageSize.width)))
+        var adjustedHeight = CGFloat(ceilf(Float(imageSize.height)))
+        var outerRectSize = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
         
         //generate image
-        UIGraphicsBeginImageContextWithOptions(adjustedImageSize, true, 0.0)
+        UIGraphicsBeginImageContextWithOptions(outerRectSize, true, 0.0)
         var image = UIGraphicsGetImageFromCurrentImageContext()
         
         image.drawInRect(CGRectMake(0,0,image.size.width,image.size.height))
-        var rect = CGRectMake(0, 0, image.size.width, image.size.height)
         
         background.set()
-        CGContextFillRect(UIGraphicsGetCurrentContext(), rect)
+        var outerRect = CGRectMake(0, 0, image.size.width, image.size.height)
+        CGContextFillRect(UIGraphicsGetCurrentContext(), outerRect)
         
         //draw text
-        text.drawInRect(CGRectIntegral(rect), withAttributes: textAttributes)
+        var innerRect = CGRectMake(padding, padding, adjustedWidth, adjustedHeight)
+        text.drawInRect(CGRectIntegral(innerRect), withAttributes: textAttributes)
         //save new image
         var newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -188,8 +192,9 @@ class ViewController: UIViewController, UITextViewDelegate {
             var color = colorString.hexStringToUIColor()
             var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
             var backgroundColor = backgroundColorString.hexStringToUIColor()
+            var padding = CGFloat(defaults.floatForKey("DefaultPadding"))
             
-            var imageToShare = generateInfinitweetWithFont(font!, color: color, background: backgroundColor, text: self.text)
+            var imageToShare = generateInfinitweetWithFont(font!, color: color, background: backgroundColor, text: self.text, padding: padding)
             
             var shareText : String?
             if !defaults.boolForKey("FirstShare") {

@@ -12,6 +12,8 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
     @IBOutlet weak var fontControl: UISegmentedControl!
     @IBOutlet weak var fontSizeSlider: UISlider!
     @IBOutlet weak var fontSizeLabel: UILabel!
+    @IBOutlet weak var paddingSlider: UISlider!
+    @IBOutlet weak var paddingLabel: UILabel!
     @IBOutlet weak var textColorButton: UIButton!
     @IBOutlet weak var backgroundColorButton: UIButton!
     
@@ -25,6 +27,7 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
         var color = colorString.hexStringToUIColor()
         var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
         var backgroundColor = backgroundColorString.hexStringToUIColor()
+        var padding = defaults.floatForKey("DefaultPadding")
         
         
         for segmentIndex in 0..<fontControl.numberOfSegments {
@@ -36,6 +39,8 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
         fontSizeLabel.text = "\(round(fontSize*10)/10)"
         textColorButton.backgroundColor = color
         backgroundColorButton.backgroundColor = backgroundColor
+        paddingSlider.value = padding
+        paddingLabel.text = "\(round(padding*10)/10)"
         
         super.viewWillAppear(animated)
     }
@@ -53,6 +58,14 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
         defaults.synchronize()
         
         fontSizeLabel.text = "\(round(sender.value*10)/10)"
+    }
+    
+    @IBAction func paddingDidChange(sender: UISlider) {
+        var defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setFloat(sender.value, forKey: "DefaultPadding")
+        defaults.synchronize()
+        
+        paddingLabel.text = "\(round(sender.value*10)/10)"
     }
     
     @IBAction func colorButtonTapped(sender: UIButton) {
