@@ -8,7 +8,6 @@
 
 import UIKit
 import MobileCoreServices
-import iAd
 
 class ActionViewController: UIViewController {
     @IBOutlet weak var tweetView: UITextView!
@@ -32,6 +31,31 @@ class ActionViewController: UIViewController {
                             NSOperationQueue.mainQueue().addOperationWithBlock {
                                 self.text = text as String
                                 self.tweetView.text = text as? String
+                                
+                                var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
+                                // Do any additional setup after loading the view, typically from a nib.
+                                if !defaults.boolForKey("TutorialShown") {
+                                    defaults.setObject("Helvetica", forKey: "DefaultFont")
+                                    defaults.setObject(CGFloat(14.0), forKey: "DefaultFontSize")
+                                    defaults.setObject("000000", forKey: "DefaultColor")
+                                    defaults.setObject("ffffff", forKey: "DefaultBackgroundColor")
+                                    defaults.setFloat(20, forKey: "DefaultPadding")
+                                    defaults.synchronize()
+                                } else {
+                                    var fontName = defaults.objectForKey("DefaultFont") as String
+                                    var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
+                                    var font = UIFont(name: fontName, size: fontSize)
+                                    
+                                    var colorString = defaults.objectForKey("DefaultColor") as String
+                                    var color = colorString.hexStringToUIColor()
+                                    var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
+                                    var backgroundColor = backgroundColorString.hexStringToUIColor()
+                                    
+                                    self.tweetView.font = font
+                                    self.tweetView.textColor = color
+                                    self.tweetView.backgroundColor = backgroundColor
+                                }
+                                
                             }
                         }
                     })
@@ -59,25 +83,29 @@ class ActionViewController: UIViewController {
         self.extensionContext!.completeRequestReturningItems(self.extensionContext!.inputItems, completionHandler: nil)
     }
     
-    func generateInfinitweetWithFont(font : UIFont, color : UIColor, background : UIColor, text : String) -> UIImage {
+    func generateInfinitweetWithFont(font : UIFont, color : UIColor, background : UIColor, text : String, padding : CGFloat) -> UIImage {
         //set text properties
         var textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: color]
         
         //set image properties
         var imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(self.view.frame.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
-        var adjustedImageSize = CGSizeMake(CGFloat(ceilf(Float(imageSize.width))), CGFloat(ceilf(Float(imageSize.height))))
+        var adjustedWidth = CGFloat(ceilf(Float(imageSize.width)))
+        var adjustedHeight = CGFloat(ceilf(Float(imageSize.height)))
+        var outerRectSize = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
         
         //generate image
-        UIGraphicsBeginImageContextWithOptions(adjustedImageSize, true, 0.0)
+        UIGraphicsBeginImageContextWithOptions(outerRectSize, true, 0.0)
         var image = UIGraphicsGetImageFromCurrentImageContext()
+        
         image.drawInRect(CGRectMake(0,0,image.size.width,image.size.height))
-        var rect = CGRectMake(0, 0, image.size.width, image.size.height)
         
         background.set()
-        CGContextFillRect(UIGraphicsGetCurrentContext(), rect)
+        var outerRect = CGRectMake(0, 0, image.size.width, image.size.height)
+        CGContextFillRect(UIGraphicsGetCurrentContext(), outerRect)
         
         //draw text
-        text.drawInRect(CGRectIntegral(rect), withAttributes: textAttributes)
+        var innerRect = CGRectMake(padding, padding, adjustedWidth, adjustedHeight)
+        text.drawInRect(CGRectIntegral(innerRect), withAttributes: textAttributes)
         //save new image
         var newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -85,36 +113,57 @@ class ActionViewController: UIViewController {
         return newImage
     }
     
-    @IBAction func generateAndShare(sender: AnyObject) {
-        var defaults = NSUserDefaults.standardUserDefaults()
-        
-        var fontName = defaults.objectForKey("DefaultFont") as String
-        var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
-        var font = UIFont(name: fontName, size: fontSize)
-        
-        var colorString = defaults.objectForKey("DefaultColor") as String
-        var color = colorString.hexStringToUIColor()
-        var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
-        var backgroundColor = backgroundColorString.hexStringToUIColor()
-        
-        var imageToShare = generateInfinitweetWithFont(font!, color: color, background: backgroundColor, text: self.text)
-        
-        var shareText : String?
-        if !defaults.boolForKey("FirstShare") {
-            shareText = "Sharing from @Infinitweet for the first time!"
-            defaults.setBool(true, forKey: "FirstShare")
-            defaults.synchronize()
+    @IBAction func shareInfinitweet() {
+        if self.text != "" {
+            var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
+            
+            var fontName = defaults.objectForKey("DefaultFont") as String
+            var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
+            var font = UIFont(name: fontName, size: fontSize)
+            
+            var colorString = defaults.objectForKey("DefaultColor") as String
+            var color = colorString.hexStringToUIColor()
+            var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
+            var backgroundColor = backgroundColorString.hexStringToUIColor()
+            var padding = CGFloat(defaults.floatForKey("DefaultPadding"))
+            
+            var imageToShare = generateInfinitweetWithFont(font!, color: color, background: backgroundColor, text: self.text, padding: padding)
+            
+            var shareText : String?
+            if !defaults.boolForKey("FirstShare") {
+                shareText = "Sharing from @InfinitweetApp for the first time!"
+                defaults.setBool(true, forKey: "FirstShare")
+                defaults.synchronize()
+            } else {
+                shareText = "via @InfinitytweetApp"
+            }
+            
+            //add objects to share
+            var items = [AnyObject]()
+            items.append(imageToShare)
+            let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+            self.presentViewController(activityViewController, animated: true, completion: nil)
         } else {
-            shareText = "Tired of character limits? @Infinitytweet!"
+            var title = "Oops!"
+            var message = "Please enter some text first, then we'll turn it into a shareable image."
+            
+            var error = UIAlertController(title: title,
+                message: message,
+                preferredStyle: UIAlertControllerStyle.Alert)
+            
+            var OK = UIAlertAction(title: "OK",
+                style: UIAlertActionStyle.Default,
+                handler: {
+                    (action : UIAlertAction!) in
+                    self.tweetView.becomeFirstResponder()
+                    return
+            })
+            
+            error.addAction(OK)
+            
+            self.presentViewController(error, animated: true, completion: nil)
         }
-        
-        //add objects to share
-        var items = [AnyObject]()
-        items.append(imageToShare)
-        let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
-        self.presentViewController(activityViewController, animated: true, completion: nil)
     }
-
 }
 
 

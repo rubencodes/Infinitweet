@@ -18,7 +18,7 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
     @IBOutlet weak var backgroundColorButton: UIButton!
     
     override func viewWillAppear(animated: Bool) {
-        var defaults = NSUserDefaults.standardUserDefaults()
+        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         
         var fontName = defaults.objectForKey("DefaultFont") as String
         var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
@@ -36,36 +36,36 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
             }
         }
         fontSizeSlider.value = Float(fontSize)
-        fontSizeLabel.text = "\(round(fontSize*10)/10)"
+        fontSizeLabel.text = "\(round(fontSize*10)/10)px"
         textColorButton.backgroundColor = color
         backgroundColorButton.backgroundColor = backgroundColor
         paddingSlider.value = padding
-        paddingLabel.text = "\(round(padding*10)/10)"
+        paddingLabel.text = "\(round(padding*10)/10)px"
         
         super.viewWillAppear(animated)
     }
     
     @IBAction func fontDidChange(sender: UISegmentedControl) {
-        var defaults = NSUserDefaults.standardUserDefaults()
+        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         var fontName = sender.titleForSegmentAtIndex(sender.selectedSegmentIndex) as String!
         defaults.setObject(fontName, forKey: "DefaultFont")
         defaults.synchronize()
     }
     
     @IBAction func fontSizeDidChange(sender: UISlider) {
-        var defaults = NSUserDefaults.standardUserDefaults()
+        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         defaults.setObject(CGFloat(sender.value), forKey: "DefaultFontSize")
         defaults.synchronize()
         
-        fontSizeLabel.text = "\(round(sender.value*10)/10)"
+        fontSizeLabel.text = "\(round(sender.value*10)/10)px"
     }
     
     @IBAction func paddingDidChange(sender: UISlider) {
-        var defaults = NSUserDefaults.standardUserDefaults()
+        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         defaults.setFloat(sender.value, forKey: "DefaultPadding")
         defaults.synchronize()
         
-        paddingLabel.text = "\(round(sender.value*10)/10)"
+        paddingLabel.text = "\(round(sender.value*10)/10)px"
     }
     
     @IBAction func colorButtonTapped(sender: UIButton) {
@@ -85,7 +85,7 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
     
     func setColor(tag: Int, hexString: String) {
         var colorString = hexString
-        var defaults = NSUserDefaults.standardUserDefaults()
+        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         switch tag {
         case textColorButton.tag:
             textColorButton.backgroundColor = colorString.hexStringToUIColor()

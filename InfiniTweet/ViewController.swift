@@ -12,15 +12,21 @@ import iAd
 class ViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var navItem: UINavigationItem!
     @IBOutlet weak var tweetView: UITextView!
+    var clearButton: UIBarButtonItem?
+    var shareButton: UIBarButtonItem?
     var text = ""
     var keyboardIsShown : Bool?
     
     override func viewDidLoad() {
-        var clearButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Trash, target: self, action: "clearTextField")
-        var shareButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "shareInfinitweet")
-        navItem.setRightBarButtonItems([shareButton, clearButton], animated: false)
+        self.clearButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Trash, target: self, action: "clearTextField")
+        self.shareButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "shareInfinitweet")
+        navItem.setRightBarButtonItems([self.shareButton!, self.clearButton!], animated: false)
         
         super.viewDidLoad()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -37,7 +43,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         
         self.keyboardIsShown = false
         
-        var defaults = NSUserDefaults.standardUserDefaults()
+        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         // Do any additional setup after loading the view, typically from a nib.
         if !defaults.boolForKey("TutorialShown") {
             defaults.setObject("Helvetica", forKey: "DefaultFont")
@@ -65,10 +71,10 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     
     func beginTutorial() {
-        var defaults = NSUserDefaults.standardUserDefaults()
+        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         
         var title = "Welcome!"
-        var message = "Welcome to Infinitweet! To start, enter text into the textfield. When you're ready, tap the Share icon on the upper right to share to Twitter (or elsewhere)."
+        var message = "Welcome to Infinitweet! To start, enter text into the textfield. When you're ready, tap the Share icon on the upper right to share to Twitter (or elsewhere). Additionally, you can use our Action Extension to share text from within any app that supports it (e.g. Notes)."
         
         var tutorial = UIAlertController(title: title,
             message: message,
@@ -89,6 +95,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     
     override func viewWillDisappear(animated: Bool) {
+        self.tweetView.resignFirstResponder()
         super.viewWillDisappear(animated)
         
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: self.view.window)
@@ -164,7 +171,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         UIGraphicsBeginImageContextWithOptions(outerRectSize, true, 0.0)
         var image = UIGraphicsGetImageFromCurrentImageContext()
         
-        image.drawInRect(CGRectMake(0,0,image.size.width,image.size.height))
+        image.drawInRect(CGRectMake(0,0,outerRectSize.width,outerRectSize.height))
         
         background.set()
         var outerRect = CGRectMake(0, 0, image.size.width, image.size.height)
@@ -182,7 +189,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     
     func shareInfinitweet() {
         if self.text != "" {
-            var defaults = NSUserDefaults.standardUserDefaults()
+            var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
             
             var fontName = defaults.objectForKey("DefaultFont") as String
             var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
@@ -198,17 +205,18 @@ class ViewController: UIViewController, UITextViewDelegate {
             
             var shareText : String?
             if !defaults.boolForKey("FirstShare") {
-                shareText = "Sharing from @Infinitweet for the first time!"
+                shareText = "Sharing from @InfinitweetApp for the first time!"
                 defaults.setBool(true, forKey: "FirstShare")
                 defaults.synchronize()
             } else {
-                shareText = "Tired of character limits? @Infinitytweet!"
+                shareText = "via @InfinitytweetApp"
             }
             
             //add objects to share
             var items = [AnyObject]()
             items.append(imageToShare)
             let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+            activityViewController.popoverPresentationController!.barButtonItem = self.shareButton!
             self.presentViewController(activityViewController, animated: true, completion: nil)
         } else {
             var title = "Oops!"

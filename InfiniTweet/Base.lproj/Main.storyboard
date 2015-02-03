@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C81f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9IP-ps-4Vd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9IP-ps-4Vd">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -111,8 +111,8 @@
                                     <action selector="fontSizeDidChange:" destination="8TM-3N-UVY" eventType="valueChanged" id="BMT-ue-hQX"/>
                                 </connections>
                             </slider>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v7O-ou-dbx">
-                                <rect key="frame" x="550" y="137" width="34" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14.0px" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v7O-ou-dbx">
+                                <rect key="frame" x="531" y="137" width="53" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -159,8 +159,8 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PbN-Qg-alj">
-                                <rect key="frame" x="550" y="265" width="34" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20.0px" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PbN-Qg-alj">
+                                <rect key="frame" x="531" y="265" width="53" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -174,34 +174,46 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="RD1-DX-hBA" firstAttribute="top" secondItem="vZ3-So-Xau" secondAttribute="bottom" constant="8" symbolic="YES" id="08e-kR-36Z"/>
                             <constraint firstItem="GOF-Tl-5F2" firstAttribute="leading" secondItem="biD-Ms-vSi" secondAttribute="leading" id="1I6-AJ-acP"/>
+                            <constraint firstItem="PbN-Qg-alj" firstAttribute="leading" secondItem="v7O-ou-dbx" secondAttribute="leading" id="1Wd-40-9r4"/>
                             <constraint firstItem="U0f-r0-2Le" firstAttribute="leading" secondItem="Bho-X1-SHI" secondAttribute="leading" id="1dB-v6-eof"/>
-                            <constraint firstItem="PbN-Qg-alj" firstAttribute="trailing" secondItem="RD1-DX-hBA" secondAttribute="trailing" id="2nd-GX-HP5"/>
                             <constraint firstItem="ZBl-GQ-Y9l" firstAttribute="top" secondItem="4ri-Bj-VhX" secondAttribute="top" id="3yS-nh-P1l"/>
                             <constraint firstItem="ZBl-GQ-Y9l" firstAttribute="trailing" secondItem="C5f-yi-ryz" secondAttribute="trailingMargin" id="4tl-ZS-oCx"/>
                             <constraint firstItem="GlP-qw-Vj7" firstAttribute="trailing" secondItem="ZBl-GQ-Y9l" secondAttribute="trailing" id="71d-m0-vrD"/>
                             <constraint firstItem="biD-Ms-vSi" firstAttribute="leading" secondItem="yGD-rd-vH6" secondAttribute="leading" id="8M0-t3-lud"/>
-                            <constraint firstItem="RD1-DX-hBA" firstAttribute="top" secondItem="vZ3-So-Xau" secondAttribute="bottom" constant="8" symbolic="YES" id="Cch-a7-BP1"/>
                             <constraint firstItem="yGD-rd-vH6" firstAttribute="top" secondItem="U0f-r0-2Le" secondAttribute="bottom" constant="8" symbolic="YES" id="Edb-IF-Unb"/>
                             <constraint firstItem="vZ3-So-Xau" firstAttribute="leading" secondItem="4ri-Bj-VhX" secondAttribute="leading" id="FLN-wx-dXk"/>
                             <constraint firstItem="biD-Ms-vSi" firstAttribute="top" secondItem="yGD-rd-vH6" secondAttribute="bottom" constant="2" id="Fux-n8-DJg"/>
                             <constraint firstItem="GOF-Tl-5F2" firstAttribute="top" secondItem="GlP-qw-Vj7" secondAttribute="top" id="Gyh-0I-czN"/>
+                            <constraint firstAttribute="trailing" secondItem="RD1-DX-hBA" secondAttribute="trailing" constant="16" id="I3A-de-EKQ"/>
                             <constraint firstItem="v7O-ou-dbx" firstAttribute="trailing" secondItem="biD-Ms-vSi" secondAttribute="trailing" id="IWe-bT-Ywo"/>
-                            <constraint firstItem="PbN-Qg-alj" firstAttribute="top" secondItem="ZBl-GQ-Y9l" secondAttribute="bottom" constant="8" symbolic="YES" id="NUm-UX-xqt"/>
-                            <constraint firstItem="PbN-Qg-alj" firstAttribute="leading" secondItem="v7O-ou-dbx" secondAttribute="leading" id="QtL-UJ-C7Y"/>
                             <constraint firstItem="4ri-Bj-VhX" firstAttribute="leading" secondItem="GOF-Tl-5F2" secondAttribute="leading" id="Sil-Qd-omN"/>
                             <constraint firstItem="U0f-r0-2Le" firstAttribute="top" secondItem="Bho-X1-SHI" secondAttribute="bottom" constant="8" symbolic="YES" id="U6B-EW-Nav"/>
                             <constraint firstItem="Bho-X1-SHI" firstAttribute="top" secondItem="4lh-51-MTE" secondAttribute="bottom" constant="8" symbolic="YES" id="agk-f3-F3t"/>
+                            <constraint firstAttribute="trailing" secondItem="v7O-ou-dbx" secondAttribute="trailing" constant="16" id="cE1-zj-6xa"/>
                             <constraint firstItem="yGD-rd-vH6" firstAttribute="baseline" secondItem="v7O-ou-dbx" secondAttribute="baseline" id="cFI-Ys-zG2"/>
                             <constraint firstItem="GlP-qw-Vj7" firstAttribute="trailing" secondItem="biD-Ms-vSi" secondAttribute="trailing" id="fqC-z3-Bys"/>
                             <constraint firstItem="GOF-Tl-5F2" firstAttribute="top" secondItem="biD-Ms-vSi" secondAttribute="bottom" constant="8" symbolic="YES" id="gSh-Aj-eEB"/>
+                            <constraint firstItem="RD1-DX-hBA" firstAttribute="leading" secondItem="C5f-yi-ryz" secondAttribute="leading" constant="16" id="h5M-P0-CgF"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PbN-Qg-alj" secondAttribute="trailing" constant="16" id="i5W-i7-3Xh"/>
+                            <constraint firstItem="RD1-DX-hBA" firstAttribute="trailing" secondItem="PbN-Qg-alj" secondAttribute="trailing" id="jMq-6Z-T3M"/>
                             <constraint firstItem="U0f-r0-2Le" firstAttribute="leading" secondItem="C5f-yi-ryz" secondAttribute="leadingMargin" id="jrw-3k-sGy"/>
+                            <constraint firstItem="PbN-Qg-alj" firstAttribute="top" secondItem="ZBl-GQ-Y9l" secondAttribute="bottom" constant="8" symbolic="YES" id="lEu-oF-HAb"/>
                             <constraint firstItem="vZ3-So-Xau" firstAttribute="top" secondItem="4ri-Bj-VhX" secondAttribute="bottom" constant="8" symbolic="YES" id="lcx-9i-UL5"/>
+                            <constraint firstAttribute="trailing" secondItem="PbN-Qg-alj" secondAttribute="trailing" constant="16" id="lhC-K0-LMQ"/>
                             <constraint firstItem="U0f-r0-2Le" firstAttribute="trailing" secondItem="v7O-ou-dbx" secondAttribute="trailing" id="mu0-Uo-VxI"/>
                             <constraint firstItem="4ri-Bj-VhX" firstAttribute="top" secondItem="GOF-Tl-5F2" secondAttribute="bottom" constant="8" symbolic="YES" id="sTD-sF-sNC"/>
-                            <constraint firstItem="vZ3-So-Xau" firstAttribute="leading" secondItem="RD1-DX-hBA" secondAttribute="leading" id="t62-0w-H1q"/>
+                            <constraint firstItem="PbN-Qg-alj" firstAttribute="leading" secondItem="C5f-yi-ryz" secondAttribute="leading" constant="550" id="syc-k4-wPo"/>
                             <constraint firstItem="yGD-rd-vH6" firstAttribute="leading" secondItem="U0f-r0-2Le" secondAttribute="leading" id="x3A-zs-Hpc"/>
+                            <constraint firstItem="RD1-DX-hBA" firstAttribute="leading" secondItem="vZ3-So-Xau" secondAttribute="leading" id="yal-Mj-e3F"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="1Wd-40-9r4"/>
+                                <exclude reference="syc-k4-wPo"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="g5a-7E-T1h"/>
                     <connections>
