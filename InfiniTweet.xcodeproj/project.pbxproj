@@ -7,9 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4519BE231A83CB7000CE7D51 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4519BE221A83CB7000CE7D51 /* InterfaceController.swift */; };
+		4519BE251A83CB7000CE7D51 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4519BE241A83CB7000CE7D51 /* Images.xcassets */; };
+		4519BE291A83CB7000CE7D51 /* Infinitweet WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = 4519BE281A83CB7000CE7D51 /* Infinitweet WatchKit App.app */; };
+		4519BE311A83CB7000CE7D51 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4519BE2F1A83CB7000CE7D51 /* Interface.storyboard */; };
+		4519BE331A83CB7000CE7D51 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4519BE321A83CB7000CE7D51 /* Images.xcassets */; };
+		4519BE361A83CB7000CE7D51 /* Infinitweet WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4519BE1E1A83CB7000CE7D51 /* Infinitweet WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4567D7901A5A7F7800D2D820 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */; };
 		4567D7921A5A801800D2D820 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4567D7911A5A801800D2D820 /* SettingsViewController.swift */; };
 		4567D7941A5A81B900D2D820 /* colorPalette.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4567D7931A5A81B900D2D820 /* colorPalette.plist */; };
+		45845E3A1A85FF4A0077D0EE /* PresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45845E391A85FF4A0077D0EE /* PresentationViewController.swift */; };
+		45845E3C1A86A4460077D0EE /* AccountSelectionInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45845E3B1A86A4460077D0EE /* AccountSelectionInterfaceController.swift */; };
+		45845E3F1A86B7590077D0EE /* AccountRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45845E3D1A86B1430077D0EE /* AccountRow.swift */; };
 		45B0D4FF1A56590B00B4B500 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B0D4FE1A56590B00B4B500 /* AppDelegate.swift */; };
 		45B0D5011A56590B00B4B500 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B0D5001A56590B00B4B500 /* ViewController.swift */; };
 		45B0D5041A56590B00B4B500 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45B0D5021A56590B00B4B500 /* Main.storyboard */; };
@@ -22,6 +31,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4519BE2A1A83CB7000CE7D51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45B0D4F11A56590B00B4B500 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4519BE271A83CB7000CE7D51;
+			remoteInfo = "Infinitweet WatchKit App";
+		};
+		4519BE341A83CB7000CE7D51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45B0D4F11A56590B00B4B500 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4519BE1D1A83CB7000CE7D51;
+			remoteInfo = "Infinitweet WatchKit Extension";
+		};
 		45B0D50F1A56590B00B4B500 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 45B0D4F11A56590B00B4B500 /* Project object */;
@@ -45,6 +68,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				4519BE361A83CB7000CE7D51 /* Infinitweet WatchKit Extension.appex in Embed App Extensions */,
 				45B0D52C1A566D1A00B4B500 /* InfiniTweet Action.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -53,11 +77,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4519BE1E1A83CB7000CE7D51 /* Infinitweet WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Infinitweet WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4519BE211A83CB7000CE7D51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4519BE221A83CB7000CE7D51 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		4519BE241A83CB7000CE7D51 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		4519BE281A83CB7000CE7D51 /* Infinitweet WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Infinitweet WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4519BE2E1A83CB7000CE7D51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4519BE301A83CB7000CE7D51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		4519BE321A83CB7000CE7D51 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4555B5351A77EE6700C14F21 /* InfiniTweet Action.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "InfiniTweet Action.entitlements"; sourceTree = SOURCE_ROOT; };
 		4555B5361A77EE9100C14F21 /* InfiniTweet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = InfiniTweet.entitlements; sourceTree = "<group>"; };
 		4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		4567D7911A5A801800D2D820 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4567D7931A5A81B900D2D820 /* colorPalette.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = colorPalette.plist; sourceTree = "<group>"; };
+		45845E391A85FF4A0077D0EE /* PresentationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationViewController.swift; sourceTree = "<group>"; };
+		45845E3B1A86A4460077D0EE /* AccountSelectionInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountSelectionInterfaceController.swift; sourceTree = "<group>"; };
+		45845E3D1A86B1430077D0EE /* AccountRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountRow.swift; path = "Infinitweet WatchKit Extension/AccountRow.swift"; sourceTree = SOURCE_ROOT; };
 		45B0D4F91A56590B00B4B500 /* InfiniTweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfiniTweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45B0D4FD1A56590B00B4B500 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45B0D4FE1A56590B00B4B500 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -75,6 +110,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4519BE1B1A83CB7000CE7D51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		45B0D4F61A56590B00B4B500 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -99,12 +141,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4519BE1F1A83CB7000CE7D51 /* Infinitweet WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				4519BE221A83CB7000CE7D51 /* InterfaceController.swift */,
+				45845E391A85FF4A0077D0EE /* PresentationViewController.swift */,
+				45845E3B1A86A4460077D0EE /* AccountSelectionInterfaceController.swift */,
+				45845E3D1A86B1430077D0EE /* AccountRow.swift */,
+				4519BE241A83CB7000CE7D51 /* Images.xcassets */,
+				4519BE201A83CB7000CE7D51 /* Supporting Files */,
+			);
+			path = "Infinitweet WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		4519BE201A83CB7000CE7D51 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4519BE211A83CB7000CE7D51 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4519BE2C1A83CB7000CE7D51 /* Infinitweet WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				4519BE2F1A83CB7000CE7D51 /* Interface.storyboard */,
+				4519BE321A83CB7000CE7D51 /* Images.xcassets */,
+				4519BE2D1A83CB7000CE7D51 /* Supporting Files */,
+			);
+			path = "Infinitweet WatchKit App";
+			sourceTree = "<group>";
+		};
+		4519BE2D1A83CB7000CE7D51 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4519BE2E1A83CB7000CE7D51 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		45B0D4F01A56590B00B4B500 = {
 			isa = PBXGroup;
 			children = (
 				45B0D4FB1A56590B00B4B500 /* InfiniTweet */,
 				45B0D5111A56590B00B4B500 /* InfiniTweetTests */,
 				45B0D5231A566D1A00B4B500 /* InfiniTweet Action */,
+				4519BE1F1A83CB7000CE7D51 /* Infinitweet WatchKit Extension */,
+				4519BE2C1A83CB7000CE7D51 /* Infinitweet WatchKit App */,
 				45B0D4FA1A56590B00B4B500 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -115,6 +198,8 @@
 				45B0D4F91A56590B00B4B500 /* InfiniTweet.app */,
 				45B0D50E1A56590B00B4B500 /* InfiniTweetTests.xctest */,
 				45B0D5221A566D1A00B4B500 /* InfiniTweet Action.appex */,
+				4519BE1E1A83CB7000CE7D51 /* Infinitweet WatchKit Extension.appex */,
+				4519BE281A83CB7000CE7D51 /* Infinitweet WatchKit App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -184,6 +269,39 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4519BE1D1A83CB7000CE7D51 /* Infinitweet WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4519BE3C1A83CB7000CE7D51 /* Build configuration list for PBXNativeTarget "Infinitweet WatchKit Extension" */;
+			buildPhases = (
+				4519BE1A1A83CB7000CE7D51 /* Sources */,
+				4519BE1B1A83CB7000CE7D51 /* Frameworks */,
+				4519BE1C1A83CB7000CE7D51 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4519BE2B1A83CB7000CE7D51 /* PBXTargetDependency */,
+			);
+			name = "Infinitweet WatchKit Extension";
+			productName = "Infinitweet WatchKit Extension";
+			productReference = 4519BE1E1A83CB7000CE7D51 /* Infinitweet WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit-extension";
+		};
+		4519BE271A83CB7000CE7D51 /* Infinitweet WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4519BE3B1A83CB7000CE7D51 /* Build configuration list for PBXNativeTarget "Infinitweet WatchKit App" */;
+			buildPhases = (
+				4519BE261A83CB7000CE7D51 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Infinitweet WatchKit App";
+			productName = "Infinitweet WatchKit App";
+			productReference = 4519BE281A83CB7000CE7D51 /* Infinitweet WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp";
+		};
 		45B0D4F81A56590B00B4B500 /* InfiniTweet */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 45B0D5181A56590B00B4B500 /* Build configuration list for PBXNativeTarget "InfiniTweet" */;
@@ -197,6 +315,7 @@
 			);
 			dependencies = (
 				45B0D52B1A566D1A00B4B500 /* PBXTargetDependency */,
+				4519BE351A83CB7000CE7D51 /* PBXTargetDependency */,
 			);
 			name = InfiniTweet;
 			productName = InfiniTweet;
@@ -247,6 +366,13 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Ruben;
 				TargetAttributes = {
+					4519BE1D1A83CB7000CE7D51 = {
+						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = FG7AYYTX96;
+					};
+					4519BE271A83CB7000CE7D51 = {
+						CreatedOnToolsVersion = 6.2;
+					};
 					45B0D4F81A56590B00B4B500 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = FG7AYYTX96;
@@ -287,11 +413,31 @@
 				45B0D4F81A56590B00B4B500 /* InfiniTweet */,
 				45B0D50D1A56590B00B4B500 /* InfiniTweetTests */,
 				45B0D5211A566D1A00B4B500 /* InfiniTweet Action */,
+				4519BE1D1A83CB7000CE7D51 /* Infinitweet WatchKit Extension */,
+				4519BE271A83CB7000CE7D51 /* Infinitweet WatchKit App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4519BE1C1A83CB7000CE7D51 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4519BE251A83CB7000CE7D51 /* Images.xcassets in Resources */,
+				4519BE291A83CB7000CE7D51 /* Infinitweet WatchKit App.app in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4519BE261A83CB7000CE7D51 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4519BE311A83CB7000CE7D51 /* Interface.storyboard in Resources */,
+				4519BE331A83CB7000CE7D51 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		45B0D4F71A56590B00B4B500 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -321,6 +467,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4519BE1A1A83CB7000CE7D51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				45845E3F1A86B7590077D0EE /* AccountRow.swift in Sources */,
+				45845E3C1A86A4460077D0EE /* AccountSelectionInterfaceController.swift in Sources */,
+				45845E3A1A85FF4A0077D0EE /* PresentationViewController.swift in Sources */,
+				4519BE231A83CB7000CE7D51 /* InterfaceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		45B0D4F51A56590B00B4B500 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -351,6 +508,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4519BE2B1A83CB7000CE7D51 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4519BE271A83CB7000CE7D51 /* Infinitweet WatchKit App */;
+			targetProxy = 4519BE2A1A83CB7000CE7D51 /* PBXContainerItemProxy */;
+		};
+		4519BE351A83CB7000CE7D51 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4519BE1D1A83CB7000CE7D51 /* Infinitweet WatchKit Extension */;
+			targetProxy = 4519BE341A83CB7000CE7D51 /* PBXContainerItemProxy */;
+		};
 		45B0D5101A56590B00B4B500 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 45B0D4F81A56590B00B4B500 /* InfiniTweet */;
@@ -364,6 +531,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4519BE2F1A83CB7000CE7D51 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4519BE301A83CB7000CE7D51 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		45B0D5021A56590B00B4B500 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -383,6 +558,68 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4519BE371A83CB7000CE7D51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Infinitweet WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		4519BE381A83CB7000CE7D51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "Infinitweet WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		4519BE391A83CB7000CE7D51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IBSC_MODULE = Infinitweet_WatchKit_Extension;
+				INFOPLIST_FILE = "Infinitweet WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Debug;
+		};
+		4519BE3A1A83CB7000CE7D51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				IBSC_MODULE = Infinitweet_WatchKit_Extension;
+				INFOPLIST_FILE = "Infinitweet WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Release;
+		};
 		45B0D5161A56590B00B4B500 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -470,6 +707,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = InfiniTweet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -487,6 +728,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = InfiniTweet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -571,6 +816,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4519BE3B1A83CB7000CE7D51 /* Build configuration list for PBXNativeTarget "Infinitweet WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4519BE391A83CB7000CE7D51 /* Debug */,
+				4519BE3A1A83CB7000CE7D51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4519BE3C1A83CB7000CE7D51 /* Build configuration list for PBXNativeTarget "Infinitweet WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4519BE371A83CB7000CE7D51 /* Debug */,
+				4519BE381A83CB7000CE7D51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		45B0D4F41A56590B00B4B500 /* Build configuration list for PBXProject "InfiniTweet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

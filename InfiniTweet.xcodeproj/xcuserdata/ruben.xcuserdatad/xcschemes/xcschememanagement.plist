@@ -14,9 +14,24 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>Infinitweet WatchKit App.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>4519BE1D1A83CB7000CE7D51</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4519BE271A83CB7000CE7D51</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>45B0D4F81A56590B00B4B500</key>
 		<dict>
 			<key>primary</key>
