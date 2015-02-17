@@ -216,7 +216,9 @@ class ViewController: UIViewController, UITextViewDelegate {
             var items = [AnyObject]()
             items.append(imageToShare)
             let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
-            activityViewController.popoverPresentationController!.barButtonItem = self.shareButton!
+            if (UIDevice.currentDevice().model.hasPrefix("iPad")) {
+                activityViewController.popoverPresentationController!.barButtonItem = self.shareButton!
+            }
             self.presentViewController(activityViewController, animated: true, completion: nil)
         } else {
             var title = "Oops!"

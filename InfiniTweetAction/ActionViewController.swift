@@ -11,6 +11,8 @@ import MobileCoreServices
 
 class ActionViewController: UIViewController {
     @IBOutlet weak var tweetView: UITextView!
+    @IBOutlet weak var shareButton: UIBarButtonItem!
+    
     var text = ""
     
     override func viewDidLoad() {
@@ -142,6 +144,9 @@ class ActionViewController: UIViewController {
             var items = [AnyObject]()
             items.append(imageToShare)
             let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+            if (UIDevice.currentDevice().model.hasPrefix("iPad")) {
+                activityViewController.popoverPresentationController!.barButtonItem = self.shareButton!
+            }
             self.presentViewController(activityViewController, animated: true, completion: nil)
         } else {
             var title = "Oops!"

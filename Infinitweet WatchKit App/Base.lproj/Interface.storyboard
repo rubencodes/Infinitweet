@@ -53,7 +53,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="520" y="207"/>
+            <point key="canvasLocation" x="348" y="207"/>
         </scene>
         <!--PresentationViewController-->
         <scene sceneID="7jh-vh-vfI">
@@ -74,7 +74,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="355" y="207"/>
+            <point key="canvasLocation" x="506" y="207"/>
         </scene>
     </scenes>
 </document>
