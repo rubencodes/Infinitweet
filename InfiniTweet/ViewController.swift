@@ -162,12 +162,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         var textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: color]
         
         //set image properties
-        var width = 100
-        var imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(/*CGFloat(++width)*/self.view.frame.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
-//        while(imageSize.width < imageSize.height*1.2 && imageSize.width > imageSize.height*0.8) {
-//            imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(++width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
-//        }
-        
+        var imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(self.view.frame.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
         var adjustedWidth = CGFloat(ceilf(Float(imageSize.width)))
         var adjustedHeight = CGFloat(ceilf(Float(imageSize.height)))
         var outerRectSize = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
@@ -214,16 +209,14 @@ class ViewController: UIViewController, UITextViewDelegate {
                 defaults.setBool(true, forKey: "FirstShare")
                 defaults.synchronize()
             } else {
-                shareText = "via @InfinitweetApp"
+                shareText = "via @InfinitytweetApp"
             }
             
             //add objects to share
             var items = [AnyObject]()
             items.append(imageToShare)
             let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
-            if (UIDevice.currentDevice().model.hasPrefix("iPad")) {
-                activityViewController.popoverPresentationController!.barButtonItem = self.shareButton!
-            }
+            activityViewController.popoverPresentationController!.barButtonItem = self.shareButton!
             self.presentViewController(activityViewController, animated: true, completion: nil)
         } else {
             var title = "Oops!"

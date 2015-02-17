@@ -135,7 +135,7 @@ class ActionViewController: UIViewController {
                 defaults.setBool(true, forKey: "FirstShare")
                 defaults.synchronize()
             } else {
-                shareText = "via @InfinitweetApp"
+                shareText = "via @InfinitytweetApp"
             }
             
             //add objects to share
