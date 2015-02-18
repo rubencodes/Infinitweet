@@ -10,6 +10,11 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Infinitweet_WatchKit_App" customModuleProvider="target">
                     <items>
+                        <group width="1" alignment="left" hidden="YES" id="KdG-Q4-uB0">
+                            <items>
+                                <label alignment="center" verticalAlignment="center" text="Label" textAlignment="center" numberOfLines="0" id="DzO-2b-KsH"/>
+                            </items>
+                        </group>
                         <button width="75" height="75" alignment="center" verticalAlignment="center" backgroundImage="control" id="aqT-4M-a0b">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -19,6 +24,8 @@
                         </button>
                     </items>
                     <connections>
+                        <outlet property="alertGroup" destination="KdG-Q4-uB0" id="NsV-KG-Fsr"/>
+                        <outlet property="alertLabel" destination="DzO-2b-KsH" id="jFS-Lw-Y5p"/>
                         <outlet property="tweetButton" destination="aqT-4M-a0b" id="cCa-J4-J72"/>
                     </connections>
                 </controller>
@@ -30,6 +37,7 @@
             <objects>
                 <controller identifier="AccountSelection" id="TIO-Xw-6fZ" customClass="AccountSelectionInterfaceController" customModule="Infinitweet_WatchKit_Extension">
                     <items>
+                        <label alignment="center" text="Select a Twitter Account" textAlignment="center" numberOfLines="0" id="Bvt-HE-Ggq"/>
                         <table alignment="left" verticalAlignment="bottom" id="vdL-z4-M8g">
                             <items>
                                 <tableRow identifier="AccountRow" id="lYa-hG-Hoh" customClass="AccountRow" customModule="Infinitweet_WatchKit_Extension">

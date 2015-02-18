@@ -44,7 +44,7 @@ class PresentationViewController: WKInterfaceController {
                     defaults.synchronize()
                     
                     if twitterAccounts.count > 1 {
-                        self.presentControllerWithName("AccountSelection", context: ["accounts": twitterAccounts, "image" : self.imageToShare!])
+                        self.pushControllerWithName("AccountSelection", context: ["accounts": twitterAccounts, "image" : self.imageToShare!])
                     } else {
                         self.postImageToTwitterAccount(twitterAccounts.first as ACAccount)
                     }
@@ -68,9 +68,13 @@ class PresentationViewController: WKInterfaceController {
             postRequest.performRequestWithHandler({ (responseData, urlResponse, error) -> Void in
                 if error == nil {
                     println(NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil))
-                    self.popController()
+                    NSNotificationCenter.defaultCenter().postNotificationName("FinishedTweet",
+                        object: nil,
+                        userInfo: nil)
+                    self.popToRootController()
                 } else {
                     println(error)
+                    self.popToRootController()
                 }
             })
         }

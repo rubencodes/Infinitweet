@@ -41,9 +41,13 @@ class AccountSelectionInterfaceController: WKInterfaceController {
             postRequest.account = self.twitterAccounts![rowIndex]
             postRequest.performRequestWithHandler({ (responseData, urlResponse, error) -> Void in
                 if error == nil {
+                    NSNotificationCenter.defaultCenter().postNotificationName("FinishedTweet",
+                        object: nil,
+                        userInfo: nil)
                     self.popToRootController()
                 } else {
                     println(error)
+                    self.popToRootController()
                 }
             })
         }

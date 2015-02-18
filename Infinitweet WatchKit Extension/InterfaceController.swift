@@ -13,6 +13,9 @@ class InterfaceController: WKInterfaceController {
     var imageToShare : UIImage?
     var imageWidth = 500 as CGFloat
     @IBOutlet weak var tweetButton: WKInterfaceButton!
+    @IBOutlet weak var alertGroup: WKInterfaceGroup!
+    @IBOutlet weak var alertLabel: WKInterfaceLabel!
+    
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         
@@ -32,6 +35,28 @@ class InterfaceController: WKInterfaceController {
             defaults.setFloat(20, forKey: "DefaultPadding")
             defaults.synchronize()
         }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: "finishedTweet",
+            name: "FinishedTweet",
+            object: nil)
+    }
+    
+    func finishedTweet() {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.alertGroup.setBackgroundColor(UIColor(red: 0.18, green: 0.80, blue: 0.443, alpha: 1))
+            self.alertLabel.setText("Tweet successful!")
+            self.alertGroup.setHidden(false)
+            dispatch_after(0, dispatch_get_main_queue(), {
+                NSThread.detachNewThreadSelector("dismissAlert", toTarget: self, withObject: nil)
+            })
+        }
+    }
+    
+    func dismissAlert() {
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.alertGroup.setAlpha(0)
+        })
     }
     
     func generateInfinitweetWithFont(font : UIFont, color : UIColor, background : UIColor, text : String, padding : CGFloat) -> UIImage {
@@ -82,7 +107,8 @@ class InterfaceController: WKInterfaceController {
                 
                 self.imageToShare = self.generateInfinitweetWithFont(font!, color: color, background: backgroundColor, text: text, padding: padding)
                 
-                self.presentControllerWithName("PresentationViewController", context: ["image": self.imageToShare!])
+                self.dismissTextInputController()
+                self.pushControllerWithName("PresentationViewController", context: ["image": self.imageToShare!])
             }
         }
     }
