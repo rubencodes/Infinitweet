@@ -57,6 +57,7 @@ class PresentationViewController: WKInterfaceController {
     }
     
     func postImageToTwitterAccount(account : ACAccount) {
+        println("Oh?")
         if self.imageToShare != nil {
             let requestURL = NSURL(string: "https://api.twitter.com/1.1/statuses/update_with_media.json")
             

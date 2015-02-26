@@ -44,27 +44,77 @@ class InterfaceController: WKInterfaceController {
     
     func finishedTweet() {
         dispatch_async(dispatch_get_main_queue()) {
-            self.alertGroup.setBackgroundColor(UIColor(red: 0.18, green: 0.80, blue: 0.443, alpha: 1))
+            println("test1")
             self.alertLabel.setText("Tweet successful!")
+            self.alertGroup.setBackgroundColor(UIColor(red: 0.18, green: 0.80, blue: 0.443, alpha: 1))
             self.alertGroup.setHidden(false)
-            dispatch_after(0, dispatch_get_main_queue(), {
-                NSThread.detachNewThreadSelector("dismissAlert", toTarget: self, withObject: nil)
-            })
+            delay(3) {
+                println("test2")
+                self.alertGroup.setHidden(true)
+            }
         }
     }
     
-    func dismissAlert() {
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.alertGroup.setAlpha(0)
-        })
-    }
     
     func generateInfinitweetWithFont(font : UIFont, color : UIColor, background : UIColor, text : String, padding : CGFloat) -> UIImage {
         //set text properties
         var textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: color]
         
-        //set image properties
-        var imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(imageWidth, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
+        //set initial image attempt properties
+        var width = 200
+        var imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
+        
+        //avoid infinite loops
+        var repeatLimitHit = false
+        var lastWidth = 0.0 as CGFloat
+        var lastHeight = 0.0 as CGFloat
+        var repeatCount = 0
+        
+        //if image is too narrow, make it wider
+        while imageSize.width < imageSize.height*1.9 && repeatLimitHit == false {
+            width += 10
+            imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
+            
+            //if the dimensions haven't changed, make sure we haven't hit an infinite loop
+            if imageSize.width == lastWidth && imageSize.height == lastHeight {
+                repeatCount++
+                if repeatCount >= 200 {
+                    repeatLimitHit = true
+                }
+            } else { //reset counter once we've seen something new
+                repeatCount = 0
+            }
+            
+            lastWidth = imageSize.width
+            lastHeight = imageSize.height
+        }
+        
+        //avoid infinite loops
+        repeatLimitHit = false
+        lastWidth = 0.0 as CGFloat
+        lastHeight = 0.0 as CGFloat
+        repeatCount = 0
+        
+        //if image is too long, make it narrower
+        while imageSize.width > imageSize.height*2.1 && repeatLimitHit == false {
+            width -= 10
+            imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
+            
+            //if the dimensions haven't changed, make sure we haven't hit an infinite loop
+            if imageSize.width == lastWidth && imageSize.height == lastHeight {
+                repeatCount++
+                if repeatCount >= 200 {
+                    repeatLimitHit = true
+                }
+            } else { //reset counter once we've seen something new
+                repeatCount = 0
+            }
+            
+            lastWidth = imageSize.width
+            lastHeight = imageSize.height
+        }
+        
+        //round widths and add padding
         var adjustedWidth = CGFloat(ceilf(Float(imageSize.width)))
         var adjustedHeight = CGFloat(ceilf(Float(imageSize.height)))
         var outerRectSize = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
@@ -143,4 +193,13 @@ extension String {
             alpha: CGFloat(1.0)
         )
     }
+}
+
+func delay(delay:Double, closure:()->()) {
+    dispatch_after(
+        dispatch_time(
+            DISPATCH_TIME_NOW,
+            Int64(delay * Double(NSEC_PER_SEC))
+        ),
+        dispatch_get_main_queue(), closure)
 }

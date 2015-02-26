@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="6750" systemVersion="14D72i" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="6750" systemVersion="14D87h" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6735"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3737"/>
@@ -10,18 +10,24 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Infinitweet_WatchKit_App" customModuleProvider="target">
                     <items>
-                        <group width="1" alignment="left" hidden="YES" id="KdG-Q4-uB0">
+                        <group width="1" alignment="center" hidden="YES" initiallyAnimated="NO" animationDuration="1" id="KdG-Q4-uB0" userLabel="Group - Alert">
                             <items>
-                                <label alignment="center" verticalAlignment="center" text="Label" textAlignment="center" numberOfLines="0" id="DzO-2b-KsH"/>
+                                <label alignment="center" verticalAlignment="center" text="Label" textAlignment="center" numberOfLines="0" id="DzO-2b-KsH">
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </label>
                             </items>
                         </group>
-                        <button width="75" height="75" alignment="center" verticalAlignment="center" backgroundImage="control" id="aqT-4M-a0b">
-                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="captureTweet" destination="AgC-eL-Hgc" id="76e-Uz-218"/>
-                            </connections>
-                        </button>
+                        <group width="1" alignment="center" verticalAlignment="center" id="ktc-kk-NX4" userLabel="Group - Main">
+                            <items>
+                                <button width="75" height="75" alignment="center" verticalAlignment="center" backgroundImage="control" id="aqT-4M-a0b">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <action selector="captureTweet" destination="AgC-eL-Hgc" id="76e-Uz-218"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
                     </items>
                     <connections>
                         <outlet property="alertGroup" destination="KdG-Q4-uB0" id="NsV-KG-Fsr"/>

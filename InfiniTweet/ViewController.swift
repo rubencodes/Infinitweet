@@ -98,9 +98,7 @@ class ViewController: UIViewController, UITextViewDelegate {
         self.tweetView.resignFirstResponder()
         super.viewWillDisappear(animated)
         
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: self.view.window)
-        
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: self.view.window)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     func keyboardWillHide(notification : NSNotification) {
@@ -137,13 +135,14 @@ class ViewController: UIViewController, UITextViewDelegate {
         self.tweetView.contentInset = contentInsets
         self.tweetView.scrollIndicatorInsets = contentInsets
         
-        var viewFrame = self.tweetView.frame
-        viewFrame.size.height -= keyboardSize!.height
-        
-        UIView.beginAnimations(nil, context: nil)
-        UIView.setAnimationBeginsFromCurrentState(true)
-        self.tweetView.frame = viewFrame
-        UIView.commitAnimations()
+        //buggy - either uncomment, and text < 1 screen is lost, or comment and carriage returns screw it up
+//        var viewFrame = self.tweetView.frame
+//        viewFrame.size.height -= keyboardSize!.height
+//        
+//        UIView.beginAnimations(nil, context: nil)
+//        UIView.setAnimationBeginsFromCurrentState(true)
+//        self.tweetView.frame = viewFrame
+//        UIView.commitAnimations()
         
         self.keyboardIsShown = true
     }
@@ -161,8 +160,61 @@ class ViewController: UIViewController, UITextViewDelegate {
         //set text properties
         var textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: color]
         
-        //set image properties
-        var imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(self.view.frame.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
+        //set initial image attempt properties
+        var width = 200
+        var imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
+        
+        //avoid infinite loops
+        var repeatLimitHit = false
+        var lastWidth = 0.0 as CGFloat
+        var lastHeight = 0.0 as CGFloat
+        var repeatCount = 0
+        
+        //if image is too narrow, make it wider
+        while imageSize.width < imageSize.height*1.9 && repeatLimitHit == false {
+            width += 10
+            imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
+            
+            //if the dimensions haven't changed, make sure we haven't hit an infinite loop
+            if imageSize.width == lastWidth && imageSize.height == lastHeight {
+                repeatCount++
+                if repeatCount >= 200 {
+                    repeatLimitHit = true
+                }
+            } else { //reset counter once we've seen something new
+                repeatCount = 0
+            }
+            
+            lastWidth = imageSize.width
+            lastHeight = imageSize.height
+        }
+        
+        //avoid infinite loops
+        repeatLimitHit = false
+        lastWidth = 0.0 as CGFloat
+        lastHeight = 0.0 as CGFloat
+        repeatCount = 0
+        
+        //if image is too long, make it narrower
+        while imageSize.width > imageSize.height*2.1 && repeatLimitHit == false {
+            width -= 10
+            imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
+            
+            //if the dimensions haven't changed, make sure we haven't hit an infinite loop
+            if imageSize.width == lastWidth && imageSize.height == lastHeight {
+                repeatCount++
+                if repeatCount >= 200 {
+                    repeatLimitHit = true
+                }
+            } else { //reset counter once we've seen something new
+                repeatCount = 0
+            }
+            
+            lastWidth = imageSize.width
+            lastHeight = imageSize.height
+        }
+        
+        //round widths and add padding
         var adjustedWidth = CGFloat(ceilf(Float(imageSize.width)))
         var adjustedHeight = CGFloat(ceilf(Float(imageSize.height)))
         var outerRectSize = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
@@ -209,7 +261,7 @@ class ViewController: UIViewController, UITextViewDelegate {
                 defaults.setBool(true, forKey: "FirstShare")
                 defaults.synchronize()
             } else {
-                shareText = "via @InfinitytweetApp"
+                shareText = "via @InfinitweetApp"
             }
             
             //add objects to share
