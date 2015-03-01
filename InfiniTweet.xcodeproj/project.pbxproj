@@ -13,6 +13,7 @@
 		458D7CB41AA03B6F00D7D769 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB31AA03B6F00D7D769 /* AlertViewController.swift */; };
 		458D7CB61AA38B7200D7D769 /* Infinitweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB51AA38B7200D7D769 /* Infinitweet.swift */; };
 		458D7CBA1AA394AA00D7D769 /* Infinitweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB51AA38B7200D7D769 /* Infinitweet.swift */; };
+		458D7CBB1AA3B76B00D7D769 /* Infinitweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB51AA38B7200D7D769 /* Infinitweet.swift */; };
 		45A243BD1A93EB4F00644A52 /* AccountRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A243BA1A93EB4F00644A52 /* AccountRow.swift */; };
 		45A243BE1A93EB4F00644A52 /* AccountSelectionInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A243BB1A93EB4F00644A52 /* AccountSelectionInterfaceController.swift */; };
 		45A243BF1A93EB4F00644A52 /* PresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A243BC1A93EB4F00644A52 /* PresentationViewController.swift */; };
@@ -514,6 +515,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				458D7CBB1AA3B76B00D7D769 /* Infinitweet.swift in Sources */,
 				45A243BF1A93EB4F00644A52 /* PresentationViewController.swift in Sources */,
 				45A243BE1A93EB4F00644A52 /* AccountSelectionInterfaceController.swift in Sources */,
 				45A243BD1A93EB4F00644A52 /* AccountRow.swift in Sources */,

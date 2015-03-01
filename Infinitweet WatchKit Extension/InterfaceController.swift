@@ -37,89 +37,6 @@ class InterfaceController: WKInterfaceController {
         }
     }
     
-    func generateInfinitweetWithFont(font : UIFont, color : UIColor, background : UIColor, text : String, padding : CGFloat) -> UIImage {
-        //set text properties
-        var textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: color]
-        
-        //set initial image attempt properties
-        var width = 200
-        var imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
-        
-        //avoid infinite loops
-        var repeatLimitHit = false
-        var lastWidth = 0.0 as CGFloat
-        var lastHeight = 0.0 as CGFloat
-        var repeatCount = 0
-        
-        //if image is too narrow, make it wider
-        while imageSize.width < imageSize.height*1.9 && repeatLimitHit == false {
-            width += 10
-            imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
-            
-            //if the dimensions haven't changed, make sure we haven't hit an infinite loop
-            if imageSize.width == lastWidth && imageSize.height == lastHeight {
-                repeatCount++
-                if repeatCount >= 200 {
-                    repeatLimitHit = true
-                }
-            } else { //reset counter once we've seen something new
-                repeatCount = 0
-            }
-            
-            lastWidth = imageSize.width
-            lastHeight = imageSize.height
-        }
-        
-        //avoid infinite loops
-        repeatLimitHit = false
-        lastWidth = 0.0 as CGFloat
-        lastHeight = 0.0 as CGFloat
-        repeatCount = 0
-        
-        //if image is too long, make it narrower
-        while imageSize.width > imageSize.height*2.1 && repeatLimitHit == false {
-            width -= 10
-            imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
-            
-            //if the dimensions haven't changed, make sure we haven't hit an infinite loop
-            if imageSize.width == lastWidth && imageSize.height == lastHeight {
-                repeatCount++
-                if repeatCount >= 200 {
-                    repeatLimitHit = true
-                }
-            } else { //reset counter once we've seen something new
-                repeatCount = 0
-            }
-            
-            lastWidth = imageSize.width
-            lastHeight = imageSize.height
-        }
-        
-        //round widths and add padding
-        var adjustedWidth = CGFloat(ceilf(Float(imageSize.width)))
-        var adjustedHeight = CGFloat(ceilf(Float(imageSize.height)))
-        var outerRectSize = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
-        
-        //generate image
-        UIGraphicsBeginImageContextWithOptions(outerRectSize, true, 0.0)
-        var image = UIGraphicsGetImageFromCurrentImageContext()
-        
-        image.drawInRect(CGRectMake(0,0,outerRectSize.width,outerRectSize.height))
-        
-        background.set()
-        var outerRect = CGRectMake(0, 0, image.size.width, image.size.height)
-        CGContextFillRect(UIGraphicsGetCurrentContext(), outerRect)
-        
-        //draw text
-        var innerRect = CGRectMake(padding, padding, adjustedWidth, adjustedHeight)
-        text.drawInRect(CGRectIntegral(innerRect), withAttributes: textAttributes)
-        //save new image
-        var newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
-    }
-
     @IBAction func captureTweet() {
         self.presentTextInputControllerWithSuggestions(["Infinitweeting via Apple Watch! Good to go!"], allowedInputMode: WKTextInputMode.Plain) { (results) -> Void in
             if results != nil && results.count > 0 {
@@ -136,7 +53,9 @@ class InterfaceController: WKInterfaceController {
                 var backgroundColor = backgroundColorString.hexStringToUIColor()
                 var padding = CGFloat(defaults.floatForKey("DefaultPadding"))
                 
-                self.imageToShare = self.generateInfinitweetWithFont(font!, color: color, background: backgroundColor, text: text, padding: padding)
+                //create infinitweet with properties
+                var infinitweet = Infinitweet(text: text, font: font!, color: color, background: backgroundColor, padding: padding)
+                self.imageToShare = infinitweet.image
                 
                 self.dismissTextInputController()
                 self.pushControllerWithName("PresentationViewController", context: ["image": self.imageToShare!])
