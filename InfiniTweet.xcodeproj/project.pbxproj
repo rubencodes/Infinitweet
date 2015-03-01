@@ -10,6 +10,9 @@
 		4567D7901A5A7F7800D2D820 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */; };
 		4567D7921A5A801800D2D820 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4567D7911A5A801800D2D820 /* SettingsViewController.swift */; };
 		4567D7941A5A81B900D2D820 /* colorPalette.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4567D7931A5A81B900D2D820 /* colorPalette.plist */; };
+		458D7CB41AA03B6F00D7D769 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB31AA03B6F00D7D769 /* AlertViewController.swift */; };
+		458D7CB61AA38B7200D7D769 /* Infinitweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB51AA38B7200D7D769 /* Infinitweet.swift */; };
+		458D7CBA1AA394AA00D7D769 /* Infinitweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB51AA38B7200D7D769 /* Infinitweet.swift */; };
 		45A243BD1A93EB4F00644A52 /* AccountRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A243BA1A93EB4F00644A52 /* AccountRow.swift */; };
 		45A243BE1A93EB4F00644A52 /* AccountSelectionInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A243BB1A93EB4F00644A52 /* AccountSelectionInterfaceController.swift */; };
 		45A243BF1A93EB4F00644A52 /* PresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A243BC1A93EB4F00644A52 /* PresentationViewController.swift */; };
@@ -82,6 +85,9 @@
 		4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		4567D7911A5A801800D2D820 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4567D7931A5A81B900D2D820 /* colorPalette.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = colorPalette.plist; sourceTree = "<group>"; };
+		458D7CB31AA03B6F00D7D769 /* AlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		458D7CB51AA38B7200D7D769 /* Infinitweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Infinitweet.swift; sourceTree = "<group>"; };
+		458D7CB91AA38E9C00D7D769 /* Infinitweet WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Infinitweet WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		45A243BA1A93EB4F00644A52 /* AccountRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountRow.swift; sourceTree = "<group>"; };
 		45A243BB1A93EB4F00644A52 /* AccountSelectionInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountSelectionInterfaceController.swift; sourceTree = "<group>"; };
 		45A243BC1A93EB4F00644A52 /* PresentationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationViewController.swift; sourceTree = "<group>"; };
@@ -171,6 +177,7 @@
 				4555B5361A77EE9100C14F21 /* InfiniTweet.entitlements */,
 				45B0D4FE1A56590B00B4B500 /* AppDelegate.swift */,
 				45B0D5001A56590B00B4B500 /* ViewController.swift */,
+				458D7CB51AA38B7200D7D769 /* Infinitweet.swift */,
 				45B0D5021A56590B00B4B500 /* Main.storyboard */,
 				4567D7911A5A801800D2D820 /* SettingsViewController.swift */,
 				4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */,
@@ -230,8 +237,10 @@
 		45CC29171A93E9DA00B36C40 /* Infinitweet WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				458D7CB91AA38E9C00D7D769 /* Infinitweet WatchKit Extension.entitlements */,
 				45A243BA1A93EB4F00644A52 /* AccountRow.swift */,
 				45A243BB1A93EB4F00644A52 /* AccountSelectionInterfaceController.swift */,
+				458D7CB31AA03B6F00D7D769 /* AlertViewController.swift */,
 				45A243BC1A93EB4F00644A52 /* PresentationViewController.swift */,
 				45CC291A1A93E9DA00B36C40 /* InterfaceController.swift */,
 				45CC291C1A93E9DA00B36C40 /* Images.xcassets */,
@@ -391,6 +400,11 @@
 					45CC29151A93E9DA00B36C40 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = FG7AYYTX96;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					45CC291F1A93E9DA00B36C40 = {
 						CreatedOnToolsVersion = 6.2;
@@ -474,6 +488,7 @@
 				45B0D5011A56590B00B4B500 /* ViewController.swift in Sources */,
 				45B0D4FF1A56590B00B4B500 /* AppDelegate.swift in Sources */,
 				4567D7901A5A7F7800D2D820 /* ColorPickerViewController.swift in Sources */,
+				458D7CB61AA38B7200D7D769 /* Infinitweet.swift in Sources */,
 				4567D7921A5A801800D2D820 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -490,6 +505,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				458D7CBA1AA394AA00D7D769 /* Infinitweet.swift in Sources */,
 				45B0D5271A566D1A00B4B500 /* ActionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -501,6 +517,7 @@
 				45A243BF1A93EB4F00644A52 /* PresentationViewController.swift in Sources */,
 				45A243BE1A93EB4F00644A52 /* AccountSelectionInterfaceController.swift in Sources */,
 				45A243BD1A93EB4F00644A52 /* AccountRow.swift in Sources */,
+				458D7CB41AA03B6F00D7D769 /* AlertViewController.swift in Sources */,
 				45CC291B1A93E9DA00B36C40 /* InterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -786,6 +803,7 @@
 		45CC29331A93E9DD00B36C40 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Infinitweet WatchKit Extension/Infinitweet WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -796,6 +814,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -803,12 +822,14 @@
 		45CC29341A93E9DD00B36C40 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Infinitweet WatchKit Extension/Infinitweet WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Infinitweet WatchKit Extension/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;

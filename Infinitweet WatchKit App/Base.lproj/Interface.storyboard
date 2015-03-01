@@ -90,5 +90,19 @@
             </objects>
             <point key="canvasLocation" x="506" y="207"/>
         </scene>
+        <!--SuccessViewController-->
+        <scene sceneID="SCg-Sn-vYW">
+            <objects>
+                <controller identifier="SuccessViewController" id="gBp-4P-fUb" customClass="AlertViewController" customModule="Infinitweet_WatchKit_Extension">
+                    <items>
+                        <label width="1" height="1" alignment="center" verticalAlignment="center" text="Success!" textAlignment="center" numberOfLines="0" id="4hI-mt-QVy">
+                            <fontDescription key="font" type="system" weight="semibold" pointSize="21"/>
+                        </label>
+                    </items>
+                    <color key="backgroundColor" red="0.56862745100000001" green="0.90196078430000004" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="654" y="206"/>
+        </scene>
     </scenes>
 </document>

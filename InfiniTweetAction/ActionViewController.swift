@@ -56,6 +56,7 @@ class ActionViewController: UIViewController {
                                     self.tweetView.font = font
                                     self.tweetView.textColor = color
                                     self.tweetView.backgroundColor = backgroundColor
+                                    self.view.backgroundColor = backgroundColor
                                 }
                                 
                             }
@@ -85,106 +86,23 @@ class ActionViewController: UIViewController {
         self.extensionContext!.completeRequestReturningItems(self.extensionContext!.inputItems, completionHandler: nil)
     }
     
-    
-    func generateInfinitweetWithFont(font : UIFont, color : UIColor, background : UIColor, text : String, padding : CGFloat) -> UIImage {
-        //set text properties
-        var textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: color]
-        
-        //set initial image attempt properties
-        var width = 200
-        var imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
-        
-        //avoid infinite loops
-        var repeatLimitHit = false
-        var lastWidth = 0.0 as CGFloat
-        var lastHeight = 0.0 as CGFloat
-        var repeatCount = 0
-        
-        //if image is too narrow, make it wider
-        while imageSize.width < imageSize.height*1.9 && repeatLimitHit == false {
-            width += 10
-            imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
-            
-            //if the dimensions haven't changed, make sure we haven't hit an infinite loop
-            if imageSize.width == lastWidth && imageSize.height == lastHeight {
-                repeatCount++
-                if repeatCount >= 200 {
-                    repeatLimitHit = true
-                }
-            } else { //reset counter once we've seen something new
-                repeatCount = 0
-            }
-            
-            lastWidth = imageSize.width
-            lastHeight = imageSize.height
-        }
-        
-        //avoid infinite loops
-        repeatLimitHit = false
-        lastWidth = 0.0 as CGFloat
-        lastHeight = 0.0 as CGFloat
-        repeatCount = 0
-        
-        //if image is too long, make it narrower
-        while imageSize.width > imageSize.height*2.1 && repeatLimitHit == false {
-            width -= 10
-            imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
-            
-            //if the dimensions haven't changed, make sure we haven't hit an infinite loop
-            if imageSize.width == lastWidth && imageSize.height == lastHeight {
-                repeatCount++
-                if repeatCount >= 200 {
-                    repeatLimitHit = true
-                }
-            } else { //reset counter once we've seen something new
-                repeatCount = 0
-            }
-            
-            lastWidth = imageSize.width
-            lastHeight = imageSize.height
-        }
-        
-        //round widths and add padding
-        var adjustedWidth = CGFloat(ceilf(Float(imageSize.width)))
-        var adjustedHeight = CGFloat(ceilf(Float(imageSize.height)))
-        var outerRectSize = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
-        
-        //generate image
-        UIGraphicsBeginImageContextWithOptions(outerRectSize, true, 0.0)
-        var image = UIGraphicsGetImageFromCurrentImageContext()
-        
-        image.drawInRect(CGRectMake(0,0,outerRectSize.width,outerRectSize.height))
-        
-        background.set()
-        var outerRect = CGRectMake(0, 0, image.size.width, image.size.height)
-        CGContextFillRect(UIGraphicsGetCurrentContext(), outerRect)
-        
-        //draw text
-        var innerRect = CGRectMake(padding, padding, adjustedWidth, adjustedHeight)
-        text.drawInRect(CGRectIntegral(innerRect), withAttributes: textAttributes)
-        //save new image
-        var newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
-    }
-    
     @IBAction func shareInfinitweet() {
-        if self.text != "" {
+        if self.text != "" { //if text exists
+            //get properties for new infinitweet
             var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-            
             var fontName = defaults.objectForKey("DefaultFont") as String
             var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
             var font = UIFont(name: fontName, size: fontSize)
-            
             var colorString = defaults.objectForKey("DefaultColor") as String
             var color = colorString.hexStringToUIColor()
             var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
             var backgroundColor = backgroundColorString.hexStringToUIColor()
             var padding = CGFloat(defaults.floatForKey("DefaultPadding"))
             
-            var imageToShare = generateInfinitweetWithFont(font!, color: color, background: backgroundColor, text: self.text, padding: padding)
+            //create infinitweet with properties
+            var infinitweet = Infinitweet(text: self.text, font: font!, color: color, background: backgroundColor, padding: padding)
             
+            //preload text on share
             var shareText : String?
             if !defaults.boolForKey("FirstShare") {
                 shareText = "Sharing from @InfinitweetApp for the first time!"
@@ -196,11 +114,32 @@ class ActionViewController: UIViewController {
             
             //add objects to share
             var items = [AnyObject]()
-            items.append(imageToShare)
+            items.append(infinitweet.image)
+            
+            //create share menu, handle iPad case
             let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
             if (UIDevice.currentDevice().model.hasPrefix("iPad")) {
                 activityViewController.popoverPresentationController!.barButtonItem = self.shareButton!
             }
+            
+            //once finished sharing, display success message if completed
+            activityViewController.completionHandler = {(activityType, completed:Bool) in
+                if completed {
+                    var alert = UIAlertController(title: "Success!", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    self.presentViewController(alert, animated: true, completion: { () -> Void in
+                        delay(0.75, { () -> () in
+                            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                                alert.view.alpha = 0
+                                }, completion: { (Bool) -> Void in
+                                    alert.dismissViewControllerAnimated(false, completion: nil)
+                            })
+                        })
+                    })
+                }
+            }
+            
+            //show the share menu
             self.presentViewController(activityViewController, animated: true, completion: nil)
         } else {
             var title = "Oops!"
@@ -249,4 +188,13 @@ extension String {
             alpha: CGFloat(1.0)
         )
     }
+}
+
+func delay(delay:Double, closure:()->()) {
+    dispatch_after(
+        dispatch_time(
+            DISPATCH_TIME_NOW,
+            Int64(delay * Double(NSEC_PER_SEC))
+        ),
+        dispatch_get_main_queue(), closure)
 }

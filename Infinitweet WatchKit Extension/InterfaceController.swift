@@ -35,26 +35,7 @@ class InterfaceController: WKInterfaceController {
             defaults.setFloat(20, forKey: "DefaultPadding")
             defaults.synchronize()
         }
-        
-        NSNotificationCenter.defaultCenter().addObserver(self,
-            selector: "finishedTweet",
-            name: "FinishedTweet",
-            object: nil)
     }
-    
-    func finishedTweet() {
-        dispatch_async(dispatch_get_main_queue()) {
-            println("test1")
-            self.alertLabel.setText("Tweet successful!")
-            self.alertGroup.setBackgroundColor(UIColor(red: 0.18, green: 0.80, blue: 0.443, alpha: 1))
-            self.alertGroup.setHidden(false)
-            delay(3) {
-                println("test2")
-                self.alertGroup.setHidden(true)
-            }
-        }
-    }
-    
     
     func generateInfinitweetWithFont(font : UIFont, color : UIColor, background : UIColor, text : String, padding : CGFloat) -> UIImage {
         //set text properties
@@ -140,7 +121,7 @@ class InterfaceController: WKInterfaceController {
     }
 
     @IBAction func captureTweet() {
-        self.presentTextInputControllerWithSuggestions(["Testing Infinitweet via Apple Watch! Good to go!"], allowedInputMode: WKTextInputMode.Plain) { (results) -> Void in
+        self.presentTextInputControllerWithSuggestions(["Infinitweeting via Apple Watch! Good to go!"], allowedInputMode: WKTextInputMode.Plain) { (results) -> Void in
             if results != nil && results.count > 0 {
                 var text = results.first as String
                 var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
