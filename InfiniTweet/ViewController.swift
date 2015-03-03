@@ -20,7 +20,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         self.clearButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Trash, target: self, action: "clearTextField")
         self.shareButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "shareInfinitweet")
-        navItem.setRightBarButtonItems([self.shareButton!, self.clearButton!], animated: false)
+        self.navItem.setRightBarButtonItems([self.shareButton!, self.clearButton!], animated: false)
         
         super.viewDidLoad()
     }
@@ -63,11 +63,11 @@ class ViewController: UIViewController, UITextViewDelegate {
             var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
             var backgroundColor = backgroundColorString.hexStringToUIColor()
             
-            tweetView.font = font
-            tweetView.textColor = color
-            tweetView.backgroundColor = backgroundColor
+            self.tweetView.font = font
+            self.tweetView.textColor = color
+            self.tweetView.backgroundColor = backgroundColor
             self.view.backgroundColor = backgroundColor
-            tweetView.becomeFirstResponder()
+            self.tweetView.becomeFirstResponder()
         }
     }
     

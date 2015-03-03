@@ -14,7 +14,7 @@ class Infinitweet {
     
     init(text : String, font : UIFont, color : UIColor, background : UIColor, padding : CGFloat) {
         //set text properties
-        var textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: color]
+        let textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: color]
         
         //set initial image attempt properties
         var width = 200
@@ -28,6 +28,12 @@ class Infinitweet {
         
         //if image is too narrow, make it wider
         while imageSize.width < imageSize.height*1.9 && repeatLimitHit == false {
+            //if width is really small, set to minimum width and exit loop
+            if imageSize.width < CGFloat(width) {
+                imageSize = CGRectMake(0, 0, (imageSize.height+wordmarkSize.height+padding)*2, imageSize.height)
+                break
+            }
+
             width += 10
             imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
             
@@ -71,9 +77,9 @@ class Infinitweet {
         }
         
         //round widths and add padding
-        var adjustedWidth = CGFloat(ceilf(Float(imageSize.width)))
-        var adjustedHeight = CGFloat(ceilf(Float(imageSize.height)))
-        var outerRectSize = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
+        let adjustedWidth = CGFloat(ceilf(Float(imageSize.width)))
+        let adjustedHeight = CGFloat(ceilf(Float(imageSize.height)))
+        let outerRectSize = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
         
         //generate image
         UIGraphicsBeginImageContextWithOptions(outerRectSize, true, 0.0)
@@ -82,11 +88,11 @@ class Infinitweet {
         image.drawInRect(CGRectMake(0,0,outerRectSize.width,outerRectSize.height))
         
         background.set()
-        var outerRect = CGRectMake(0, 0, image.size.width, image.size.height)
+        let outerRect = CGRectMake(0, 0, image.size.width, image.size.height)
         CGContextFillRect(UIGraphicsGetCurrentContext(), outerRect)
         
         //draw text
-        var innerRect = CGRectMake(padding, padding, adjustedWidth, adjustedHeight)
+        let innerRect = CGRectMake(padding, padding, adjustedWidth, adjustedHeight)
         text.drawInRect(CGRectIntegral(innerRect), withAttributes: textAttributes)
         
         //save new image
