@@ -16,56 +16,70 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
     @IBOutlet weak var paddingLabel: UILabel!
     @IBOutlet weak var textColorButton: UIButton!
     @IBOutlet weak var backgroundColorButton: UIButton!
+    @IBOutlet weak var wordmarkHiddenSwitch: UISwitch!
     
     override func viewWillAppear(animated: Bool) {
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         
-        var fontName = defaults.objectForKey("DefaultFont") as String
-        var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
+        var fontName = defaults.objectForKey("FontName") as String
+        var fontSize = defaults.integerForKey("FontSize") as Int
         
-        var colorString = defaults.objectForKey("DefaultColor") as String
-        var color = colorString.hexStringToUIColor()
-        var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
-        var backgroundColor = backgroundColorString.hexStringToUIColor()
-        var padding = defaults.floatForKey("DefaultPadding")
+        var colorArray = defaults.objectForKey("TextColor") as [CGFloat]
+        var color = colorArray.toUIColor()
+        var backgroundColorArray = defaults.objectForKey("BackgroundColor") as [CGFloat]
+        var backgroundColor = backgroundColorArray.toUIColor()
         
+        var padding = defaults.integerForKey("Padding")
+        var wordmark = defaults.boolForKey("WordmarkHidden")
         
         for segmentIndex in 0..<fontControl.numberOfSegments {
             if fontControl.titleForSegmentAtIndex(segmentIndex) == fontName {
                 fontControl.selectedSegmentIndex = segmentIndex
             }
         }
+        
         fontSizeSlider.value = Float(fontSize)
-        fontSizeLabel.text = "\(round(fontSize*10)/10)px"
+        fontSizeLabel.text = "\(fontSize)px"
         textColorButton.backgroundColor = color
         backgroundColorButton.backgroundColor = backgroundColor
-        paddingSlider.value = padding
-        paddingLabel.text = "\(round(padding*10)/10)px"
+        paddingSlider.value = Float(padding)
+        paddingLabel.text = "\(padding)px"
+        wordmarkHiddenSwitch.on = wordmark
         
+        self.textColorButton.addObserver(self, forKeyPath: "backgroundColor", options: NSKeyValueObservingOptions.New, context: nil)
+        self.backgroundColorButton.addObserver(self, forKeyPath: "backgroundColor", options: NSKeyValueObservingOptions.New, context: nil)
+
         super.viewWillAppear(animated)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        self.textColorButton.removeObserver(self, forKeyPath: "backgroundColor")
+        self.backgroundColorButton.removeObserver(self, forKeyPath: "backgroundColor")
     }
     
     @IBAction func fontDidChange(sender: UISegmentedControl) {
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         var fontName = sender.titleForSegmentAtIndex(sender.selectedSegmentIndex) as String!
-        defaults.setObject(fontName, forKey: "DefaultFont")
+        defaults.setObject(fontName, forKey: "FontName")
         defaults.synchronize()
     }
     
     @IBAction func fontSizeDidChange(sender: UISlider) {
+        var size = Int(round(sender.value))
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-        defaults.setObject(CGFloat(sender.value), forKey: "DefaultFontSize")
+        defaults.setInteger(size, forKey: "FontSize")
         defaults.synchronize()
         
-        fontSizeLabel.text = "\(round(sender.value*10)/10)px"
+        fontSizeLabel.text = "\(size)px"
     }
     
     @IBAction func paddingDidChange(sender: UISlider) {
+        var size = Int(round(sender.value))
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-        defaults.setFloat(sender.value, forKey: "DefaultPadding")
+        defaults.setInteger(size, forKey: "Padding")
         defaults.synchronize()
         
-        paddingLabel.text = "\(round(sender.value*10)/10)px"
+        paddingLabel.text = "\(size)px"
     }
     
     @IBAction func colorButtonTapped(sender: UIButton) {
@@ -78,26 +92,38 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
             popoverController.permittedArrowDirections = .Any
             popoverController.delegate = self
             popoverVC.callerTag = sender.tag
-            popoverVC.delegate = self
+            popoverVC.delegate = sender
         }
-        presentViewController(popoverVC, animated: true, completion: nil)
+        self.presentViewController(popoverVC, animated: true, completion: nil)
     }
     
-    func setColor(tag: Int, hexString: String) {
-        var colorString = hexString
+    @IBAction func wordmarkSwitchTapped(sender : UISwitch) {
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-        switch tag {
-        case textColorButton.tag:
-            textColorButton.backgroundColor = colorString.hexStringToUIColor()
-            defaults.setObject(hexString, forKey: "DefaultColor")
-            defaults.synchronize()
-        case backgroundColorButton.tag:
-            backgroundColorButton.backgroundColor = colorString.hexStringToUIColor()
-            defaults.setObject(hexString, forKey: "DefaultBackgroundColor")
-            defaults.synchronize()
-        default:
-            break
+        defaults.setBool(sender.on, forKey: "WordmarkHidden")
+        defaults.synchronize()
+    }
+    
+    //background/text color did change
+    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
+        
+        //empty rgba pointers, to be initialized by color
+        var r = CGFloat()
+        var g = CGFloat()
+        var b = CGFloat()
+        var a = CGFloat()
+        
+        if (object as UIButton) == self.textColorButton {
+            var color = self.textColorButton.backgroundColor!
+            color.getRed(&r, green: &g, blue: &b, alpha: &a)
+            defaults.setObject([r, g, b, a], forKey: "TextColor")
+        } else if (object as UIButton) == self.backgroundColorButton {
+            var color = self.backgroundColorButton.backgroundColor!
+            color.getRed(&r, green: &g, blue: &b, alpha: &a)
+            defaults.setObject([r, g, b, a], forKey: "BackgroundColor")
         }
+        
+        defaults.synchronize()
     }
     
     // Override the iPhone behavior that presents a popover as fullscreen

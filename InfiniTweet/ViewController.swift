@@ -7,14 +7,13 @@
 //
 
 import UIKit
-import iAd
 
 class ViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var navItem: UINavigationItem!
     @IBOutlet weak var tweetView: UITextView!
     var clearButton: UIBarButtonItem?
     var shareButton: UIBarButtonItem?
-    var text = ""
+    var text = NSAttributedString(string: "")
     var keyboardIsShown : Bool?
     
     override func viewDidLoad() {
@@ -33,9 +32,9 @@ class ViewController: UIViewController, UITextViewDelegate {
         super.viewWillAppear(animated)
         
         self.automaticallyAdjustsScrollViewInsets = false
-        self.tweetView.text = text
         self.tweetView.delegate = self
         self.tweetView.textContainer.lineFragmentPadding = 0
+        self.tweetView.allowsEditingTextAttributes = true
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: self.view.window)
         
@@ -45,29 +44,47 @@ class ViewController: UIViewController, UITextViewDelegate {
         
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         // Do any additional setup after loading the view, typically from a nib.
-        if !defaults.boolForKey("TutorialShown") {
-            defaults.setObject("Helvetica", forKey: "DefaultFont")
-            defaults.setObject(CGFloat(14.0), forKey: "DefaultFontSize")
-            defaults.setObject("000000", forKey: "DefaultColor")
-            defaults.setObject("ffffff", forKey: "DefaultBackgroundColor")
-            defaults.setFloat(20, forKey: "DefaultPadding")
+        if !defaults.boolForKey("Defaults2") {
+            defaults.setBool(true, forKey: "Defaults2")
+            defaults.setObject("Helvetica", forKey: "FontName")
+            defaults.setInteger(14, forKey: "FontSize")
+            
+            var whiteColor = [CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(1)]
+            var blackColor = [CGFloat(1), CGFloat(1), CGFloat(1), CGFloat(1)]
+            defaults.setObject(whiteColor, forKey: "TextColor")
+            defaults.setObject(blackColor, forKey: "BackgroundColor")
+            defaults.setInteger(20, forKey: "Padding")
+            defaults.setBool(false, forKey: "WordmarkHidden")
             defaults.synchronize()
-            beginTutorial()
+            
+            if !defaults.boolForKey("TutorialShown") {
+                self.beginTutorial()
+            } else {
+                self.tweetView.becomeFirstResponder()
+            }
         } else {
-            var fontName = defaults.objectForKey("DefaultFont") as String
-            var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
+            var fontName = defaults.objectForKey("FontName") as String
+            var fontSize = CGFloat(defaults.integerForKey("FontSize"))
             var font = UIFont(name: fontName, size: fontSize)
             
-            var colorString = defaults.objectForKey("DefaultColor") as String
-            var color = colorString.hexStringToUIColor()
-            var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
-            var backgroundColor = backgroundColorString.hexStringToUIColor()
+            var colorArray = defaults.objectForKey("TextColor") as [CGFloat]
+            var color = colorArray.toUIColor()
+            var backgroundColorArray = defaults.objectForKey("BackgroundColor") as [CGFloat]
+            var backgroundColor = backgroundColorArray.toUIColor()
             
-            self.tweetView.font = font
+            if self.tweetView.font.familyName != font!.familyName {
+                self.tweetView.font = UIFont(name: font!.familyName, size: self.tweetView.font.pointSize)
+            }
+            
+            if self.tweetView.font.pointSize != font!.pointSize {
+                self.tweetView.font = UIFont(name: self.tweetView.font.familyName, size: font!.pointSize)
+            }
+            
             self.tweetView.textColor = color
             self.tweetView.backgroundColor = backgroundColor
             self.view.backgroundColor = backgroundColor
             self.tweetView.becomeFirstResponder()
+            
         }
     }
     
@@ -154,24 +171,26 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     
     func textViewDidChange(textView: UITextView) {
-        self.text = self.tweetView.text
+        self.text = self.tweetView.attributedText
     }
     
     func shareInfinitweet() {
-        if self.text != "" { //if text exists
+        if self.tweetView.text != "" { //if text exists
             //get properties for new infinitweet
             var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-            var fontName = defaults.objectForKey("DefaultFont") as String
-            var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
+            var fontName = defaults.objectForKey("FontName") as String
+            var fontSize = CGFloat(defaults.integerForKey("FontSize"))
             var font = UIFont(name: fontName, size: fontSize)
-            var colorString = defaults.objectForKey("DefaultColor") as String
-            var color = colorString.hexStringToUIColor()
-            var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
-            var backgroundColor = backgroundColorString.hexStringToUIColor()
-            var padding = CGFloat(defaults.floatForKey("DefaultPadding"))
+            
+            var colorArray = defaults.objectForKey("TextColor") as [CGFloat]
+            var color = colorArray.toUIColor()
+            var backgroundColorArray = defaults.objectForKey("BackgroundColor") as [CGFloat]
+            var backgroundColor = backgroundColorArray.toUIColor()
+            var padding = CGFloat(defaults.integerForKey("Padding"))
+            var wordmark = defaults.boolForKey("WordmarkHidden")
             
             //create infinitweet with properties
-            var infinitweet = Infinitweet(text: self.text, font: font!, color: color, background: backgroundColor, padding: padding)
+            var infinitweet = Infinitweet(text: self.tweetView.attributedText, background: backgroundColor, padding: padding, wordmarkHidden: wordmark)
             
             //preload text on share
             var shareText : String?
@@ -236,41 +255,6 @@ class ViewController: UIViewController, UITextViewDelegate {
     
     func clearTextField() {
         self.tweetView.text = ""
-        self.text = ""
+        self.text = NSAttributedString(string: "")
     }
-}
-
-
-extension String {
-    // This function converts from HTML colors (hex strings of the form '#ffffff') to UIColors
-    mutating func hexStringToUIColor() -> UIColor {
-        var cString:String = self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
-        
-        if (cString.hasPrefix("#")) {
-            cString = cString.substringFromIndex(advance(cString.startIndex, 1))
-        }
-        
-        if (countElements(cString) != 6) {
-            return UIColor.grayColor()
-        }
-        
-        var rgbValue:UInt32 = 0
-        NSScanner(string: cString).scanHexInt(&rgbValue)
-        
-        return UIColor(
-            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-            alpha: CGFloat(1.0)
-        )
-    }
-}
-
-func delay(delay:Double, closure:()->()) {
-    dispatch_after(
-        dispatch_time(
-            DISPATCH_TIME_NOW,
-            Int64(delay * Double(NSEC_PER_SEC))
-        ),
-        dispatch_get_main_queue(), closure)
 }

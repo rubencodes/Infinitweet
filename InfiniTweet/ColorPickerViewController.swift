@@ -28,7 +28,7 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
     var tag: Int = 0
     var callerTag: Int?
     var color: UIColor = UIColor.grayColor()
-    var delegate: SettingsViewController? = nil
+    var delegate: UIButton? = nil
     
     // UICollectionViewDataSource Protocol:
     // Returns the number of rows in collection view
@@ -53,7 +53,6 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
     
     // Recognizes and handles when a collection view cell has been selected
     internal func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
         var colorPalette: Array<String>
         
         // Get colorPalette array from plist file
@@ -67,7 +66,7 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
             var hexString = colorPalette[cell.tag]
             color = hexString.hexStringToUIColor()
             self.view.backgroundColor = color
-            delegate?.setColor(callerTag!, hexString: hexString)
+            self.delegate?.backgroundColor = color
         }
     }
 }

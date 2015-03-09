@@ -90,17 +90,20 @@ class ActionViewController: UIViewController {
         if self.text != "" { //if text exists
             //get properties for new infinitweet
             var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-            var fontName = defaults.objectForKey("DefaultFont") as String
-            var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
+            var fontName = defaults.objectForKey("FontName") as String
+            var fontSize = CGFloat(defaults.integerForKey("FontSize"))
             var font = UIFont(name: fontName, size: fontSize)
-            var colorString = defaults.objectForKey("DefaultColor") as String
-            var color = colorString.hexStringToUIColor()
-            var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
-            var backgroundColor = backgroundColorString.hexStringToUIColor()
-            var padding = CGFloat(defaults.floatForKey("DefaultPadding"))
+            
+            var colorArray = defaults.objectForKey("TextColor") as [CGFloat]
+            var color = colorArray.toUIColor()
+            var backgroundColorArray = defaults.objectForKey("BackgroundColor") as [CGFloat]
+            var backgroundColor = backgroundColorArray.toUIColor()
+            var padding = CGFloat(defaults.integerForKey("Padding"))
+            var wordmark = defaults.boolForKey("WordmarkHidden")
+
             
             //create infinitweet with properties
-            var infinitweet = Infinitweet(text: self.text, font: font!, color: color, background: backgroundColor, padding: padding)
+            var infinitweet = Infinitweet(text: self.tweetView.attributedText, background: backgroundColor, padding: padding, wordmarkHidden: true)
             
             //preload text on share
             var shareText : String?
@@ -162,39 +165,4 @@ class ActionViewController: UIViewController {
             self.presentViewController(error, animated: true, completion: nil)
         }
     }
-}
-
-
-extension String {
-    // This function converts from HTML colors (hex strings of the form '#ffffff') to UIColors
-    mutating func hexStringToUIColor() -> UIColor {
-        var cString:String = self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
-        
-        if (cString.hasPrefix("#")) {
-            cString = cString.substringFromIndex(advance(cString.startIndex, 1))
-        }
-        
-        if (countElements(cString) != 6) {
-            return UIColor.grayColor()
-        }
-        
-        var rgbValue:UInt32 = 0
-        NSScanner(string: cString).scanHexInt(&rgbValue)
-        
-        return UIColor(
-            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-            alpha: CGFloat(1.0)
-        )
-    }
-}
-
-func delay(delay:Double, closure:()->()) {
-    dispatch_after(
-        dispatch_time(
-            DISPATCH_TIME_NOW,
-            Int64(delay * Double(NSEC_PER_SEC))
-        ),
-        dispatch_get_main_queue(), closure)
 }
