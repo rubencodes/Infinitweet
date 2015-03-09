@@ -72,19 +72,14 @@ class ViewController: UIViewController, UITextViewDelegate {
             var backgroundColorArray = defaults.objectForKey("BackgroundColor") as [CGFloat]
             var backgroundColor = backgroundColorArray.toUIColor()
             
-            if self.tweetView.font.familyName != font!.familyName {
-                self.tweetView.font = UIFont(name: font!.familyName, size: self.tweetView.font.pointSize)
-            }
-            
-            if self.tweetView.font.pointSize != font!.pointSize {
-                self.tweetView.font = UIFont(name: self.tweetView.font.familyName, size: font!.pointSize)
+            if self.tweetView.font != font! {
+                self.tweetView.font = font
             }
             
             self.tweetView.textColor = color
             self.tweetView.backgroundColor = backgroundColor
             self.view.backgroundColor = backgroundColor
             self.tweetView.becomeFirstResponder()
-            
         }
     }
     
