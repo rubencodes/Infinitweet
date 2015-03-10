@@ -43,29 +43,69 @@ class ViewController: UIViewController, UITextViewDelegate {
         self.keyboardIsShown = false
         
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-        // Do any additional setup after loading the view, typically from a nib.
+
+        //have we set the latest defaults?
         if !defaults.boolForKey(Infinitweet.currentDefaultKey()) {
-            Infinitweet.setDefaults()
+            Infinitweet.setDefaults() //set the default text attributes in memory
             
+            //have we shown the tutorial?
             if !defaults.boolForKey("TutorialShown") {
-                self.beginTutorial()
+                self.beginTutorial() //if not, show it
             } else {
-                self.tweetView.becomeFirstResponder()
+                self.tweetView.becomeFirstResponder() //else just focus on the textview
             }
-        } else {
-            let settings = Infinitweet.getDisplaySettings()
-            
-            self.tweetView.textAlignment = settings.alignment
-            
-            if self.tweetView.font != settings.font {
+        } else { //if so, make the tweetView reflect the defaults
+            self.setTweetViewDefaults()
+        }
+    }
+    
+    //sets the default attributes within the tweetView
+    func setTweetViewDefaults() {
+        let settings = Infinitweet.getDisplaySettings() //get the current defaults
+        
+        self.tweetView.textAlignment = settings.alignment //set the alignment
+        
+        //if there was a font change
+        if self.tweetView.font != settings.font {
+            //if there is a font set,
+            if self.tweetView.font != nil {
+                //if the font family is different, we must update the entire font
+                if self.tweetView.font.familyName != settings.font.familyName {
+                    self.tweetView.font = settings.font
+                }
+                    //if just the point size is different, change ONLT the point size, not the font
+                else if self.tweetView.font.pointSize != settings.font.pointSize {
+                    //make a mutable copy of the attributed text
+                    var mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
+                    var textRange = NSMakeRange(0, self.tweetView.attributedText.length) //get the range of the text
+                    
+                    //iterate over the various text attributes
+                    self.tweetView.attributedText.enumerateAttributesInRange(textRange, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
+                        var newAttributes = attributes as [NSObject : AnyObject] //make a copy of the attributes
+                        
+                        //if we have a font set, change the size of the font ONLY
+                        if newAttributes[NSFontAttributeName] != nil {
+                            let currentFont = newAttributes[NSFontAttributeName] as UIFont
+                            let newFont = UIFont(name: currentFont.fontName, size: settings.font.pointSize)
+                            newAttributes[NSFontAttributeName] = newFont
+                        }
+                        
+                        //update the attributes to new standard
+                        mutableCopy.addAttributes(newAttributes, range: range)
+                    })
+                    
+                    //set the attributes of our attributed text to the updated copy
+                    self.tweetView.attributedText = mutableCopy
+                }
+            } else {
                 self.tweetView.font = settings.font
             }
-            
-            self.tweetView.textColor = settings.color
-            self.tweetView.backgroundColor = settings.background
-            self.view.backgroundColor = settings.background
-            self.tweetView.becomeFirstResponder()
         }
+        
+        self.tweetView.textColor = settings.color //set the text color
+        self.tweetView.backgroundColor = settings.background //set the background color
+        self.view.backgroundColor = settings.background //set the background color (of view)
+        self.tweetView.becomeFirstResponder()
     }
     
     func beginTutorial() {
