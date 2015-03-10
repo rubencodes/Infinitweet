@@ -11,11 +11,13 @@ import UIKit
 
 class Infinitweet {
     var image : UIImage
+    let padding = 20.0 as CGFloat //default padding for all
+    
     //prepare wordmark for later
     let wordmark = "Infinitweet" as NSString
     let wordmarkAttributes = [NSFontAttributeName: UIFont.boldSystemFontOfSize(14.0), NSForegroundColorAttributeName: UIColor(white: 0, alpha: 0.5)]
     
-    init(text : NSAttributedString, background : UIColor, padding : CGFloat, wordmarkHidden : Bool) {
+    init(text : NSAttributedString, background : UIColor, wordmarkHidden : Bool) {
         //set text properties
         let options = unsafeBitCast(NSStringDrawingOptions.UsesLineFragmentOrigin.rawValue |
             NSStringDrawingOptions.UsesFontLeading.rawValue,
@@ -115,7 +117,7 @@ class Infinitweet {
         UIGraphicsEndImageContext()
     }
     
-    init(text : String, font : UIFont, color : UIColor, background : UIColor, padding : CGFloat, wordmarkHidden : Bool) {
+    init(text : String, font : UIFont, color : UIColor, background : UIColor, wordmarkHidden : Bool) {
         //set text properties
         let textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: color]
         
@@ -209,6 +211,55 @@ class Infinitweet {
         //save new image
         self.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+    }
+    
+    class func setDefaults() {
+        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
+        defaults.setBool(true, forKey: self.currentDefaultKey())
+        defaults.setObject("Left", forKey: "Alignment")
+        defaults.setObject("Helvetica", forKey: "FontName")
+        defaults.setInteger(14, forKey: "FontSize")
+        
+        let whiteColor = [CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(1)]
+        let blackColor = [CGFloat(1), CGFloat(1), CGFloat(1), CGFloat(1)]
+        defaults.setObject(whiteColor, forKey: "TextColor")
+        defaults.setObject(blackColor, forKey: "BackgroundColor")
+        defaults.setInteger(20, forKey: "Padding")
+        defaults.setBool(false, forKey: "WordmarkHidden")
+        defaults.synchronize()
+    }
+    
+    class func getDisplaySettings() -> (font : UIFont, color : UIColor, background : UIColor, alignment : NSTextAlignment) {
+        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
+        let alignmentName = defaults.objectForKey("Alignment") as String
+        let fontName = defaults.objectForKey("FontName") as String
+        let fontSize = CGFloat(defaults.integerForKey("FontSize"))
+        let font = UIFont(name: fontName, size: fontSize)
+        
+        var colorArray = defaults.objectForKey("TextColor") as [CGFloat]
+        let color = colorArray.toUIColor()
+        var backgroundColorArray = defaults.objectForKey("BackgroundColor") as [CGFloat]
+        let backgroundColor = backgroundColorArray.toUIColor()
+        
+        var alignment : NSTextAlignment
+        switch alignmentName {
+        case "Left":
+            alignment = NSTextAlignment.Left
+        case "Center":
+            alignment = NSTextAlignment.Center
+        case "Right":
+            alignment = NSTextAlignment.Right
+        case "Justified":
+            alignment = NSTextAlignment.Justified
+        default:
+            alignment = NSTextAlignment.Left
+        }
+        
+        return (font : font!, color : color, background : backgroundColor, alignment : alignment)
+    }
+    
+    class func currentDefaultKey() -> String {
+        return "Defaults2-5"
     }
 }
 

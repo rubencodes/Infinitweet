@@ -36,13 +36,8 @@ class ActionViewController: UIViewController {
                                 
                                 var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
                                 // Do any additional setup after loading the view, typically from a nib.
-                                if !defaults.boolForKey("TutorialShown") {
-                                    defaults.setObject("Helvetica", forKey: "DefaultFont")
-                                    defaults.setObject(CGFloat(14.0), forKey: "DefaultFontSize")
-                                    defaults.setObject("000000", forKey: "DefaultColor")
-                                    defaults.setObject("ffffff", forKey: "DefaultBackgroundColor")
-                                    defaults.setFloat(20, forKey: "DefaultPadding")
-                                    defaults.synchronize()
+                                if !defaults.boolForKey(Infinitweet.currentDefaultKey()) {
+                                    Infinitweet.setDefaults()
                                 } else {
                                     var fontName = defaults.objectForKey("DefaultFont") as String
                                     var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
@@ -89,24 +84,14 @@ class ActionViewController: UIViewController {
     @IBAction func shareInfinitweet() {
         if self.text != "" { //if text exists
             //get properties for new infinitweet
-            var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-            var fontName = defaults.objectForKey("FontName") as String
-            var fontSize = CGFloat(defaults.integerForKey("FontSize"))
-            var font = UIFont(name: fontName, size: fontSize)
-            
-            var colorArray = defaults.objectForKey("TextColor") as [CGFloat]
-            var color = colorArray.toUIColor()
-            var backgroundColorArray = defaults.objectForKey("BackgroundColor") as [CGFloat]
-            var backgroundColor = backgroundColorArray.toUIColor()
-            var padding = CGFloat(defaults.integerForKey("Padding"))
-            var wordmark = defaults.boolForKey("WordmarkHidden")
+            let settings = Infinitweet.getDisplaySettings()
 
-            
             //create infinitweet with properties
-            var infinitweet = Infinitweet(text: self.tweetView.attributedText, background: backgroundColor, padding: padding, wordmarkHidden: true)
+            var infinitweet = Infinitweet(text: self.tweetView.attributedText, background: settings.background, wordmarkHidden: true)
             
             //preload text on share
             var shareText : String?
+            var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
             if !defaults.boolForKey("FirstShare") {
                 shareText = "Sharing from @InfinitweetApp for the first time!"
                 defaults.setBool(true, forKey: "FirstShare")

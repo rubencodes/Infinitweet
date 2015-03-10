@@ -43,18 +43,14 @@ class InterfaceController: WKInterfaceController {
                 var text = results.first as String
                 
                 var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-                var fontName = defaults.objectForKey("FontName") as String
-                var fontSize = CGFloat(defaults.integerForKey("FontSize"))
-                var font = UIFont(name: fontName, size: fontSize)
+                if !defaults.boolForKey(Infinitweet.currentDefaultKey()) {
+                    Infinitweet.setDefaults()
+                }
                 
-                var colorArray = defaults.objectForKey("TextColor") as [CGFloat]
-                var color = colorArray.toUIColor()
-                var backgroundColorArray = defaults.objectForKey("BackgroundColor") as [CGFloat]
-                var backgroundColor = backgroundColorArray.toUIColor()
-                var padding = CGFloat(defaults.integerForKey("Padding"))
+                var settings = Infinitweet.getDisplaySettings()
                 
                 //create infinitweet with properties
-                var infinitweet = Infinitweet(text: text, font: font!, color: color, background: backgroundColor, padding: padding, wordmarkHidden : true)
+                var infinitweet = Infinitweet(text: text, font: settings.font, color: settings.color, background: settings.background, wordmarkHidden : true)
                 self.imageToShare = infinitweet.image
                 
                 self.dismissTextInputController()

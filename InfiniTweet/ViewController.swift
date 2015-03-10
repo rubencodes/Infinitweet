@@ -44,18 +44,8 @@ class ViewController: UIViewController, UITextViewDelegate {
         
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         // Do any additional setup after loading the view, typically from a nib.
-        if !defaults.boolForKey("Defaults2") {
-            defaults.setBool(true, forKey: "Defaults2")
-            defaults.setObject("Helvetica", forKey: "FontName")
-            defaults.setInteger(14, forKey: "FontSize")
-            
-            var whiteColor = [CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(1)]
-            var blackColor = [CGFloat(1), CGFloat(1), CGFloat(1), CGFloat(1)]
-            defaults.setObject(whiteColor, forKey: "TextColor")
-            defaults.setObject(blackColor, forKey: "BackgroundColor")
-            defaults.setInteger(20, forKey: "Padding")
-            defaults.setBool(false, forKey: "WordmarkHidden")
-            defaults.synchronize()
+        if !defaults.boolForKey(Infinitweet.currentDefaultKey()) {
+            Infinitweet.setDefaults()
             
             if !defaults.boolForKey("TutorialShown") {
                 self.beginTutorial()
@@ -63,22 +53,17 @@ class ViewController: UIViewController, UITextViewDelegate {
                 self.tweetView.becomeFirstResponder()
             }
         } else {
-            var fontName = defaults.objectForKey("FontName") as String
-            var fontSize = CGFloat(defaults.integerForKey("FontSize"))
-            var font = UIFont(name: fontName, size: fontSize)
+            let settings = Infinitweet.getDisplaySettings()
             
-            var colorArray = defaults.objectForKey("TextColor") as [CGFloat]
-            var color = colorArray.toUIColor()
-            var backgroundColorArray = defaults.objectForKey("BackgroundColor") as [CGFloat]
-            var backgroundColor = backgroundColorArray.toUIColor()
+            self.tweetView.textAlignment = settings.alignment
             
-            if self.tweetView.font != font! {
-                self.tweetView.font = font
+            if self.tweetView.font != settings.font {
+                self.tweetView.font = settings.font
             }
             
-            self.tweetView.textColor = color
-            self.tweetView.backgroundColor = backgroundColor
-            self.view.backgroundColor = backgroundColor
+            self.tweetView.textColor = settings.color
+            self.tweetView.backgroundColor = settings.background
+            self.view.backgroundColor = settings.background
             self.tweetView.becomeFirstResponder()
         }
     }
@@ -86,14 +71,14 @@ class ViewController: UIViewController, UITextViewDelegate {
     func beginTutorial() {
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         
-        var title = "Welcome!"
-        var message = "Welcome to Infinitweet! To start, enter text into the textfield. When you're ready, tap the Share icon on the upper right to share to Twitter (or elsewhere). Additionally, you can use our Action Extension to share text from within any app that supports it (e.g. Notes)."
+        let title = "Welcome!"
+        let message = "Welcome to Infinitweet! To start, enter text into the textfield. When you're ready, tap the Share icon on the upper right to share to Twitter (or elsewhere). Additionally, you can use our Action Extension to share text from within any app that supports it (e.g. Notes)."
         
-        var tutorial = UIAlertController(title: title,
+        let tutorial = UIAlertController(title: title,
             message: message,
             preferredStyle: UIAlertControllerStyle.Alert)
         
-        var OK = UIAlertAction(title: "OK",
+        let OK = UIAlertAction(title: "OK",
             style: UIAlertActionStyle.Default,
             handler: {
                 (action : UIAlertAction!) in
@@ -115,11 +100,11 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     
     func keyboardWillHide(notification : NSNotification) {
-        var userInfo = notification.userInfo as [NSObject : AnyObject]!
+        let userInfo = notification.userInfo as [NSObject : AnyObject]!
         
-        var keyboardSize = userInfo[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue().size
+        let keyboardSize = userInfo[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue().size
         
-        var contentInsets = UIEdgeInsetsZero
+        let contentInsets = UIEdgeInsetsZero
         self.tweetView.contentInset = contentInsets
         self.tweetView.scrollIndicatorInsets = contentInsets
         
@@ -140,11 +125,11 @@ class ViewController: UIViewController, UITextViewDelegate {
             return
         }
         
-        var userInfo = notification.userInfo as [NSObject : AnyObject]!
+        let userInfo = notification.userInfo as [NSObject : AnyObject]!
         
-        var keyboardSize = userInfo[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue().size
+        let keyboardSize = userInfo[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue().size
         
-        var contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height, 0.0)
+        let contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height, 0.0)
         self.tweetView.contentInset = contentInsets
         self.tweetView.scrollIndicatorInsets = contentInsets
         
@@ -167,25 +152,19 @@ class ViewController: UIViewController, UITextViewDelegate {
     
     func textViewDidChange(textView: UITextView) {
         self.text = self.tweetView.attributedText
+        
     }
     
     func shareInfinitweet() {
         if self.tweetView.text != "" { //if text exists
             //get properties for new infinitweet
             var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-            var fontName = defaults.objectForKey("FontName") as String
-            var fontSize = CGFloat(defaults.integerForKey("FontSize"))
-            var font = UIFont(name: fontName, size: fontSize)
-            
-            var colorArray = defaults.objectForKey("TextColor") as [CGFloat]
-            var color = colorArray.toUIColor()
             var backgroundColorArray = defaults.objectForKey("BackgroundColor") as [CGFloat]
-            var backgroundColor = backgroundColorArray.toUIColor()
-            var padding = CGFloat(defaults.integerForKey("Padding"))
-            var wordmark = defaults.boolForKey("WordmarkHidden")
+            let backgroundColor = backgroundColorArray.toUIColor()
+            let wordmark = defaults.boolForKey("WordmarkHidden")
             
             //create infinitweet with properties
-            var infinitweet = Infinitweet(text: self.tweetView.attributedText, background: backgroundColor, padding: padding, wordmarkHidden: wordmark)
+            let infinitweet = Infinitweet(text: self.tweetView.attributedText, background: backgroundColor, wordmarkHidden: wordmark)
             
             //preload text on share
             var shareText : String?
@@ -210,7 +189,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             //once finished sharing, display success message if completed
             activityViewController.completionHandler = {(activityType, completed:Bool) in
                 if completed {
-                    var alert = UIAlertController(title: "Success!", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+                    let alert = UIAlertController(title: "Success!", message: "", preferredStyle: UIAlertControllerStyle.Alert)
                     
                     self.presentViewController(alert, animated: true, completion: { () -> Void in
                         delay(0.75, { () -> () in
@@ -227,14 +206,14 @@ class ViewController: UIViewController, UITextViewDelegate {
             //show the share menu
             self.presentViewController(activityViewController, animated: true, completion: nil)
         } else {
-            var title = "Oops!"
-            var message = "Please enter some text first, then we'll turn it into a shareable image."
+            let title = "Oops!"
+            let message = "Please enter some text first, then we'll turn it into a shareable image."
             
-            var error = UIAlertController(title: title,
+            let error = UIAlertController(title: title,
                 message: message,
                 preferredStyle: UIAlertControllerStyle.Alert)
             
-            var OK = UIAlertAction(title: "OK",
+            let OK = UIAlertAction(title: "OK",
                 style: UIAlertActionStyle.Default,
                 handler: {
                     (action : UIAlertAction!) in
