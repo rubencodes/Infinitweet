@@ -28,7 +28,7 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
     var tag: Int = 0
     var callerTag: Int?
     var color: UIColor = UIColor.grayColor()
-    var delegate: UIButton? = nil
+    var delegate: ColorPickerDelegate? = nil
     
     // UICollectionViewDataSource Protocol:
     // Returns the number of rows in collection view
@@ -66,7 +66,11 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
             var hexString = colorPalette[cell.tag]
             color = hexString.hexStringToUIColor()
             self.view.backgroundColor = color
-            self.delegate?.backgroundColor = color
+            self.delegate?.colorPicked(self.callerTag!, color: color)
         }
     }
+}
+
+protocol ColorPickerDelegate {
+    func colorPicked(sender : Int, color : UIColor)
 }

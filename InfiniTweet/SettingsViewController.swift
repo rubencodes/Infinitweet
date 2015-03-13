@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController, UIPopoverPresentationControllerDelegate {
+class SettingsViewController: UIViewController, UIPopoverPresentationControllerDelegate, ColorPickerDelegate {
     @IBOutlet weak var fontControl: UISegmentedControl!
     @IBOutlet weak var fontSizeSlider: UISlider!
     @IBOutlet weak var fontSizeLabel: UILabel!
@@ -50,16 +50,8 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
         textColorButton.backgroundColor = color
         backgroundColorButton.backgroundColor = backgroundColor
         wordmarkHiddenSwitch.on = wordmark
-        
-        self.textColorButton.addObserver(self, forKeyPath: "backgroundColor", options: NSKeyValueObservingOptions.New, context: nil)
-        self.backgroundColorButton.addObserver(self, forKeyPath: "backgroundColor", options: NSKeyValueObservingOptions.New, context: nil)
 
         super.viewWillAppear(animated)
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        self.textColorButton.removeObserver(self, forKeyPath: "backgroundColor")
-        self.backgroundColorButton.removeObserver(self, forKeyPath: "backgroundColor")
     }
     
     @IBAction func fontDidChange(sender: UISegmentedControl) {
@@ -95,7 +87,7 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
             popoverController.permittedArrowDirections = .Any
             popoverController.delegate = self
             popoverVC.callerTag = sender.tag
-            popoverVC.delegate = sender
+            popoverVC.delegate = self
         }
         self.presentViewController(popoverVC, animated: true, completion: nil)
     }
@@ -107,28 +99,26 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
     }
     
     //background/text color did change
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
-        if (object as UIButton) == self.textColorButton || (object as UIButton) == self.backgroundColorButton {
-            var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-            
-            //empty rgba pointers, to be initialized by color
-            var r = CGFloat()
-            var g = CGFloat()
-            var b = CGFloat()
-            var a = CGFloat()
-            
-            if (object as UIButton) == self.textColorButton {
-                let color = self.textColorButton.backgroundColor!
-                color.getRed(&r, green: &g, blue: &b, alpha: &a)
-                defaults.setObject([r, g, b, a], forKey: "TextColor")
-            } else if (object as UIButton) == self.backgroundColorButton {
-                let color = self.backgroundColorButton.backgroundColor!
-                color.getRed(&r, green: &g, blue: &b, alpha: &a)
-                defaults.setObject([r, g, b, a], forKey: "BackgroundColor")
-            }
-            
-            defaults.synchronize()
+    func colorPicked(sender : Int, color : UIColor) {
+        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
+        
+        //empty rgba pointers, to be initialized by color
+        var r = CGFloat()
+        var g = CGFloat()
+        var b = CGFloat()
+        var a = CGFloat()
+        color.getRed(&r, green: &g, blue: &b, alpha: &a)
+        
+        if sender == 0 { //background
+            self.backgroundColorButton.backgroundColor = color
+            defaults.setObject([r, g, b, a], forKey: "BackgroundColor")
+        
+        } else if sender == 1 { //text color
+            self.textColorButton.backgroundColor = color
+            defaults.setObject([r, g, b, a], forKey: "TextColor")
         }
+        
+        defaults.synchronize()
     }
     
     // Override the iPhone behavior that presents a popover as fullscreen
