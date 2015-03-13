@@ -84,8 +84,8 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="cfT-Ez-JQA"/>
-                                    <barButtonItem systemItem="stop" id="Kli-ub-PRp">
-                                        <color key="tintColor" red="0.89411764709999997" green="0.25882352939999997" blue="0.24313725489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <barButtonItem image="erase" id="Kli-ub-PRp">
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="resetToDefaults" destination="vXZ-lx-hvc" id="S36-I4-Y2N"/>
                                         </connections>
@@ -1800,6 +1800,7 @@
         <image name="align-left" width="40" height="40"/>
         <image name="background" width="40" height="40"/>
         <image name="decrease" width="40" height="40"/>
+        <image name="erase" width="40" height="40"/>
         <image name="font" width="40" height="40"/>
         <image name="foreground" width="40" height="40"/>
         <image name="increase" width="40" height="40"/>

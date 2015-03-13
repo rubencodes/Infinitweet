@@ -102,20 +102,12 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
     func colorPicked(sender : Int, color : UIColor) {
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         
-        //empty rgba pointers, to be initialized by color
-        var r = CGFloat()
-        var g = CGFloat()
-        var b = CGFloat()
-        var a = CGFloat()
-        color.getRed(&r, green: &g, blue: &b, alpha: &a)
-        
         if sender == 0 { //background
             self.backgroundColorButton.backgroundColor = color
-            defaults.setObject([r, g, b, a], forKey: "BackgroundColor")
-        
+            defaults.setObject(color.toCGFloatArray(), forKey: "BackgroundColor")
         } else if sender == 1 { //text color
             self.textColorButton.backgroundColor = color
-            defaults.setObject([r, g, b, a], forKey: "TextColor")
+            defaults.setObject(color.toCGFloatArray(), forKey: "TextColor")
         }
         
         defaults.synchronize()

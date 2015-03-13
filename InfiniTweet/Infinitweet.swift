@@ -24,7 +24,7 @@ class Infinitweet {
             NSStringDrawingOptions.self)
         
         //set initial image attempt properties
-        var width = 200
+        var width = 200 as CGFloat
         var imageSize = text.boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max),
             options: options,
             context: nil)
@@ -43,10 +43,10 @@ class Infinitweet {
         while imageSize.width < currentHeight*1.9 && repeatLimitHit == false {
             //if width is really small, set to minimum width and exit loop
             width += 10
-            imageSize = text.boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: options, context: nil)
+            imageSize = text.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options: options, context: nil)
             
             //if the dimensions haven't changed, make sure we haven't hit an infinite loop
-            if imageSize.width == lastWidth && imageSize.height == lastHeight {
+            if imageSize.width == lastWidth || imageSize.height == lastHeight {
                 repeatCount++
                 if repeatCount >= 200 {
                     repeatLimitHit = true
@@ -69,10 +69,10 @@ class Infinitweet {
         //if image is too long, make it narrower
         while imageSize.width > currentHeight*2.1 && repeatLimitHit == false {
             width -= 10
-            imageSize = text.boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: options, context: nil)
+            imageSize = text.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options: options, context: nil)
             
             //if the dimensions haven't changed, make sure we haven't hit an infinite loop
-            if imageSize.width == lastWidth && imageSize.height == lastHeight {
+            if imageSize.width == lastWidth || imageSize.height == lastHeight {
                 repeatCount++
                 if repeatCount >= 200 {
                     repeatLimitHit = true
@@ -270,6 +270,18 @@ extension Array {
         var b = self[2] as CGFloat
         var a = self[3] as CGFloat
         return UIColor(red: r, green: g, blue: b, alpha: a)
+    }
+}
+
+extension UIColor {
+     func toCGFloatArray() -> [CGFloat] {
+        var r = CGFloat()
+        var g = CGFloat()
+        var b = CGFloat()
+        var a = CGFloat()
+        self.getRed(&r, green: &g, blue: &b, alpha: &a)
+        
+        return [r, g, b, a]
     }
 }
 
