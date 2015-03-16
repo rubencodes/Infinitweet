@@ -12,6 +12,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     @IBOutlet var navItem: UINavigationItem!
     @IBOutlet weak var tweetView: UITextView!
     @IBOutlet var alignmentButton: UIBarButtonItem?
+    @IBOutlet var fontButton: UIBarButtonItem?
     @IBOutlet var toolbar : UIToolbar?
     var clearButton: UIBarButtonItem?
     var shareButton: UIBarButtonItem?
@@ -378,6 +379,8 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         //set the attributes of our attributed text to the updated copy
         self.tweetView.attributedText = mutableCopy
         self.tweetView.selectedRange = selectedRange
+        
+        self.textViewDidChange(self.tweetView) //text changed
     }
     
     @IBAction func decreaseTextSize() {
@@ -410,6 +413,8 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         //set the attributes of our attributed text to the updated copy
         self.tweetView.attributedText = mutableCopy
         self.tweetView.selectedRange = selectedRange
+        
+        self.textViewDidChange(self.tweetView) //text changed
     }
     
     @IBAction func changeColor(sender : UIBarButtonItem) {
@@ -456,6 +461,8 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             //set the attributes of our attributed text to the updated copy
             self.tweetView.attributedText = mutableCopy
             self.tweetView.selectedRange = selectedRange
+            
+            self.textViewDidChange(self.tweetView) //text changed
         }
     }
     
@@ -473,6 +480,9 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         fontPicker.addAction(Courier)
         fontPicker.addAction(Cancel)
         
+        if (UIDevice.currentDevice().model.hasPrefix("iPad")) {
+            fontPicker.popoverPresentationController!.barButtonItem = self.fontButton
+        }
         self.presentViewController(fontPicker, animated: true, completion: nil)
     }
     
@@ -522,6 +532,8 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         //set the attributes of our attributed text to the updated copy
         self.tweetView.attributedText = mutableCopy
         self.tweetView.selectedRange = selectedRange
+        
+        self.textViewDidChange(self.tweetView) //text changed
     }
     
     @IBAction func changeAlignment(sender : UIBarButtonItem) {
@@ -538,6 +550,9 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         alignPicker.addAction(Justify)
         alignPicker.addAction(Cancel)
         
+        if (UIDevice.currentDevice().model.hasPrefix("iPad")) {
+            alignPicker.popoverPresentationController!.barButtonItem = self.alignmentButton
+        }
         self.presentViewController(alignPicker, animated: true, completion: nil)
     }
     
@@ -587,6 +602,8 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         //set the attributes of our attributed text to the updated copy
         self.tweetView.attributedText = mutableCopy
         self.tweetView.selectedRange = selectedRange
+        
+        self.textViewDidChange(self.tweetView) //text changed
     }
     
     @IBAction func resetToDefaults() {
@@ -594,6 +611,8 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         
         var yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) { (action) -> Void in
             self.setTweetViewDefaults()
+            
+            self.textViewDidChange(self.tweetView) //text changed
         }
         
         var cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
