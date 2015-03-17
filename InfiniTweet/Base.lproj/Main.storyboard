@@ -35,7 +35,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H7D-bw-2ZM">
-                                <rect key="frame" x="16" y="108" width="568" height="492"/>
+                                <rect key="frame" x="16" y="128" width="568" height="472"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <attributedString key="attributedText"/>
@@ -96,9 +96,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="H7D-bw-2ZM" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="108" id="BkD-cL-aNN"/>
+                            <constraint firstItem="H7D-bw-2ZM" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="128" id="BkD-cL-aNN"/>
                             <constraint firstItem="f7A-CA-kXb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="QxL-Ba-m4B"/>
-                            <constraint firstItem="H7D-bw-2ZM" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" constant="54" id="S9u-c7-H0r"/>
+                            <constraint firstItem="H7D-bw-2ZM" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" constant="64" id="S9u-c7-H0r"/>
                             <constraint firstItem="f7A-CA-kXb" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="TTj-Ky-Pde"/>
                             <constraint firstItem="H7D-bw-2ZM" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="YQZ-vv-NLE"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="H7D-bw-2ZM" secondAttribute="bottom" id="Z0C-pJ-YyI"/>

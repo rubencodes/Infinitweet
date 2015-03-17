@@ -99,17 +99,18 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
     }
     
     //background/text color did change
-    func colorPicked(sender : Int, color : UIColor) {
+    func colorPicked(sender : ColorPickerViewController, color : UIColor) {
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         
-        if sender == 0 { //background
+        if sender.callerTag! == 0 { //background
             self.backgroundColorButton.backgroundColor = color
             defaults.setObject(color.toCGFloatArray(), forKey: "BackgroundColor")
-        } else if sender == 1 { //text color
+        } else if sender.callerTag! == 1 { //text color
             self.textColorButton.backgroundColor = color
             defaults.setObject(color.toCGFloatArray(), forKey: "TextColor")
         }
         
+        sender.dismissViewControllerAnimated(true, completion: nil)
         defaults.synchronize()
     }
     

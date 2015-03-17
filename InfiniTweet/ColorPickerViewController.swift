@@ -66,11 +66,11 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
             var hexString = colorPalette[cell.tag]
             color = hexString.hexStringToUIColor()
             self.view.backgroundColor = color
-            self.delegate?.colorPicked(self.callerTag!, color: color)
+            self.delegate?.colorPicked(self, color: color)
         }
     }
 }
 
 protocol ColorPickerDelegate {
-    func colorPicked(sender : Int, color : UIColor)
+    func colorPicked(sender : ColorPickerViewController, color : UIColor)
 }

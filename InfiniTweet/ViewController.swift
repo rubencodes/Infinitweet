@@ -177,6 +177,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
                 } else if part == 2 {
                     defaults.setBool(true, forKey: "TutorialShown3")
                     defaults.synchronize()
+                    self.setTweetViewDefaults()
                     self.tweetView.becomeFirstResponder()
                 } else if part == 3 {
                     defaults.setBool(true, forKey: "FirstShare")
@@ -295,8 +296,8 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             } else {
                 self.alignmentButton!.image = self.tweetView.textAlignment.image()
             }
-            
         })
+        
     }
     
     //something changed in the text view; update lastKnownState (and background)
@@ -496,6 +497,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             self.tweetView.attributedText = mutableCopy
             self.tweetView.selectedRange = selectedRange
         }
+        
         self.textViewDidChange(self.tweetView) //text changed
     }
     
@@ -515,12 +517,13 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         self.presentViewController(popoverVC, animated: true, completion: nil)
     }
     
-    func colorPicked(sender : Int, color : UIColor) {
-        if sender == 0 { //background color
+    func colorPicked(sender : ColorPickerViewController, color : UIColor) {
+        if sender.callerTag! == 0 { //background color
             self.backgroundButton.tintColor = color
             self.tweetView.backgroundColor = color //set the background color
             self.view.backgroundColor = color //set the background color (of view)
-        } else if sender == 1 { //text color
+            
+        } else if sender.callerTag! == 1 { //text color
             var selectedRange = self.tweetView.selectedRange
             
             //if nothing selected, select nearest word
@@ -563,11 +566,17 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             }
             
             self.colorButton.tintColor = color //set the button color
-            self.textViewDidChange(self.tweetView) //text changed
         }
+        
+        self.textViewDidChange(self.tweetView) //text changed
+        sender.dismissViewControllerAnimated(true, completion: { () -> Void in
+            self.tweetView.becomeFirstResponder()
+            return
+        })
     }
     
     @IBAction func changeFont() {
+        self.tweetView.resignFirstResponder()
         let fontPicker = UIAlertController(title: "Pick a Font...", message: "Note: Changing fonts will remove all bolding or italics.", preferredStyle: UIAlertControllerStyle.ActionSheet)
         let Helvetica  = UIAlertAction(title: "Helvetica", style: UIAlertActionStyle.Default, handler: fontPicked)
         let Times      = UIAlertAction(title: "Times New Roman", style: UIAlertActionStyle.Default, handler: fontPicked)
@@ -652,10 +661,13 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             self.tweetView.attributedText = mutableCopy
             self.tweetView.selectedRange = selectedRange
         }
+        
         self.textViewDidChange(self.tweetView) //text changed
+        self.tweetView.becomeFirstResponder()
     }
     
     @IBAction func changeAlignment(sender : UIBarButtonItem) {
+        self.tweetView.resignFirstResponder()
         let alignPicker = UIAlertController(title: "Pick an Alignment...", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
         let Left    = UIAlertAction(title: "Left", style: UIAlertActionStyle.Default, handler: alignPicked)
         let Right   = UIAlertAction(title: "Right", style: UIAlertActionStyle.Default, handler: alignPicked)
@@ -699,8 +711,8 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         //if nothing selected, select nearest word
         if selectedRange.length == 0 {
             let position = self.tweetView.positionFromPosition(self.tweetView.beginningOfDocument, offset: selectedRange.location)
-            let range = self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Right.rawValue as UITextDirection))
-                ?? self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Left.rawValue as UITextDirection))
+            let range = self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Paragraph, inDirection: (UITextLayoutDirection.Right.rawValue as UITextDirection))
+                ?? self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Paragraph, inDirection: (UITextLayoutDirection.Left.rawValue as UITextDirection))
             
             //if there is a nearest word (range exists), select the nearest word
             if range != nil {
@@ -739,19 +751,25 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             self.tweetView.selectedRange = selectedRange
         }
         
+        self.alignmentButton!.image = alignPicked!.image()
         self.textViewDidChange(self.tweetView) //text changed
+        self.tweetView.becomeFirstResponder()
     }
     
     @IBAction func resetToDefaults() {
+        self.tweetView.resignFirstResponder()
         var reset = UIAlertController(title: "Are you sure?", message: "This will reset the all formatting to default, removing all custom fonts, styling, alignment, etc.", preferredStyle: UIAlertControllerStyle.Alert)
         
         var yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) { (action) -> Void in
             self.setTweetViewDefaults()
-            
             self.textViewDidChange(self.tweetView) //text changed
+            self.tweetView.becomeFirstResponder()
         }
         
-        var cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+        var cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) { (action) -> Void in
+            self.tweetView.becomeFirstResponder()
+            return
+        }
         
         reset.addAction(yes)
         reset.addAction(cancel)
