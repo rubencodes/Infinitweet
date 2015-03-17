@@ -39,19 +39,12 @@ class ActionViewController: UIViewController {
                                 if !defaults.boolForKey(Infinitweet.currentDefaultKey()) {
                                     Infinitweet.setDefaults()
                                 } else {
-                                    var fontName = defaults.objectForKey("DefaultFont") as String
-                                    var fontSize = defaults.objectForKey("DefaultFontSize") as CGFloat
-                                    var font = UIFont(name: fontName, size: fontSize)
+                                    let settings = Infinitweet.getDisplaySettings() //get the current defaults
                                     
-                                    var colorString = defaults.objectForKey("DefaultColor") as String
-                                    var color = colorString.hexStringToUIColor()
-                                    var backgroundColorString = defaults.objectForKey("DefaultBackgroundColor") as String
-                                    var backgroundColor = backgroundColorString.hexStringToUIColor()
-                                    
-                                    self.tweetView.font = font
-                                    self.tweetView.textColor = color
-                                    self.tweetView.backgroundColor = backgroundColor
-                                    self.view.backgroundColor = backgroundColor
+                                    self.tweetView.font = settings.font
+                                    self.tweetView.textColor = settings.color
+                                    self.tweetView.backgroundColor = settings.background
+                                    self.view.backgroundColor = settings.background
                                 }
                                 
                             }
@@ -63,7 +56,7 @@ class ActionViewController: UIViewController {
                 }
             }
             
-            if (textFound) {
+            if textFound {
                 // We only handle one text, so stop looking for more.
                 break
             }

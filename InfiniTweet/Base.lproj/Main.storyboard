@@ -117,6 +117,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="alignmentButton" destination="zep-DC-VgU" id="gpM-9q-rSN"/>
+                        <outlet property="backgroundButton" destination="32j-D6-gyi" id="4Ud-cl-AsN"/>
+                        <outlet property="colorButton" destination="vNg-Qd-gKi" id="IId-3N-f9B"/>
                         <outlet property="fontButton" destination="vKv-nU-sqE" id="8o8-4L-SyK"/>
                         <outlet property="navItem" destination="AIq-TR-Ecd" id="uKk-40-rj7"/>
                         <outlet property="toolbar" destination="f7A-CA-kXb" id="5HH-ee-7Fn"/>
