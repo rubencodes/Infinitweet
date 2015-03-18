@@ -13,13 +13,10 @@ class ActionViewController: UIViewController {
     @IBOutlet weak var tweetView: UITextView!
     @IBOutlet weak var shareButton: UIBarButtonItem!
     
-    var text = ""
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     
         // Get the item[s] we're handling from the extension context.
-        
         // For example, look for an text and place it into a text view.
         var textFound = false
         for item: AnyObject in self.extensionContext!.inputItems {
@@ -31,8 +28,8 @@ class ActionViewController: UIViewController {
                     itemProvider.loadItemForTypeIdentifier(kUTTypeText as NSString, options: nil, completionHandler: { (text, error) in
                         if text != nil {
                             NSOperationQueue.mainQueue().addOperationWithBlock {
-                                self.text = text as String
-                                self.tweetView.text = text as? String
+                                let textData = (text as NSString).dataUsingEncoding(NSUnicodeStringEncoding, allowLossyConversion: true)!
+                                self.tweetView.attributedText = NSAttributedString(data: textData, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil, error: nil)
                                 
                                 var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
                                 // Do any additional setup after loading the view, typically from a nib.
@@ -46,7 +43,6 @@ class ActionViewController: UIViewController {
                                     self.tweetView.backgroundColor = settings.background
                                     self.view.backgroundColor = settings.background
                                 }
-                                
                             }
                         }
                     })
@@ -75,20 +71,19 @@ class ActionViewController: UIViewController {
     }
     
     @IBAction func shareInfinitweet() {
-        if self.text != "" { //if text exists
+        if self.tweetView.text != "" { //if text exists
             //get properties for new infinitweet
             let settings = Infinitweet.getDisplaySettings()
-
+            
             //create infinitweet with properties
-            var infinitweet = Infinitweet(text: self.tweetView.attributedText, background: settings.background, wordmarkHidden: true)
+            let infinitweet = Infinitweet(text: NSAttributedString(string: self.tweetView.text), background: settings.background, wordmarkHidden: settings.wordmark)
             
             //preload text on share
             var shareText : String?
             var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-            if !defaults.boolForKey("FirstShare") {
+            let firstShare = !defaults.boolForKey("FirstShare")
+            if firstShare {
                 shareText = "Sharing from @InfinitweetApp for the first time!"
-                defaults.setBool(true, forKey: "FirstShare")
-                defaults.synchronize()
             } else {
                 shareText = "via @InfinitweetApp"
             }
@@ -96,6 +91,7 @@ class ActionViewController: UIViewController {
             //add objects to share
             var items = [AnyObject]()
             items.append(infinitweet.image)
+            items.append(shareText!)
             
             //create share menu, handle iPad case
             let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
@@ -106,7 +102,7 @@ class ActionViewController: UIViewController {
             //once finished sharing, display success message if completed
             activityViewController.completionHandler = {(activityType, completed:Bool) in
                 if completed {
-                    var alert = UIAlertController(title: "Success!", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+                    let alert = UIAlertController(title: "Success!", message: "", preferredStyle: UIAlertControllerStyle.Alert)
                     
                     self.presentViewController(alert, animated: true, completion: { () -> Void in
                         delay(0.75, { () -> () in
@@ -123,18 +119,18 @@ class ActionViewController: UIViewController {
             //show the share menu
             self.presentViewController(activityViewController, animated: true, completion: nil)
         } else {
-            var title = "Oops!"
-            var message = "Please enter some text first, then we'll turn it into a shareable image."
+            let title = "Oops!"
+            let message = "Please enter some text first, then we'll turn it into a shareable image."
             
-            var error = UIAlertController(title: title,
+            let error = UIAlertController(title: title,
                 message: message,
                 preferredStyle: UIAlertControllerStyle.Alert)
             
-            var OK = UIAlertAction(title: "OK",
+            let OK = UIAlertAction(title: "OK",
                 style: UIAlertActionStyle.Default,
                 handler: {
                     (action : UIAlertAction!) in
-                    self.tweetView.becomeFirstResponder()
+                    self.extensionContext!.completeRequestReturningItems(self.extensionContext!.inputItems, completionHandler: nil)
                     return
             })
             

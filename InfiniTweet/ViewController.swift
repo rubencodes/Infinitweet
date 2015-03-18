@@ -314,16 +314,14 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     func shareInfinitweet() {
         if self.tweetView.text != "" { //if text exists
             //get properties for new infinitweet
-            var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-            var backgroundColorArray = defaults.objectForKey("BackgroundColor") as [CGFloat]
-            let backgroundColor = backgroundColorArray.toUIColor()
-            let wordmark = defaults.boolForKey("WordmarkHidden")
+            let settings = Infinitweet.getDisplaySettings()
             
             //create infinitweet with properties
-            let infinitweet = Infinitweet(text: self.tweetView.attributedText, background: backgroundColor, wordmarkHidden: wordmark)
+            let infinitweet = Infinitweet(text: self.tweetView.attributedText, background: settings.background, wordmarkHidden: settings.wordmark)
             
             //preload text on share
             var shareText : String?
+            var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
             let firstShare = !defaults.boolForKey("FirstShare")
             if firstShare {
                 shareText = "Sharing from @InfinitweetApp for the first time!"
@@ -334,6 +332,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             //add objects to share
             var items = [AnyObject]()
             items.append(infinitweet.image)
+            items.append(shareText!)
             
             //create share menu, handle iPad case
             let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
