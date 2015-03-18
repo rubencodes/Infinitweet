@@ -317,7 +317,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             let settings = Infinitweet.getDisplaySettings()
             
             //create infinitweet with properties
-            let infinitweet = Infinitweet(text: self.tweetView.attributedText, background: settings.background, wordmarkHidden: settings.wordmark)
+            let infinitweet = Infinitweet(text: self.tweetView.attributedText, background: self.tweetView.backgroundColor ?? UIColor.whiteColor(), wordmarkHidden: settings.wordmark)
             
             //preload text on share
             var shareText : String?
