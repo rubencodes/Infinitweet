@@ -53,17 +53,17 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
     
     // Recognizes and handles when a collection view cell has been selected
     internal func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        var colorPalette: Array<String>
+        var colorPalette: [String]
         
         // Get colorPalette array from plist file
         let path = NSBundle.mainBundle().pathForResource("colorPalette", ofType: "plist")
         let pListArray = NSArray(contentsOfFile: path!)
         
         if let colorPalettePlistFile = pListArray {
-            colorPalette = colorPalettePlistFile as [String]
+//            colorPalette = colorPalettePlistFile as [String]
             
-            var cell: UICollectionViewCell  = collectionView.cellForItemAtIndexPath(indexPath)! as UICollectionViewCell
-            var hexString = colorPalette[cell.tag]
+            let cell: UICollectionViewCell  = collectionView.cellForItemAtIndexPath(indexPath)! as UICollectionViewCell
+            var hexString = pListArray![cell.tag] as String
             color = hexString.hexStringToUIColor()
             self.view.backgroundColor = color
             self.delegate?.colorPicked(self, color: color)
