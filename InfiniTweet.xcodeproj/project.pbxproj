@@ -530,6 +530,7 @@
 					};
 					45CC291F1A93E9DA00B36C40 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = FG7AYYTX96;
 					};
 				};
 			};

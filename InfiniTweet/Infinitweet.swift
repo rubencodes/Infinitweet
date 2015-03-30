@@ -25,65 +25,44 @@ class Infinitweet {
         
         //set initial image attempt properties
         var width = 200 as CGFloat
-        var imageSize = text.boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max),
+        var imageSize = text.boundingRectWithSize(CGSizeMake(width, CGFloat.max),
             options: options,
             context: nil)
         
         //wordmark size
         let wordmarkSize = wordmark.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: options, attributes: wordmarkAttributes, context: nil)
         
-        //avoid infinite loops
-        var repeatLimitHit = false
-        var lastWidth   = 0.0 as CGFloat
-        var lastHeight  = 0.0 as CGFloat
         var repeatCount = 0
         
         var currentHeight = wordmarkHidden ? imageSize.height : imageSize.height+wordmarkSize.height+padding
-        //if image is too narrow, make it wider
-        while imageSize.width < currentHeight*1.9 && repeatLimitHit == false {
-            //if width is really small, set to minimum width and exit loop
-            width += 10
-            imageSize = text.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options: options, context: nil)
+        var lastRatio = width/currentHeight //current ratio
+        var lastDelta = InfinitweetDelta.Positive //default value
+        
+        while repeatCount < 1000 {
+            repeatCount++
             
-            //if the dimensions haven't changed, make sure we haven't hit an infinite loop
-            if imageSize.width == lastWidth || imageSize.height == lastHeight {
-                repeatCount++
-                if repeatCount >= 200 {
-                    repeatLimitHit = true
-                }
-            } else { //reset counter once we've seen something new
-                repeatCount = 0
+            if lastRatio >= 2 {
+                width -= 10
+                lastDelta = InfinitweetDelta.Negative
+            } else {
+                width += 10
+                lastDelta = InfinitweetDelta.Positive
             }
             
-            lastWidth = imageSize.width
-            lastHeight = imageSize.height
-            currentHeight = wordmarkHidden ? imageSize.height : imageSize.height+wordmarkSize.height+padding
-        }
-        
-        //avoid infinite loops
-        repeatLimitHit = false
-        lastWidth = 0.0 as CGFloat
-        lastHeight = 0.0 as CGFloat
-        repeatCount = 0
-        
-        //if image is too long, make it narrower
-        while imageSize.width > currentHeight*2.1 && repeatLimitHit == false {
-            width -= 10
+            //get updated size based off new width
             imageSize = text.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options: options, context: nil)
             
-            //if the dimensions haven't changed, make sure we haven't hit an infinite loop
-            if imageSize.width == lastWidth || imageSize.height == lastHeight {
-                repeatCount++
-                if repeatCount >= 200 {
-                    repeatLimitHit = true
-                }
-            } else { //reset counter once we've seen something new
-                repeatCount = 0
-            }
-            
-            lastWidth = imageSize.width
-            lastHeight = imageSize.height
+            //recalculate ratio
             currentHeight = wordmarkHidden ? imageSize.height : imageSize.height+wordmarkSize.height+padding
+            var currentRatio = CGFloat(width)/currentHeight
+            
+            //is this better?
+            if abs(2-lastRatio) < abs(2-currentRatio) {
+                width = (lastDelta == InfinitweetDelta.Positive) ? width - 10 : width + 10
+                break
+            } else {
+                lastRatio = currentRatio
+            }
         }
         
         //round widths and add padding
@@ -128,58 +107,37 @@ class Infinitweet {
         //wordmark size
         let wordmarkSize = wordmark.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: wordmarkAttributes, context: nil)
         
-        //avoid infinite loops
-        var repeatLimitHit = false
-        var lastWidth = 0.0 as CGFloat
-        var lastHeight = 0.0 as CGFloat
         var repeatCount = 0
         
         var currentHeight = wordmarkHidden ? imageSize.height : imageSize.height+wordmarkSize.height+padding
-        //if image is too narrow, make it wider
-        while imageSize.width < currentHeight*1.9 && repeatLimitHit == false {
-            //if width is really small, set to minimum width and exit loop
-            width += 10
-            imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
+        var lastRatio = CGFloat(width)/currentHeight //current ratio
+        var lastDelta = InfinitweetDelta.Positive //default value
+        
+        while repeatCount < 1000 {
+            repeatCount++
             
-            //if the dimensions haven't changed, make sure we haven't hit an infinite loop
-            if imageSize.width == lastWidth && imageSize.height == lastHeight {
-                repeatCount++
-                if repeatCount >= 200 {
-                    repeatLimitHit = true
-                }
-            } else { //reset counter once we've seen something new
-                repeatCount = 0
+            if lastRatio >= 2 {
+                width -= 10
+                lastDelta = InfinitweetDelta.Negative
+            } else {
+                width += 10
+                lastDelta = InfinitweetDelta.Positive
             }
             
-            lastWidth = imageSize.width
-            lastHeight = imageSize.height
-            currentHeight = wordmarkHidden ? imageSize.height : imageSize.height+wordmarkSize.height+padding
-        }
-        
-        //avoid infinite loops
-        repeatLimitHit = false
-        lastWidth = 0.0 as CGFloat
-        lastHeight = 0.0 as CGFloat
-        repeatCount = 0
-        
-        //if image is too long, make it narrower
-        while imageSize.width > currentHeight*2.1 && repeatLimitHit == false {
-            width -= 10
+            //get updated size based off new width
             imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
             
-            //if the dimensions haven't changed, make sure we haven't hit an infinite loop
-            if imageSize.width == lastWidth && imageSize.height == lastHeight {
-                repeatCount++
-                if repeatCount >= 200 {
-                    repeatLimitHit = true
-                }
-            } else { //reset counter once we've seen something new
-                repeatCount = 0
-            }
-            
-            lastWidth = imageSize.width
-            lastHeight = imageSize.height
+            //recalculate ratio
             currentHeight = wordmarkHidden ? imageSize.height : imageSize.height+wordmarkSize.height+padding
+            var currentRatio = CGFloat(width)/currentHeight
+            
+            //is this better?
+            if abs(2-lastRatio) < abs(2-currentRatio) {
+                width = (lastDelta == InfinitweetDelta.Positive) ? width - 10 : width + 10
+                break
+            } else {
+                lastRatio = currentRatio
+            }
         }
         
         //round widths and add padding
@@ -263,6 +221,10 @@ class Infinitweet {
     class func currentDefaultKey() -> String {
         return "Defaults2-5"
     }
+}
+
+enum InfinitweetDelta {
+    case Positive, Negative
 }
 
 extension Array {

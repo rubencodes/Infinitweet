@@ -3,79 +3,80 @@
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "Infinitweet_spotlight@2x.png",
+      "filename" : "Icon-Small@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "Infinitweet_spotlight@3x.png",
+      "filename" : "Icon-Small@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "Infinitweet_spotlight2@2x.png",
+      "filename" : "Icon-40@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "Infinitweet_spotlight2@3x.png",
+      "filename" : "Icon-40@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Infinitweet_app@2x.png",
+      "filename" : "Icon-60@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Infinitweet_app@3x.png",
+      "filename" : "Icon-60@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "Infinitweet_iPad_settings.png",
+      "filename" : "Icon-Small.png",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "Infinitweet_iPad_settings@2x-1.png",
+      "filename" : "Icon-Small@2x-1.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "Infinitweet_iPad_spotlight.png",
+      "filename" : "Icon-40.png",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "Infinitweet_iPad_spotlight@2x.png",
+      "filename" : "Icon-40@2x-1.png",
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "Infinitweet_iPad_app.png",
+      "filename" : "Icon-76.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "Infinitweet_iPad_app@2x.png",
+      "filename" : "Icon-76@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "24x24",
       "idiom" : "watch",
       "scale" : "2x",
+      "filename" : "Infinitweet-iOS_watch_small.png",
       "role" : "notificationCenter",
       "subtype" : "38mm"
     },
@@ -83,19 +84,21 @@
       "size" : "27.5x27.5",
       "idiom" : "watch",
       "scale" : "2x",
+      "filename" : "Infinitweet-iOS_watch_large.png",
       "role" : "notificationCenter",
       "subtype" : "42mm"
     },
     {
       "size" : "29x29",
       "idiom" : "watch",
-      "filename" : "Infinitweet_iPad_settings@2x.png",
+      "filename" : "Infinitweet_spotlight@2x.png",
       "role" : "companionSettings",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "watch",
+      "filename" : "Infinitweet_spotlight@3x.png",
       "role" : "companionSettings",
       "scale" : "3x"
     },
@@ -103,6 +106,7 @@
       "size" : "40x40",
       "idiom" : "watch",
       "scale" : "2x",
+      "filename" : "Infinitweet_spotlight2@2x.png",
       "role" : "appLauncher",
       "subtype" : "38mm"
     },
@@ -110,6 +114,7 @@
       "size" : "44x44",
       "idiom" : "watch",
       "scale" : "2x",
+      "filename" : "Infinitweet-iOS_watch_long.png",
       "role" : "longLook",
       "subtype" : "42mm"
     },
@@ -117,6 +122,7 @@
       "size" : "86x86",
       "idiom" : "watch",
       "scale" : "2x",
+      "filename" : "Infinitweet-iOS_watch_short_small.png",
       "role" : "quickLook",
       "subtype" : "38mm"
     },
@@ -124,6 +130,7 @@
       "size" : "98x98",
       "idiom" : "watch",
       "scale" : "2x",
+      "filename" : "Infinitweet-iOS_watch_short_large.png",
       "role" : "quickLook",
       "subtype" : "42mm"
     }
