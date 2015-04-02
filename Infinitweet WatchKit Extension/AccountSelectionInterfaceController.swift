@@ -11,7 +11,6 @@ import Foundation
 import Accounts
 import Social
 
-
 class AccountSelectionInterfaceController: WKInterfaceController {
     @IBOutlet var menu : WKInterfaceTable!
     var twitterAccounts : [ACAccount]?

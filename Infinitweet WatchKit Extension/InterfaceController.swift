@@ -50,7 +50,7 @@ class InterfaceController: WKInterfaceController {
                 var settings = Infinitweet.getDisplaySettings()
                 
                 //create infinitweet with properties
-                var infinitweet = Infinitweet(text: text, font: settings.font, color: settings.color, background: settings.background, wordmarkHidden : true)
+                var infinitweet = Infinitweet(text: text, font: settings.font, color: settings.color, background: settings.background, wordmarkHidden : settings.wordmark)
                 self.imageToShare = infinitweet.image
                 
                 self.dismissTextInputController()

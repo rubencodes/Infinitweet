@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		455DAC741ACCB33400B4723B /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */; };
+		455DAC751ACCB33800B4723B /* colorPalette.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4567D7931A5A81B900D2D820 /* colorPalette.plist */; };
+		455DAC761ACCB43E00B4723B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45B0D5051A56590B00B4B500 /* Images.xcassets */; };
 		4567D7901A5A7F7800D2D820 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */; };
 		4567D7921A5A801800D2D820 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4567D7911A5A801800D2D820 /* SettingsViewController.swift */; };
 		4567D7941A5A81B900D2D820 /* colorPalette.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4567D7931A5A81B900D2D820 /* colorPalette.plist */; };
+		457CCABE1ACCA91E00C10B56 /* Preprocessing.js in Resources */ = {isa = PBXBuildFile; fileRef = 457CCABD1ACCA91E00C10B56 /* Preprocessing.js */; };
 		458D7CB41AA03B6F00D7D769 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB31AA03B6F00D7D769 /* AlertViewController.swift */; };
 		458D7CB61AA38B7200D7D769 /* Infinitweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB51AA38B7200D7D769 /* Infinitweet.swift */; };
 		458D7CBA1AA394AA00D7D769 /* Infinitweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB51AA38B7200D7D769 /* Infinitweet.swift */; };
@@ -99,6 +103,7 @@
 		4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		4567D7911A5A801800D2D820 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4567D7931A5A81B900D2D820 /* colorPalette.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = colorPalette.plist; sourceTree = "<group>"; };
+		457CCABD1ACCA91E00C10B56 /* Preprocessing.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Preprocessing.js; sourceTree = "<group>"; };
 		458D7CB31AA03B6F00D7D769 /* AlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		458D7CB51AA38B7200D7D769 /* Infinitweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Infinitweet.swift; sourceTree = "<group>"; };
 		458D7CB91AA38E9C00D7D769 /* Infinitweet WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Infinitweet WatchKit Extension.entitlements"; sourceTree = "<group>"; };
@@ -299,6 +304,7 @@
 			children = (
 				4555B5351A77EE6700C14F21 /* InfiniTweet Action.entitlements */,
 				45B0D5261A566D1A00B4B500 /* ActionViewController.swift */,
+				457CCABD1ACCA91E00C10B56 /* Preprocessing.js */,
 				45B0D5281A566D1A00B4B500 /* MainInterface.storyboard */,
 				45B0D5241A566D1A00B4B500 /* Supporting Files */,
 			);
@@ -598,6 +604,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				45B0D5291A566D1A00B4B500 /* MainInterface.storyboard in Resources */,
+				455DAC761ACCB43E00B4723B /* Images.xcassets in Resources */,
+				455DAC751ACCB33800B4723B /* colorPalette.plist in Resources */,
+				457CCABE1ACCA91E00C10B56 /* Preprocessing.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,6 +675,7 @@
 			files = (
 				458D7CBA1AA394AA00D7D769 /* Infinitweet.swift in Sources */,
 				45B0D5271A566D1A00B4B500 /* ActionViewController.swift in Sources */,
+				455DAC741ACCB33400B4723B /* ColorPickerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

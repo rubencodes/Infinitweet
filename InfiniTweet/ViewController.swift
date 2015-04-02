@@ -386,9 +386,9 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     
     func clearTextField() {
         self.tweetView.text = ""
+        self.textViewDidChange(self.tweetView)
         self.setTweetViewDefaults()
     }
-    
     
     @IBAction func increaseTextSize() {
         var selectedRange = self.tweetView.selectedRange
