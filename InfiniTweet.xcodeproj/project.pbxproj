@@ -18,12 +18,6 @@
 		458D7CB61AA38B7200D7D769 /* Infinitweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB51AA38B7200D7D769 /* Infinitweet.swift */; };
 		458D7CBA1AA394AA00D7D769 /* Infinitweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB51AA38B7200D7D769 /* Infinitweet.swift */; };
 		458D7CBB1AA3B76B00D7D769 /* Infinitweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB51AA38B7200D7D769 /* Infinitweet.swift */; };
-		4593838B1AA6C627006F272D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4593838A1AA6C627006F272D /* AppDelegate.swift */; };
-		4593838F1AA6C627006F272D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4593838E1AA6C627006F272D /* Images.xcassets */; };
-		459383921AA6C627006F272D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 459383901AA6C627006F272D /* Main.storyboard */; };
-		4593839E1AA6C627006F272D /* Infinitweet_DesktopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4593839D1AA6C627006F272D /* Infinitweet_DesktopTests.swift */; };
-		459383A61AA6D2F3006F272D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4593838C1AA6C627006F272D /* ViewController.swift */; };
-		459383A81AA6D37A006F272D /* InfinitweetDesktop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459383A71AA6D37A006F272D /* InfinitweetDesktop.swift */; };
 		45A243BD1A93EB4F00644A52 /* AccountRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A243BA1A93EB4F00644A52 /* AccountRow.swift */; };
 		45A243BE1A93EB4F00644A52 /* AccountSelectionInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A243BB1A93EB4F00644A52 /* AccountSelectionInterfaceController.swift */; };
 		45A243BF1A93EB4F00644A52 /* PresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A243BC1A93EB4F00644A52 /* PresentationViewController.swift */; };
@@ -45,13 +39,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		459383981AA6C627006F272D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 45B0D4F11A56590B00B4B500 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 459383851AA6C627006F272D;
-			remoteInfo = "Infinitweet Desktop";
-		};
 		45B0D50F1A56590B00B4B500 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 45B0D4F11A56590B00B4B500 /* Project object */;
@@ -107,13 +94,11 @@
 		458D7CB31AA03B6F00D7D769 /* AlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		458D7CB51AA38B7200D7D769 /* Infinitweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Infinitweet.swift; sourceTree = "<group>"; };
 		458D7CB91AA38E9C00D7D769 /* Infinitweet WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Infinitweet WatchKit Extension.entitlements"; sourceTree = "<group>"; };
-		459383861AA6C627006F272D /* Infinitweet Desktop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Infinitweet Desktop.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		459383891AA6C627006F272D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4593838A1AA6C627006F272D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4593838C1AA6C627006F272D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4593838E1AA6C627006F272D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		459383911AA6C627006F272D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		459383971AA6C627006F272D /* Infinitweet DesktopTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Infinitweet DesktopTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4593839C1AA6C627006F272D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4593839D1AA6C627006F272D /* Infinitweet_DesktopTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infinitweet_DesktopTests.swift; sourceTree = "<group>"; };
 		459383A71AA6D37A006F272D /* InfinitweetDesktop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinitweetDesktop.swift; sourceTree = "<group>"; };
@@ -145,20 +130,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		459383831AA6C627006F272D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		459383941AA6C627006F272D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		45B0D4F61A56590B00B4B500 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -250,8 +221,6 @@
 				45B0D5221A566D1A00B4B500 /* InfiniTweet Action.appex */,
 				45CC29161A93E9DA00B36C40 /* Infinitweet WatchKit Extension.appex */,
 				45CC29201A93E9DA00B36C40 /* Infinitweet WatchKit App.app */,
-				459383861AA6C627006F272D /* Infinitweet Desktop.app */,
-				459383971AA6C627006F272D /* Infinitweet DesktopTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -364,41 +333,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		459383851AA6C627006F272D /* Infinitweet Desktop */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 459383A31AA6C627006F272D /* Build configuration list for PBXNativeTarget "Infinitweet Desktop" */;
-			buildPhases = (
-				459383821AA6C627006F272D /* Sources */,
-				459383831AA6C627006F272D /* Frameworks */,
-				459383841AA6C627006F272D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Infinitweet Desktop";
-			productName = "Infinitweet Desktop";
-			productReference = 459383861AA6C627006F272D /* Infinitweet Desktop.app */;
-			productType = "com.apple.product-type.application";
-		};
-		459383961AA6C627006F272D /* Infinitweet DesktopTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 459383A41AA6C627006F272D /* Build configuration list for PBXNativeTarget "Infinitweet DesktopTests" */;
-			buildPhases = (
-				459383931AA6C627006F272D /* Sources */,
-				459383941AA6C627006F272D /* Frameworks */,
-				459383951AA6C627006F272D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				459383991AA6C627006F272D /* PBXTargetDependency */,
-			);
-			name = "Infinitweet DesktopTests";
-			productName = "Infinitweet DesktopTests";
-			productReference = 459383971AA6C627006F272D /* Infinitweet DesktopTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		45B0D4F81A56590B00B4B500 /* InfiniTweet */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 45B0D5181A56590B00B4B500 /* Build configuration list for PBXNativeTarget "InfiniTweet" */;
@@ -496,13 +430,6 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Ruben;
 				TargetAttributes = {
-					459383851AA6C627006F272D = {
-						CreatedOnToolsVersion = 6.2;
-					};
-					459383961AA6C627006F272D = {
-						CreatedOnToolsVersion = 6.2;
-						TestTargetID = 459383851AA6C627006F272D;
-					};
 					45B0D4F81A56590B00B4B500 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = FG7AYYTX96;
@@ -558,29 +485,11 @@
 				45B0D5211A566D1A00B4B500 /* InfiniTweet Action */,
 				45CC29151A93E9DA00B36C40 /* Infinitweet WatchKit Extension */,
 				45CC291F1A93E9DA00B36C40 /* Infinitweet WatchKit App */,
-				459383851AA6C627006F272D /* Infinitweet Desktop */,
-				459383961AA6C627006F272D /* Infinitweet DesktopTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		459383841AA6C627006F272D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4593838F1AA6C627006F272D /* Images.xcassets in Resources */,
-				459383921AA6C627006F272D /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		459383951AA6C627006F272D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		45B0D4F71A56590B00B4B500 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -631,24 +540,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		459383821AA6C627006F272D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				459383A61AA6D2F3006F272D /* ViewController.swift in Sources */,
-				459383A81AA6D37A006F272D /* InfinitweetDesktop.swift in Sources */,
-				4593838B1AA6C627006F272D /* AppDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		459383931AA6C627006F272D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4593839E1AA6C627006F272D /* Infinitweet_DesktopTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		45B0D4F51A56590B00B4B500 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -695,11 +586,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		459383991AA6C627006F272D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 459383851AA6C627006F272D /* Infinitweet Desktop */;
-			targetProxy = 459383981AA6C627006F272D /* PBXContainerItemProxy */;
-		};
 		45B0D5101A56590B00B4B500 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 45B0D4F81A56590B00B4B500 /* InfiniTweet */;
@@ -758,80 +644,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		4593839F1AA6C627006F272D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "Infinitweet Desktop/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Debug;
-		};
-		459383A01AA6C627006F272D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				INFOPLIST_FILE = "Infinitweet Desktop/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Release;
-		};
-		459383A11AA6C627006F272D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "Infinitweet DesktopTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Infinitweet Desktop.app/Contents/MacOS/Infinitweet Desktop";
-			};
-			name = Debug;
-		};
-		459383A21AA6C627006F272D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "Infinitweet DesktopTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Infinitweet Desktop.app/Contents/MacOS/Infinitweet Desktop";
-			};
-			name = Release;
-		};
 		45B0D5161A56590B00B4B500 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1094,24 +906,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		459383A31AA6C627006F272D /* Build configuration list for PBXNativeTarget "Infinitweet Desktop" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4593839F1AA6C627006F272D /* Debug */,
-				459383A01AA6C627006F272D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		459383A41AA6C627006F272D /* Build configuration list for PBXNativeTarget "Infinitweet DesktopTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				459383A11AA6C627006F272D /* Debug */,
-				459383A21AA6C627006F272D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		45B0D4F41A56590B00B4B500 /* Build configuration list for PBXProject "InfiniTweet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

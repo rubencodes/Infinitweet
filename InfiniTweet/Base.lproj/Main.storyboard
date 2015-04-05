@@ -71,6 +71,13 @@
                                             <action selector="decreaseTextSize" destination="vXZ-lx-hvc" id="SNw-2z-DNc"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem image="format" id="Kli-ub-PRp">
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="changeFormatting" destination="vXZ-lx-hvc" id="cZx-Ks-cdt"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="mgP-nj-tkI"/>
                                     <barButtonItem tag="1" image="foreground" width="30" id="vNg-Qd-gKi">
                                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                                         <connections>
@@ -81,13 +88,6 @@
                                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="changeColor:" destination="vXZ-lx-hvc" id="490-Ua-3N2"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="cfT-Ez-JQA"/>
-                                    <barButtonItem image="erase" id="Kli-ub-PRp">
-                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="resetToDefaults" destination="vXZ-lx-hvc" id="S36-I4-Y2N"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -120,6 +120,7 @@
                         <outlet property="backgroundButton" destination="32j-D6-gyi" id="4Ud-cl-AsN"/>
                         <outlet property="colorButton" destination="vNg-Qd-gKi" id="IId-3N-f9B"/>
                         <outlet property="fontButton" destination="vKv-nU-sqE" id="8o8-4L-SyK"/>
+                        <outlet property="formatButton" destination="Kli-ub-PRp" id="M8q-80-4aY"/>
                         <outlet property="navItem" destination="AIq-TR-Ecd" id="uKk-40-rj7"/>
                         <outlet property="toolbar" destination="f7A-CA-kXb" id="5HH-ee-7Fn"/>
                         <outlet property="tweetView" destination="H7D-bw-2ZM" id="WUa-b7-Woe"/>
@@ -147,7 +148,7 @@
                                     <constraint firstAttribute="width" constant="100" id="UDC-Nh-eXF"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="bpD-Iu-DbT">
@@ -196,7 +197,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14px" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v7O-ou-dbx">
                                 <rect key="frame" x="545" y="202" width="39" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Color:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GOF-Tl-5F2">
@@ -238,7 +239,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hide Wordmark:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7M-fc-J3O">
                                 <rect key="frame" x="16" y="335" width="170" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Background Color:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ri-Bj-VhX">
@@ -1803,9 +1804,9 @@
         <image name="align-left" width="40" height="40"/>
         <image name="background" width="40" height="40"/>
         <image name="decrease" width="40" height="40"/>
-        <image name="erase" width="40" height="40"/>
         <image name="font" width="40" height="40"/>
         <image name="foreground" width="40" height="40"/>
+        <image name="format" width="40" height="40"/>
         <image name="increase" width="40" height="40"/>
         <image name="palette" width="268" height="430"/>
     </resources>
