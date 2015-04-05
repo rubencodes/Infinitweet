@@ -18,57 +18,80 @@ class Infinitweet {
     let wordmarkAttributes = [NSFontAttributeName: UIFont.boldSystemFontOfSize(14.0), NSForegroundColorAttributeName: UIColor(white: 0, alpha: 0.5)]
     
     init(text : NSAttributedString, background : UIColor, wordmarkHidden : Bool) {
+        let ratio = 2 as CGFloat //Twitter images in stream appear in 2:1 aspect ratio
+        let delta = 10 as CGFloat //Amount to change image by per cycle
+        let maxCycles = 1000 //After this many cycles, give up
+        
         //set text properties
         let options = unsafeBitCast(NSStringDrawingOptions.UsesLineFragmentOrigin.rawValue |
             NSStringDrawingOptions.UsesFontLeading.rawValue,
             NSStringDrawingOptions.self)
         
         //set initial image attempt properties
-        var width = 200 as CGFloat
-        var imageSize = text.boundingRectWithSize(CGSizeMake(width, CGFloat.max),
+        var currentWidth = 200 as CGFloat
+        var imageSize = text.boundingRectWithSize(CGSizeMake(currentWidth, CGFloat.max),
             options: options,
             context: nil)
         
         //wordmark size
         let wordmarkSize = wordmark.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: options, attributes: wordmarkAttributes, context: nil)
         
-        var repeatCount = 0
+        var cycleCount = 0
         
         var currentHeight = wordmarkHidden ? imageSize.height : imageSize.height+wordmarkSize.height+padding
-        var lastRatio = width/currentHeight //current ratio
-        var lastDelta = InfinitweetDelta.Positive //default value
+        var lastRatio = currentWidth/currentHeight //current ratio
+        var lastDelta = InfinitweetDelta.Positive  //default value
         
-        while repeatCount < 1000 {
-            repeatCount++
-            
-            if lastRatio >= 2 {
-                width -= 10
-                lastDelta = InfinitweetDelta.Negative
+        //start out exponential, move to linear when/if we get stuck
+        var currentMode = InfinitweetMode.Exponential
+        
+        while cycleCount++ < maxCycles {
+            if currentMode == InfinitweetMode.Exponential {
+                currentWidth *= ratio/lastRatio
             } else {
-                width += 10
-                lastDelta = InfinitweetDelta.Positive
+                if lastRatio >= ratio {
+                    currentWidth -= delta
+                    lastDelta = InfinitweetDelta.Negative
+                } else {
+                    currentWidth += delta
+                    lastDelta = InfinitweetDelta.Positive
+                }
             }
             
-            //get updated size based off new width
-            imageSize = text.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options: options, context: nil)
+            //get updated size based off new currentWidth
+            imageSize = text.boundingRectWithSize(CGSizeMake(currentWidth, CGFloat.max), options: options, context: nil)
             
             //recalculate ratio
             currentHeight = wordmarkHidden ? imageSize.height : imageSize.height+wordmarkSize.height+padding
-            var currentRatio = CGFloat(width)/currentHeight
+            let currentRatio = currentWidth/currentHeight
             
-            //is this better?
-            if abs(2-lastRatio) < abs(2-currentRatio) {
-                width = (lastDelta == InfinitweetDelta.Positive) ? width - 10 : width + 10
-                break
-            } else {
+            //if we're exponential and not getting any better, go incremental
+            if currentMode == InfinitweetMode.Exponential && (currentWidth / (ratio/lastRatio) == currentWidth * (ratio/currentRatio)) {
+                currentMode = InfinitweetMode.Linear
                 lastRatio = currentRatio
+            } else {
+                //if we're NOT exponential and not getting any better, give up
+                if currentMode == InfinitweetMode.Linear && abs(ratio-lastRatio) < abs(ratio-currentRatio) {
+                    currentWidth = (lastDelta == InfinitweetDelta.Positive) ? currentWidth - delta : currentWidth + delta
+                    imageSize = text.boundingRectWithSize(CGSizeMake(currentWidth, CGFloat.max), options: options, context: nil)
+                    currentHeight = wordmarkHidden ? imageSize.height : imageSize.height+wordmarkSize.height+padding
+                    break
+                }
+                
+                //if we're already near our target, give up
+                if abs(ratio-currentRatio) < 0.05 {
+                    break
+                } else { //else keep going
+                    lastRatio = currentRatio
+                }
             }
         }
         
-        //round widths and add padding
-        let adjustedWidth = wordmarkHidden ? imageSize.width : max(CGFloat(ceilf(Float(imageSize.width))), CGFloat(ceilf(Float(wordmarkSize.width))))
-        let adjustedHeight = CGFloat(ceilf(Float(currentHeight)))
-        let outerRectSize = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
+        //round sizes and add padding
+        let minSize = (width : CGFloat(440), height : CGFloat(220))
+        let adjustedWidth  = max(CGFloat(ceilf(Float(currentWidth))), minSize.width)
+        let adjustedHeight = max(CGFloat(ceilf(Float(currentHeight))), minSize.height)
+        let outerRectSize  = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
         
         //generate image
         UIGraphicsBeginImageContextWithOptions(outerRectSize, true, 0.0)
@@ -97,53 +120,79 @@ class Infinitweet {
     }
     
     init(text : String, font : UIFont, color : UIColor, background : UIColor, wordmarkHidden : Bool) {
+        let ratio = 2 as CGFloat //Twitter images in stream appear in 2:1 aspect ratio
+        let delta = 10 as CGFloat //Amount to change image by per cycle
+        let maxCycles = 1000 //After this many cycles, give up
+        
         //set text properties
+        let options = unsafeBitCast(NSStringDrawingOptions.UsesLineFragmentOrigin.rawValue |
+            NSStringDrawingOptions.UsesFontLeading.rawValue,
+            NSStringDrawingOptions.self)
         let textAttributes = [NSFontAttributeName: font, NSForegroundColorAttributeName: color]
         
         //set initial image attempt properties
-        var width = 200
-        var imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
+        var currentWidth = 200 as CGFloat
+        var imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(currentWidth, CGFloat.max), options: options, attributes: textAttributes, context: nil)
         
         //wordmark size
         let wordmarkSize = wordmark.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: wordmarkAttributes, context: nil)
         
-        var repeatCount = 0
+        var cycleCount = 0
         
         var currentHeight = wordmarkHidden ? imageSize.height : imageSize.height+wordmarkSize.height+padding
-        var lastRatio = CGFloat(width)/currentHeight //current ratio
+        var lastRatio = currentWidth/currentHeight //current ratio
         var lastDelta = InfinitweetDelta.Positive //default value
         
-        while repeatCount < 1000 {
-            repeatCount++
-            
-            if lastRatio >= 2 {
-                width -= 10
-                lastDelta = InfinitweetDelta.Negative
+        //start out exponential, move to linear when/if we get stuck
+        var currentMode = InfinitweetMode.Exponential
+        
+        while cycleCount++ < maxCycles {
+            if currentMode == InfinitweetMode.Exponential {
+                currentWidth *= ratio/lastRatio
             } else {
-                width += 10
-                lastDelta = InfinitweetDelta.Positive
+                if lastRatio >= ratio {
+                    currentWidth -= delta
+                    lastDelta = InfinitweetDelta.Negative
+                } else {
+                    currentWidth += delta
+                    lastDelta = InfinitweetDelta.Positive
+                }
             }
             
-            //get updated size based off new width
-            imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(CGFloat(width), CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textAttributes, context: nil)
+            //get updated size based off new currentWidth
+            imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(currentWidth, CGFloat.max), options: options, attributes: textAttributes, context: nil)
             
             //recalculate ratio
             currentHeight = wordmarkHidden ? imageSize.height : imageSize.height+wordmarkSize.height+padding
-            var currentRatio = CGFloat(width)/currentHeight
+            let currentRatio = currentWidth/currentHeight
             
-            //is this better?
-            if abs(2-lastRatio) < abs(2-currentRatio) {
-                width = (lastDelta == InfinitweetDelta.Positive) ? width - 10 : width + 10
-                break
-            } else {
+            //if we're exponential and not getting any better, go incremental
+            if currentMode == InfinitweetMode.Exponential && (currentWidth / (ratio/lastRatio) == currentWidth * (ratio/currentRatio)) {
+                currentMode = InfinitweetMode.Linear
                 lastRatio = currentRatio
+            } else {
+                //if we're NOT exponential and not getting any better, give up
+                if currentMode == InfinitweetMode.Linear && abs(ratio-lastRatio) < abs(ratio-currentRatio) {
+                    currentWidth = (lastDelta == InfinitweetDelta.Positive) ? currentWidth - delta : currentWidth + delta
+                    imageSize = (text as NSString).boundingRectWithSize(CGSizeMake(currentWidth, CGFloat.max), options: options, attributes: textAttributes, context: nil)
+                    currentHeight = wordmarkHidden ? imageSize.height : imageSize.height+wordmarkSize.height+padding
+                    break
+                }
+                
+                //if we're already near our target, give up
+                if abs(ratio-currentRatio) < 0.05 {
+                    break
+                } else { //else keep going
+                    lastRatio = currentRatio
+                }
             }
         }
         
-        //round widths and add padding
-        let adjustedWidth = wordmarkHidden ? imageSize.width : max(CGFloat(ceilf(Float(imageSize.width))), CGFloat(ceilf(Float(wordmarkSize.width))))
-        let adjustedHeight = CGFloat(ceilf(Float(currentHeight)))
-        let outerRectSize = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
+        //round sizes and add padding
+        let minSize = (width : CGFloat(440), height : CGFloat(220))
+        let adjustedWidth  = max(CGFloat(ceilf(Float(currentWidth))), minSize.width)
+        let adjustedHeight = max(CGFloat(ceilf(Float(currentHeight))), minSize.height)
+        let outerRectSize  = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
         
         //generate image
         UIGraphicsBeginImageContextWithOptions(outerRectSize, true, 0.0)
@@ -225,6 +274,10 @@ class Infinitweet {
 
 enum InfinitweetDelta {
     case Positive, Negative
+}
+
+enum InfinitweetMode {
+    case Exponential, Linear
 }
 
 extension Array {
