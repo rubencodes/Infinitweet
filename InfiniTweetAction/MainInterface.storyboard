@@ -72,6 +72,13 @@
                                             <action selector="decreaseTextSize" destination="ObA-dk-sSI" id="hMh-QH-Za6"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem image="format" id="eAH-7S-jtH">
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="changeFormatting" destination="ObA-dk-sSI" id="FGk-Fg-rus"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="FkJ-HI-ymb"/>
                                     <barButtonItem tag="1" image="foreground" width="30" id="0iw-oU-aMf">
                                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                                         <connections>
@@ -82,13 +89,6 @@
                                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="changeColor:" destination="ObA-dk-sSI" id="sEd-Zj-4GS"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="FkJ-HI-ymb"/>
-                                    <barButtonItem image="erase" id="eAH-7S-jtH">
-                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="resetToDefaults" destination="ObA-dk-sSI" id="Y1w-hJ-dVv"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -119,6 +119,7 @@
                         <outlet property="backgroundButton" destination="ZOt-BQ-gQ6" id="DWw-js-N1G"/>
                         <outlet property="colorButton" destination="0iw-oU-aMf" id="CFW-HQ-SCT"/>
                         <outlet property="fontButton" destination="MFp-ZD-4Ev" id="b8a-hm-sN3"/>
+                        <outlet property="formatButton" destination="eAH-7S-jtH" id="0f9-Qa-vwT"/>
                         <outlet property="shareButton" destination="g7U-GB-Bgh" id="GqT-00-lw6"/>
                         <outlet property="toolbar" destination="IVD-aK-pw5" id="i4j-Zz-Ptp"/>
                         <outlet property="tweetView" destination="1OX-aA-5bT" id="eQ3-x6-2sq"/>
@@ -1627,9 +1628,9 @@
         <image name="align-left" width="40" height="40"/>
         <image name="background" width="40" height="40"/>
         <image name="decrease" width="40" height="40"/>
-        <image name="erase" width="40" height="40"/>
         <image name="font" width="40" height="40"/>
         <image name="foreground" width="40" height="40"/>
+        <image name="format" width="40" height="40"/>
         <image name="increase" width="40" height="40"/>
         <image name="palette" width="268" height="430"/>
     </resources>

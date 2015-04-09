@@ -71,17 +71,10 @@
                                             <action selector="decreaseTextSize" destination="vXZ-lx-hvc" id="SNw-2z-DNc"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem image="format" id="Kli-ub-PRp">
+                                    <barButtonItem image="format" width="30" id="Kli-ub-PRp">
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="changeFormatting" destination="vXZ-lx-hvc" id="cZx-Ks-cdt"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="mgP-nj-tkI"/>
-                                    <barButtonItem tag="1" image="foreground" width="30" id="vNg-Qd-gKi">
-                                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="changeColor:" destination="vXZ-lx-hvc" id="glg-nk-Uej"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem image="background" width="30" id="32j-D6-gyi">
@@ -89,6 +82,15 @@
                                         <connections>
                                             <action selector="changeColor:" destination="vXZ-lx-hvc" id="490-Ua-3N2"/>
                                         </connections>
+                                    </barButtonItem>
+                                    <barButtonItem tag="1" image="foreground" width="30" id="vNg-Qd-gKi">
+                                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="changeColor:" destination="vXZ-lx-hvc" id="glg-nk-Uej"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem image="erase" width="30" id="sGV-UM-cXd">
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
                                 </items>
                                 <color key="barTintColor" white="0.91691509046052633" alpha="1" colorSpace="calibratedWhite"/>
@@ -1804,6 +1806,7 @@
         <image name="align-left" width="40" height="40"/>
         <image name="background" width="40" height="40"/>
         <image name="decrease" width="40" height="40"/>
+        <image name="erase" width="40" height="40"/>
         <image name="font" width="40" height="40"/>
         <image name="foreground" width="40" height="40"/>
         <image name="format" width="40" height="40"/>

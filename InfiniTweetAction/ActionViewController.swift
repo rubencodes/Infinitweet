@@ -17,6 +17,7 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
     @IBOutlet var fontButton: UIBarButtonItem?
     @IBOutlet var colorButton: UIBarButtonItem!
     @IBOutlet var backgroundButton: UIBarButtonItem!
+    @IBOutlet var formatButton: UIBarButtonItem!
     var keyboardIsShown : Bool?
     
     override func viewDidLoad() {
@@ -672,26 +673,6 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
         self.tweetView.becomeFirstResponder()
     }
     
-    @IBAction func resetToDefaults() {
-        self.tweetView.resignFirstResponder()
-        var reset = UIAlertController(title: "Are you sure?", message: "This will reset the all formatting to default, removing all custom fonts, styling, alignment, etc.", preferredStyle: UIAlertControllerStyle.Alert)
-        
-        var yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) { (action) -> Void in
-            self.setTweetViewDefaults()
-            self.tweetView.becomeFirstResponder()
-        }
-        
-        var cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) { (action) -> Void in
-            self.tweetView.becomeFirstResponder()
-            return
-        }
-        
-        reset.addAction(yes)
-        reset.addAction(cancel)
-        
-        self.presentViewController(reset, animated: true, completion: nil)
-    }
-    
     func setTweetViewDefaults() {
         let settings = Infinitweet.getDisplaySettings() //get the current defaults
         
@@ -740,6 +721,67 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
         self.tweetView.backgroundColor = settings.background //set the background color
         self.backgroundButton.tintColor = settings.background //set the button default color
         self.view.backgroundColor = settings.background //set the background color (of view)
+    }
+    
+    @IBAction func changeFormatting() {
+        self.tweetView.resignFirstResponder()
+        let formatPicker = UIAlertController(title: "Toggle Styles", message: "Select to Add or Remove Style", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let Bold      = UIAlertAction(title: "Bold", style: UIAlertActionStyle.Default, handler: formatPicked)
+        let Italicize = UIAlertAction(title: "Italicize", style: UIAlertActionStyle.Default, handler: formatPicked)
+        let Underline = UIAlertAction(title: "Underline", style: UIAlertActionStyle.Default, handler: formatPicked)
+        
+        formatPicker.addAction(Bold)
+        formatPicker.addAction(Italicize)
+        formatPicker.addAction(Underline)
+        
+        if (UIDevice.currentDevice().model.hasPrefix("iPad")) {
+            formatPicker.popoverPresentationController!.barButtonItem = self.formatButton
+        }
+        self.presentViewController(formatPicker, animated: true, completion: nil)
+    }
+    
+    func formatPicked(action : UIAlertAction!) {
+        //get the selected text, if available
+        var selectedRange = self.tweetView.selectedRange
+        
+        //if nothing selected, select nearest word
+        if selectedRange.length == 0 {
+            let position = self.tweetView.positionFromPosition(self.tweetView.beginningOfDocument, offset: selectedRange.location)
+            let range = self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Right.rawValue as UITextDirection))
+                ?? self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Left.rawValue as UITextDirection))
+            
+            //if there is a nearest word (range exists), select the nearest word
+            if range != nil {
+                let start = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.start)
+                let end = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.end)
+                self.tweetView.selectedRange = NSMakeRange(start, end-start)
+                selectedRange = self.tweetView.selectedRange
+            } else { //if we can't get the nearest word, just select everything
+                self.tweetView.selectedRange = NSMakeRange(0, self.tweetView.attributedText.length)
+                selectedRange = self.tweetView.selectedRange
+            }
+        }
+        
+        //if there is no text, make changes globally
+        if self.tweetView.text.isEmpty {
+            self.tweetView.selectedRange = NSMakeRange(0, self.tweetView.attributedText.length)
+            selectedRange = self.tweetView.selectedRange
+        }
+        
+        //apply changes
+        var formatName = action.title
+        switch formatName {
+        case "Bold":
+            self.tweetView.toggleBoldface(self)
+        case "Italicize":
+            self.tweetView.toggleItalics(self)
+        case "Underline":
+            self.tweetView.toggleUnderline(self)
+        default:
+            break
+        }
+        
+        self.tweetView.becomeFirstResponder()
     }
     
     // Override the iPhone behavior that presents a popover as fullscreen
