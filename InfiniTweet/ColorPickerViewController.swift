@@ -37,14 +37,14 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     // UICollectionViewDataSource Protocol:
     // Returns the number of columns in collection view
-    internal func numberOfSectionsInCollectionView(collectionView: UICollectionView!) -> Int {
+    internal func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 16
     }
     // UICollectionViewDataSource Protocol:
     // Inilitializes the collection view cells
     internal func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as UICollectionViewCell
+        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! UICollectionViewCell
         cell.backgroundColor = UIColor.clearColor()
         cell.tag = tag++
         
@@ -52,7 +52,7 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     // Recognizes and handles when a collection view cell has been selected
-    internal func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    internal func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         var colorPalette: [String]
         
         // Get colorPalette array from plist file
@@ -63,7 +63,7 @@ class ColorPickerViewController: UIViewController, UICollectionViewDelegate, UIC
 //            colorPalette = colorPalettePlistFile as [String]
             
             let cell: UICollectionViewCell  = collectionView.cellForItemAtIndexPath(indexPath)! as UICollectionViewCell
-            var hexString = pListArray![cell.tag] as String
+            var hexString = pListArray![cell.tag] as! String
             color = hexString.hexStringToUIColor()
             self.view.backgroundColor = color
             self.delegate?.colorPicked(self, color: color)

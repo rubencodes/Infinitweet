@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14D113c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ObA-dk-sSI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D113c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ObA-dk-sSI">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -45,50 +45,59 @@
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes"/>
                             </textView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IVD-aK-pw5">
-                                <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qw6-lr-8FL">
+                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="600" id="7Io-e3-dCw"/>
+                                </constraints>
                                 <items>
-                                    <barButtonItem image="align-left" width="30" id="Tty-c9-sEo">
+                                    <barButtonItem image="align-left" width="28" id="rCW-Wk-W2J">
+                                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="3" maxY="0.0"/>
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <action selector="changeAlignment:" destination="ObA-dk-sSI" id="VJZ-zr-iVG"/>
+                                            <action selector="changeAlignment:" destination="ObA-dk-sSI" id="cXr-BN-cZe"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem image="font" width="30" id="MFp-ZD-4Ev">
+                                    <barButtonItem image="font" width="28" id="1jv-Hv-t44">
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <action selector="changeFont" destination="ObA-dk-sSI" id="uHG-w0-mpu"/>
+                                            <action selector="changeFont" destination="ObA-dk-sSI" id="mJb-nB-NPL"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem image="increase" width="30" id="e3k-Sg-7Ck">
+                                    <barButtonItem image="format" width="28" id="uDH-Rq-Sgz">
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <action selector="increaseTextSize" destination="ObA-dk-sSI" id="6hl-YU-IrJ"/>
+                                            <action selector="changeFormatting" destination="ObA-dk-sSI" id="oGg-pw-Bx7"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem image="decrease" width="30" id="OmK-q4-uBR">
+                                    <barButtonItem tag="2" image="increase" width="27" id="Lb8-Z3-7nM">
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <action selector="decreaseTextSize" destination="ObA-dk-sSI" id="hMh-QH-Za6"/>
+                                            <action selector="changeTextSize:" destination="ObA-dk-sSI" id="YMm-RR-qio"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem image="format" id="eAH-7S-jtH">
+                                    <barButtonItem tag="-2" image="decrease" width="27" id="Cq6-8X-nm5">
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <action selector="changeFormatting" destination="ObA-dk-sSI" id="FGk-Fg-rus"/>
+                                            <action selector="changeTextSize:" destination="ObA-dk-sSI" id="ODQ-4y-ZNv"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="FkJ-HI-ymb"/>
-                                    <barButtonItem tag="1" image="foreground" width="30" id="0iw-oU-aMf">
+                                    <barButtonItem image="background" width="28" id="guG-Vf-bYX">
                                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <action selector="changeColor:" destination="ObA-dk-sSI" id="yVY-aP-pIf"/>
+                                            <action selector="changeColor:" destination="ObA-dk-sSI" id="sFt-i7-3nj"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem image="background" width="30" id="ZOt-BQ-gQ6">
+                                    <barButtonItem tag="1" image="foreground" width="28" id="6Wg-ua-tmT">
                                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <action selector="changeColor:" destination="ObA-dk-sSI" id="sEd-Zj-4GS"/>
+                                            <action selector="changeColor:" destination="ObA-dk-sSI" id="Fw5-3x-a1y"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem tag="2" image="highlight" width="28" id="3Rf-qw-hDg">
+                                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="changeColor:" destination="ObA-dk-sSI" id="lLc-3B-QaD"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -97,31 +106,28 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="IVD-aK-pw5" firstAttribute="trailing" secondItem="NOA-Dm-cuz" secondAttribute="trailing" id="1tD-ER-cQn"/>
                             <constraint firstItem="1OX-aA-5bT" firstAttribute="centerX" secondItem="NOA-Dm-cuz" secondAttribute="centerX" id="4bd-kR-Htp"/>
-                            <constraint firstItem="IVD-aK-pw5" firstAttribute="top" secondItem="NOA-Dm-cuz" secondAttribute="top" constant="44" id="69p-WK-kFP"/>
-                            <constraint firstItem="IVD-aK-pw5" firstAttribute="centerX" secondItem="NOA-Dm-cuz" secondAttribute="centerX" id="78g-JV-7uX"/>
+                            <constraint firstItem="qw6-lr-8FL" firstAttribute="top" secondItem="NOA-Dm-cuz" secondAttribute="bottom" id="6OA-Xo-JZy"/>
                             <constraint firstAttribute="trailing" secondItem="NOA-Dm-cuz" secondAttribute="trailing" id="A05-Pj-hrr"/>
                             <constraint firstItem="NOA-Dm-cuz" firstAttribute="leading" secondItem="zMn-AG-sqS" secondAttribute="leading" id="HxO-8t-aoh"/>
                             <constraint firstItem="1OX-aA-5bT" firstAttribute="leading" secondItem="zMn-AG-sqS" secondAttribute="leadingMargin" id="Kwe-3T-HYB"/>
                             <constraint firstItem="1OX-aA-5bT" firstAttribute="top" secondItem="NOA-Dm-cuz" secondAttribute="bottom" constant="58" id="ibM-wm-xwd"/>
                             <constraint firstAttribute="bottom" secondItem="1OX-aA-5bT" secondAttribute="bottom" id="mna-wq-UoK"/>
-                            <constraint firstItem="IVD-aK-pw5" firstAttribute="top" secondItem="NOA-Dm-cuz" secondAttribute="bottom" id="onp-6u-n0J"/>
-                            <constraint firstItem="IVD-aK-pw5" firstAttribute="leading" secondItem="NOA-Dm-cuz" secondAttribute="leading" id="sUQ-iY-oky"/>
-                            <constraint firstItem="IVD-aK-pw5" firstAttribute="width" secondItem="NOA-Dm-cuz" secondAttribute="width" id="uC4-xv-bUg"/>
+                            <constraint firstItem="qw6-lr-8FL" firstAttribute="leading" secondItem="NOA-Dm-cuz" secondAttribute="leading" id="nRm-1n-BaV"/>
                             <constraint firstItem="NOA-Dm-cuz" firstAttribute="top" secondItem="qkL-Od-lgU" secondAttribute="bottom" id="we0-1t-bgp"/>
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="528"/>
                     <connections>
-                        <outlet property="alignmentButton" destination="Tty-c9-sEo" id="qgH-VT-3ls"/>
-                        <outlet property="backgroundButton" destination="ZOt-BQ-gQ6" id="DWw-js-N1G"/>
-                        <outlet property="colorButton" destination="0iw-oU-aMf" id="CFW-HQ-SCT"/>
-                        <outlet property="fontButton" destination="MFp-ZD-4Ev" id="b8a-hm-sN3"/>
-                        <outlet property="formatButton" destination="eAH-7S-jtH" id="0f9-Qa-vwT"/>
+                        <outlet property="alignmentButton" destination="rCW-Wk-W2J" id="NNU-Bt-6fb"/>
+                        <outlet property="backgroundButton" destination="guG-Vf-bYX" id="srD-Hz-DKq"/>
+                        <outlet property="colorButton" destination="6Wg-ua-tmT" id="e0F-pm-lAY"/>
+                        <outlet property="fontButton" destination="1jv-Hv-t44" id="tRh-1C-lTC"/>
+                        <outlet property="formatButton" destination="uDH-Rq-Sgz" id="2gf-PZ-ZFC"/>
+                        <outlet property="highlightButton" destination="3Rf-qw-hDg" id="3pm-ct-SVy"/>
                         <outlet property="shareButton" destination="g7U-GB-Bgh" id="GqT-00-lw6"/>
-                        <outlet property="toolbar" destination="IVD-aK-pw5" id="i4j-Zz-Ptp"/>
+                        <outlet property="toolbar" destination="qw6-lr-8FL" id="Vmb-RX-cdm"/>
                         <outlet property="tweetView" destination="1OX-aA-5bT" id="eQ3-x6-2sq"/>
                         <outlet property="view" destination="zMn-AG-sqS" id="Qma-de-2ek"/>
                     </connections>
@@ -1631,6 +1637,7 @@
         <image name="font" width="40" height="40"/>
         <image name="foreground" width="40" height="40"/>
         <image name="format" width="40" height="40"/>
+        <image name="highlight" width="40" height="40"/>
         <image name="increase" width="40" height="40"/>
         <image name="palette" width="268" height="430"/>
     </resources>

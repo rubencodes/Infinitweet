@@ -21,10 +21,10 @@ class AccountSelectionInterfaceController: WKInterfaceController {
                 
         // Configure interface objects here.
         self.twitterAccounts = context!.objectForKey("accounts") as? [ACAccount]
-        self.imageToShare = (context!.objectForKey("image") as UIImage)
+        self.imageToShare = (context!.objectForKey("image") as! UIImage)
         self.menu.setNumberOfRows(self.twitterAccounts!.count, withRowType: "AccountRow")
         for var i = 0; i < self.menu.numberOfRows; i++ {
-            var row = menu.rowControllerAtIndex(i) as AccountRow
+            var row = menu.rowControllerAtIndex(i) as! AccountRow
             row.name.setText("@\(self.twitterAccounts![i].username)")
         }
     }

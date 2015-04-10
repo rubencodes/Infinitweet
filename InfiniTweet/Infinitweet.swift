@@ -238,14 +238,14 @@ class Infinitweet {
     
     class func getDisplaySettings() -> (font : UIFont, color : UIColor, background : UIColor, alignment : NSTextAlignment, wordmark : Bool) {
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-        let alignmentName = defaults.objectForKey("Alignment") as String
-        let fontName = defaults.objectForKey("FontName") as String
+        let alignmentName = defaults.objectForKey("Alignment") as! String
+        let fontName = defaults.objectForKey("FontName") as! String
         let fontSize = CGFloat(defaults.integerForKey("FontSize"))
         let font = UIFont(name: fontName, size: fontSize)
         
-        var colorArray = defaults.objectForKey("TextColor") as [CGFloat]
+        var colorArray = defaults.objectForKey("TextColor") as! [CGFloat]
         let color = colorArray.toUIColor()
-        var backgroundColorArray = defaults.objectForKey("BackgroundColor") as [CGFloat]
+        var backgroundColorArray = defaults.objectForKey("BackgroundColor") as! [CGFloat]
         let backgroundColor = backgroundColorArray.toUIColor()
         
         let wordmark = defaults.boolForKey("WordmarkHidden")
@@ -282,10 +282,10 @@ enum InfinitweetMode {
 
 extension Array {
     mutating func toUIColor() -> UIColor {
-        var r = self[0] as CGFloat
-        var g = self[1] as CGFloat
-        var b = self[2] as CGFloat
-        var a = self[3] as CGFloat
+        var r = self[0] as! CGFloat
+        var g = self[1] as! CGFloat
+        var b = self[2] as! CGFloat
+        var a = self[3] as! CGFloat
         return UIColor(red: r, green: g, blue: b, alpha: a)
     }
 }
@@ -305,13 +305,13 @@ extension UIColor {
 extension String {
     // This function converts from HTML colors (hex strings of the form '#ffffff') to UIColors
     mutating func hexStringToUIColor() -> UIColor {
-        var cString:String = self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
+        var cString : String = self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
         
-        if (cString.hasPrefix("#")) {
+        if cString.hasPrefix("#") {
             cString = cString.substringFromIndex(advance(cString.startIndex, 1))
         }
         
-        if (countElements(cString) != 6) {
+        if count(cString) != 6 {
             return UIColor.grayColor()
         }
         

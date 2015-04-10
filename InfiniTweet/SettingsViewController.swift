@@ -20,13 +20,13 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
     override func viewWillAppear(animated: Bool) {
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         
-        let alignment = defaults.objectForKey("Alignment") as String
-        let fontName = defaults.objectForKey("FontName") as String
+        let alignment = defaults.objectForKey("Alignment") as! String
+        let fontName = defaults.objectForKey("FontName") as! String
         let fontSize = defaults.integerForKey("FontSize") as Int
         
-        var colorArray = defaults.objectForKey("TextColor") as [CGFloat]
+        var colorArray = defaults.objectForKey("TextColor") as! [CGFloat]
         let color = colorArray.toUIColor()
-        var backgroundColorArray = defaults.objectForKey("BackgroundColor") as [CGFloat]
+        var backgroundColorArray = defaults.objectForKey("BackgroundColor") as! [CGFloat]
         let backgroundColor = backgroundColorArray.toUIColor()
         
         let wordmark = defaults.boolForKey("WordmarkHidden")
@@ -78,7 +78,7 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
     }
     
     @IBAction func colorButtonTapped(sender: UIButton) {
-        let popoverVC = storyboard?.instantiateViewControllerWithIdentifier("colorPickerPopover") as ColorPickerViewController
+        let popoverVC = storyboard?.instantiateViewControllerWithIdentifier("colorPickerPopover") as! ColorPickerViewController
         popoverVC.modalPresentationStyle = .Popover
         popoverVC.preferredContentSize = CGSizeMake(284, 446)
         if let popoverController = popoverVC.popoverPresentationController {
@@ -115,7 +115,7 @@ class SettingsViewController: UIViewController, UIPopoverPresentationControllerD
     }
     
     // Override the iPhone behavior that presents a popover as fullscreen
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController!) -> UIModalPresentationStyle {
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
         // Return no adaptive presentation style, use default presentation behaviour
         return .None
     }

@@ -19,7 +19,7 @@ class PresentationViewController: WKInterfaceController {
         
         // Configure interface objects here.
         if context != nil && context!.objectForKey("image") != nil {
-            self.imageToShare = (context!.objectForKey("image") as UIImage)
+            self.imageToShare = (context!.objectForKey("image") as! UIImage)
             self.wkImage.setImage(self.imageToShare)
         }
     }
@@ -46,7 +46,7 @@ class PresentationViewController: WKInterfaceController {
                     if twitterAccounts.count > 1 {
                         self.pushControllerWithName("AccountSelection", context: ["accounts": twitterAccounts, "image" : self.imageToShare!])
                     } else {
-                        self.postImageToTwitterAccount(twitterAccounts.first as ACAccount)
+                        self.postImageToTwitterAccount(twitterAccounts.first as! ACAccount)
                     }
                 }
             }
