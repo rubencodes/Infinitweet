@@ -190,8 +190,8 @@ class Infinitweet {
         
         //round sizes and add padding
         let minSize = (width : CGFloat(440), height : CGFloat(220))
-        let adjustedWidth  = max(CGFloat(ceilf(Float(currentWidth))), minSize.width)
-        let adjustedHeight = max(CGFloat(ceilf(Float(currentHeight))), minSize.height)
+        let adjustedWidth  = CGFloat(ceilf(Float(currentWidth)))
+        let adjustedHeight = CGFloat(ceilf(Float(currentHeight)))
         let outerRectSize  = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
         
         //generate image

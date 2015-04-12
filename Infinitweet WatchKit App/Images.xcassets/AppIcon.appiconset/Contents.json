@@ -4,7 +4,7 @@
       "size" : "24x24",
       "idiom" : "watch",
       "scale" : "2x",
-      "filename" : "watch_small.png",
+      "filename" : "Infinitweet-iOS_watch_small.png",
       "role" : "notificationCenter",
       "subtype" : "38mm"
     },
@@ -12,21 +12,21 @@
       "size" : "27.5x27.5",
       "idiom" : "watch",
       "scale" : "2x",
-      "filename" : "watch.png",
+      "filename" : "Infinitweet-iOS_watch_large.png",
       "role" : "notificationCenter",
       "subtype" : "42mm"
     },
     {
       "size" : "29x29",
       "idiom" : "watch",
-      "filename" : "watch_companion@2x.png",
+      "filename" : "Icon-Small@2x.png",
       "role" : "companionSettings",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "watch",
-      "filename" : "watch_companion@3x.png",
+      "filename" : "Icon-Small@3x.png",
       "role" : "companionSettings",
       "scale" : "3x"
     },
@@ -34,7 +34,7 @@
       "size" : "40x40",
       "idiom" : "watch",
       "scale" : "2x",
-      "filename" : "watch_long@2x.png",
+      "filename" : "Icon-40@2x-1.png",
       "role" : "appLauncher",
       "subtype" : "38mm"
     },
@@ -42,7 +42,7 @@
       "size" : "44x44",
       "idiom" : "watch",
       "scale" : "2x",
-      "filename" : "watch_long.png",
+      "filename" : "Infinitweet-iOS_watch_long.png",
       "role" : "longLook",
       "subtype" : "42mm"
     },
@@ -50,7 +50,7 @@
       "size" : "86x86",
       "idiom" : "watch",
       "scale" : "2x",
-      "filename" : "watch_short_small.png",
+      "filename" : "Infinitweet-iOS_watch_short_small.png",
       "role" : "quickLook",
       "subtype" : "38mm"
     },
@@ -58,7 +58,7 @@
       "size" : "98x98",
       "idiom" : "watch",
       "scale" : "2x",
-      "filename" : "watch_short.png",
+      "filename" : "Infinitweet-iOS_watch_short_large.png",
       "role" : "quickLook",
       "subtype" : "42mm"
     }
