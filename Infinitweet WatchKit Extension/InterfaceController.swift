@@ -10,11 +10,7 @@ import WatchKit
 import Foundation
 
 class InterfaceController: WKInterfaceController {
-    var imageToShare : UIImage?
-    var imageWidth = 500 as CGFloat
     @IBOutlet weak var tweetButton: WKInterfaceButton!
-    @IBOutlet weak var alertGroup: WKInterfaceGroup!
-    @IBOutlet weak var alertLabel: WKInterfaceLabel!
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
@@ -35,16 +31,15 @@ class InterfaceController: WKInterfaceController {
     @IBAction func captureTweet() {
         self.presentTextInputControllerWithSuggestions(["Infinitweeting via Apple Watch! Good to go!"], allowedInputMode: WKTextInputMode.Plain) { (results) -> Void in
             if results != nil && results.count > 0 {
-                var text = results.first as! String
+                let text = results.first as! String
                 
                 var settings = Infinitweet.getDisplaySettings()
                 
                 //create infinitweet with properties
-                var infinitweet = Infinitweet(text: text, font: settings.font, color: settings.color, background: settings.background, wordmarkHidden : settings.wordmark)
-                self.imageToShare = infinitweet.image
+                let infinitweet = Infinitweet(text: text, font: settings.font, color: settings.color, background: settings.background, wordmarkHidden : settings.wordmark)
                 
                 self.dismissTextInputController()
-                self.pushControllerWithName("PresentationViewController", context: ["image": self.imageToShare!])
+                self.pushControllerWithName("PresentationViewController", context: ["image": infinitweet.image])
             }
         }
     }

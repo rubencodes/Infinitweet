@@ -10,7 +10,7 @@ import WatchKit
 import Social
 import Accounts
 
-class PresentationViewController: WKInterfaceController {
+class PresentationViewController: WKInterfaceController, AccountSelectionDelegate {
     var imageToShare : UIImage?
     @IBOutlet weak var wkImage: WKInterfaceImage!
     
@@ -33,20 +33,21 @@ class PresentationViewController: WKInterfaceController {
             granted, error in
             
             if granted {
+                var defaults = NSUserDefaults.standardUserDefaults()
+                defaults.setBool(true, forKey: "permissionsGranted")
+                defaults.synchronize()
+                
                 let twitterAccounts = accountStore.accountsWithAccountType(accountType)
                 
                 if twitterAccounts.count == 0 {
                     println("No Twitter Accounts")
                 }
                 else { //success!
-                    var defaults = NSUserDefaults.standardUserDefaults()
-                    defaults.setBool(true, forKey: "permissionsGranted")
-                    defaults.synchronize()
                     
                     if twitterAccounts.count > 1 {
-                        self.pushControllerWithName("AccountSelection", context: ["accounts": twitterAccounts, "image" : self.imageToShare!])
+                        self.presentControllerWithName("AccountSelection", context: ["accounts": twitterAccounts, "delegate" : self])
                     } else {
-                        self.postImageToTwitterAccount(twitterAccounts.first as! ACAccount)
+                        self.postImageToAccount(twitterAccounts.first as! ACAccount)
                     }
                 }
             }
@@ -56,7 +57,7 @@ class PresentationViewController: WKInterfaceController {
         }
     }
     
-    func postImageToTwitterAccount(account : ACAccount) {
+    func postImageToAccount(account : ACAccount) {
         if self.imageToShare != nil {
             let requestURL = NSURL(string: "https://api.twitter.com/1.1/statuses/update_with_media.json")
             
@@ -67,14 +68,11 @@ class PresentationViewController: WKInterfaceController {
             postRequest.account = account
             postRequest.performRequestWithHandler({ (responseData, urlResponse, error) -> Void in
                 if error == nil {
-                    println(NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil))
-                    NSNotificationCenter.defaultCenter().postNotificationName("FinishedTweet",
-                        object: nil,
-                        userInfo: nil)
-                    self.popToRootController()
+                    self.presentControllerWithName("SuccessViewController", context: ["alert" : "Success!", "positive" : true])
                 } else {
-                    println(error)
-                    self.popToRootController()
+//                    println(error)
+                    self.presentControllerWithName("SuccessViewController", context: ["alert" : "Error", "positive" : false])
+//                    self.popToRootController()
                 }
             })
         }

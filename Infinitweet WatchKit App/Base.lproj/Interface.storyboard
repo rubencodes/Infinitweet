@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="6750" systemVersion="14D87h" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="7706" systemVersion="14E26a" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6735"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3737"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="7701"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -44,7 +44,7 @@
                 <controller identifier="AccountSelection" id="TIO-Xw-6fZ" customClass="AccountSelectionInterfaceController" customModule="Infinitweet_WatchKit_Extension">
                     <items>
                         <label alignment="center" text="Select a Twitter Account" textAlignment="center" numberOfLines="0" id="Bvt-HE-Ggq"/>
-                        <table alignment="left" verticalAlignment="bottom" id="vdL-z4-M8g">
+                        <table alignment="center" verticalAlignment="bottom" id="vdL-z4-M8g">
                             <items>
                                 <tableRow identifier="AccountRow" id="lYa-hG-Hoh" customClass="AccountRow" customModule="Infinitweet_WatchKit_Extension">
                                     <group key="rootItem" width="1" alignment="left" animationDuration="0.5" id="fY0-gk-pht">
@@ -95,11 +95,19 @@
             <objects>
                 <controller identifier="SuccessViewController" id="gBp-4P-fUb" customClass="AlertViewController" customModule="Infinitweet_WatchKit_Extension">
                     <items>
-                        <label width="1" height="1" alignment="center" verticalAlignment="center" text="Success!" textAlignment="center" numberOfLines="0" id="4hI-mt-QVy">
-                            <fontDescription key="font" type="system" weight="semibold" pointSize="21"/>
-                        </label>
+                        <group width="1" alignment="left" id="Bfv-EG-cVQ">
+                            <items>
+                                <label width="1" height="1" alignment="center" verticalAlignment="center" text="Success!" textAlignment="center" numberOfLines="0" id="4hI-mt-QVy">
+                                    <fontDescription key="font" type="system" weight="semibold" pointSize="21"/>
+                                </label>
+                            </items>
+                            <color key="backgroundColor" red="0.56862745100000001" green="0.90196078430000004" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
+                        </group>
                     </items>
-                    <color key="backgroundColor" red="0.56862745100000001" green="0.90196078430000004" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="group" destination="Bfv-EG-cVQ" id="fK7-1X-hm5"/>
+                        <outlet property="textLabel" destination="4hI-mt-QVy" id="djR-fe-zd1"/>
+                    </connections>
                 </controller>
             </objects>
             <point key="canvasLocation" x="654" y="206"/>

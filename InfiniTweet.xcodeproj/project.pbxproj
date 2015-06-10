@@ -36,6 +36,8 @@
 		45CC29291A93E9DD00B36C40 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45CC29271A93E9DD00B36C40 /* Interface.storyboard */; };
 		45CC292B1A93E9DD00B36C40 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45CC292A1A93E9DD00B36C40 /* Images.xcassets */; };
 		45CC292E1A93E9DD00B36C40 /* Infinitweet WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 45CC29161A93E9DA00B36C40 /* Infinitweet WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		45D568E21B2754A8009C536F /* OptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45D568E11B2754A8009C536F /* OptionsView.xib */; };
+		45D568E41B2757A9009C536F /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D568E31B2757A9009C536F /* OptionsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +129,8 @@
 		45CC29261A93E9DD00B36C40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45CC29281A93E9DD00B36C40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		45CC292A1A93E9DD00B36C40 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		45D568E11B2754A8009C536F /* OptionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptionsView.xib; sourceTree = "<group>"; };
+		45D568E31B2757A9009C536F /* OptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +237,8 @@
 				45B0D5001A56590B00B4B500 /* ViewController.swift */,
 				458D7CB51AA38B7200D7D769 /* Infinitweet.swift */,
 				45B0D5021A56590B00B4B500 /* Main.storyboard */,
+				45D568E11B2754A8009C536F /* OptionsView.xib */,
+				45D568E31B2757A9009C536F /* OptionsView.swift */,
 				4567D7911A5A801800D2D820 /* SettingsViewController.swift */,
 				4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */,
 				4567D7931A5A81B900D2D820 /* colorPalette.plist */,
@@ -494,6 +500,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45D568E21B2754A8009C536F /* OptionsView.xib in Resources */,
 				45B0D5041A56590B00B4B500 /* Main.storyboard in Resources */,
 				45B0D5091A56590B00B4B500 /* LaunchScreen.xib in Resources */,
 				4567D7941A5A81B900D2D820 /* colorPalette.plist in Resources */,
@@ -547,6 +554,7 @@
 				45B0D5011A56590B00B4B500 /* ViewController.swift in Sources */,
 				45B0D4FF1A56590B00B4B500 /* AppDelegate.swift in Sources */,
 				4567D7901A5A7F7800D2D820 /* ColorPickerViewController.swift in Sources */,
+				45D568E41B2757A9009C536F /* OptionsView.swift in Sources */,
 				458D7CB61AA38B7200D7D769 /* Infinitweet.swift in Sources */,
 				4567D7921A5A801800D2D820 /* SettingsViewController.swift in Sources */,
 			);

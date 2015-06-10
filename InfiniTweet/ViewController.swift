@@ -8,21 +8,18 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentationControllerDelegate, ColorPickerDelegate {
+class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentationControllerDelegate, ColorPickerDelegate, OptionsViewDelegate {
+    var delegate : TextOptionsDelegate?
     @IBOutlet var navItem: UINavigationItem!
     @IBOutlet var tweetView: UITextView!
-    @IBOutlet var alignmentButton: UIBarButtonItem?
-    @IBOutlet var fontButton: UIBarButtonItem?
-    @IBOutlet var colorButton: UIBarButtonItem!
-    @IBOutlet var highlightButton: UIBarButtonItem!
-    @IBOutlet var backgroundButton: UIBarButtonItem!
-    @IBOutlet var formatButton: UIBarButtonItem!
-    @IBOutlet var toolbar : UIToolbar?
     var clearButton: UIBarButtonItem?
-    var resetButton: UIBarButtonItem?
     var settingsButton: UIBarButtonItem?
     var shareButton: UIBarButtonItem?
-    var keyboardIsShown : Bool?
+    var optionsButton: UIBarButtonItem?
+    var optionsView: OptionsView?
+    var keyboardIsShown : Bool = false
+    var optionsAreShown : Bool = false
+    var editingText : Bool = false
     
     //cache of last known state
     let cache = (NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String).stringByAppendingPathComponent("lastKnownState.infinitweet")
@@ -30,15 +27,22 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //navbar prep
+        let navBar = self.navigationController!.navigationBar
+        navBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        navBar.backgroundColor = UIColor.whiteColor()
+        navBar.shadowImage = UIImage()
+        
         self.clearButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Trash, target: self, action: "clearTextField")
-        self.resetButton = UIBarButtonItem(image: UIImage(named: "reset"), style: UIBarButtonItemStyle.Plain, target: self, action: "resetToDefaults")
-        self.resetButton?.imageInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 10)
+        self.optionsButton = UIBarButtonItem(image: UIImage(named: "format"), style: UIBarButtonItemStyle.Plain, target: self, action: "showOptionsView")
+        self.optionsButton?.imageInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 10)
         
         self.settingsButton = UIBarButtonItem(image: UIImage(named: "settings"), style: UIBarButtonItemStyle.Plain, target: self, action: "showDefaultSettings")
         self.settingsButton?.imageInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: -10)
         self.shareButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "shareInfinitweet")
+        
         self.navItem.setRightBarButtonItems([self.shareButton!, self.settingsButton!], animated: false)
-        self.navItem.setLeftBarButtonItems([self.clearButton!, self.resetButton!], animated: false)
+        self.navItem.setLeftBarButtonItems([self.clearButton!, self.optionsButton!], animated: false)
         
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         //have we set the latest defaults?
@@ -79,6 +83,21 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         }
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        self.hideOptionsView()
+        
+        self.tweetView.resignFirstResponder()
+        
+        super.viewWillDisappear(animated)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     //restores the last state if there was one; else, just sets everything to default
     func restoreLastKnownState() {
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
@@ -93,7 +112,6 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             if let background = lastKnownBackground?.toUIColor() {
                 self.tweetView.backgroundColor  = background
                 self.view.backgroundColor       = background
-                self.backgroundButton.tintColor = background
             }
         } else {
             self.setTweetViewDefaults()
@@ -107,7 +125,6 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         self.tweetView.textAlignment = settings.alignment //set the alignment
         self.tweetView.font = settings.font
         self.tweetView.textColor = settings.color //set the text color
-        self.colorButton.tintColor = settings.color //set the button default color
         
         var mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
         var textRange = NSMakeRange(0, self.tweetView.attributedText.length)
@@ -127,9 +144,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         //set the attributes of our attributed text to the updated copy
         self.tweetView.attributedText = mutableCopy
         
-        self.highlightButton.tintColor = settings.background //set the highlight color to the bg
         self.tweetView.backgroundColor = settings.background //set the background color
-        self.backgroundButton.tintColor = settings.background //set the button default color
         self.view.backgroundColor = settings.background //set the background color (of view)
     }
     
@@ -182,35 +197,6 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         self.presentViewController(tutorial, animated: true, completion: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        self.tweetView.resignFirstResponder()
-        super.viewWillDisappear(animated)
-        
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
-    //Edit menu is about to show, make sure it doesn't cover the toolbar
-    func menuControllerWillShow() {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
-        
-        var menuController = UIMenuController.sharedMenuController()
-        if menuController.menuFrame.origin.y < self.toolbar!.frame.origin.y+self.toolbar!.frame.height {
-            var size = menuController.menuFrame.size
-            var origin = CGPoint(x: menuController.menuFrame.origin.x, y: menuController.menuFrame.origin.y+size.height)
-            var menuFrame = CGRect(origin: origin, size: size)
-            menuController.setMenuVisible(false, animated: false)
-            
-            menuController.arrowDirection = UIMenuControllerArrowDirection.Up
-            menuController.setTargetRect(menuFrame, inView: self.view)
-            menuController.setMenuVisible(true, animated: true)
-        }
-    }
-    
-    //Edit menu is about to hide, wait for it to show again
-    func menuControllerWillHide() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow", name: UIMenuControllerWillShowMenuNotification, object: nil)
-    }
-    
     func keyboardWillHide(notification : NSNotification) {
         let userInfo = notification.userInfo as [NSObject : AnyObject]!
         
@@ -233,7 +219,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     }
     
     func keyboardWillShow(notification : NSNotification) {
-        if self.keyboardIsShown! {
+        if self.keyboardIsShown {
             return
         }
         
@@ -256,14 +242,70 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         
         self.keyboardIsShown = true
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    //Edit menu is about to show, make sure it doesn't cover the toolbar
+    func menuControllerWillShow() {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
+        
+        let navBar = self.navigationController!.navigationBar
+        var menuController = UIMenuController.sharedMenuController()
+        if menuController.menuFrame.origin.y < navBar.frame.origin.y+navBar.frame.height {
+            var size = menuController.menuFrame.size
+            var origin = CGPoint(x: menuController.menuFrame.origin.x, y: menuController.menuFrame.origin.y+size.height)
+            var menuFrame = CGRect(origin: origin, size: size)
+            menuController.setMenuVisible(false, animated: false)
+            
+            menuController.arrowDirection = UIMenuControllerArrowDirection.Up
+            menuController.setTargetRect(menuFrame, inView: self.view)
+            menuController.setMenuVisible(true, animated: true)
+        }
     }
     
-    //user moved the cursor; update toolbar buttons to match current formatting
-    func textViewDidChangeSelection(textView: UITextView) {
+    //Edit menu is about to hide, wait for it to show again
+    func menuControllerWillHide() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow", name: UIMenuControllerWillShowMenuNotification, object: nil)
+    }
+    
+    func showOptionsView() {
+        let window = UIApplication.sharedApplication().windows.last! as! UIWindow
+        
+        if optionsView == nil {
+            optionsView = NSBundle.mainBundle().loadNibNamed("OptionsView", owner: self, options: nil).first as? OptionsView
+            optionsView!.delegate = self
+            self.delegate = optionsView!
+        }
+        
+        optionsAreShown = true
+        
+        let hiddenFrame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, optionsView!.minSize.height)
+        let finalFrame = CGRectMake(0, self.view.frame.size.height - optionsView!.minSize.height, self.view.frame.size.width, optionsView!.minSize.height)
+        
+        window.addSubview(optionsView!)
+        window.bringSubviewToFront(optionsView!)
+        
+        optionsView!.frame = hiddenFrame
+        updateOptionsView()
+        
+        UIView.animateWithDuration(0.2, animations: { () -> Void in
+            self.optionsView!.frame = finalFrame
+        })
+    }
+    
+    func hideOptionsView() {
+        if optionsAreShown {
+            let hiddenFrame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, optionsView!.minSize.height)
+            self.tweetView.resignFirstResponder()
+            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                self.optionsView!.frame = hiddenFrame
+                }) { (Bool) in
+                    self.tweetView.becomeFirstResponder()
+                    self.optionsView!.removeFromSuperview()
+                    self.optionsAreShown = false
+            }
+        }
+    }
+    
+    func updateOptionsView() {
         //gets range with most applicable attributes
         var textRange : NSRange?
         if self.tweetView.attributedText.length > 0 {
@@ -274,27 +316,49 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             textRange = NSMakeRange(self.tweetView.selectedRange.location, 0)
         }
         
+        var textFont : UIFont?
+        var textColor : UIColor?
+        var highlightColor : UIColor?
+        var alignment : NSTextAlignment?
+        
         //for attributes in this range, change toolbar buttons to match,
         self.tweetView.attributedText.enumerateAttributesInRange(textRange!, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
-            //if we have an attribute set, use it; else go for the default
-            if let color = attributes[NSForegroundColorAttributeName] as? UIColor {
-                self.colorButton.tintColor = color
+            
+            if let font = attributes[NSFontAttributeName] as? UIFont {
+                textFont = font
             } else {
-                self.colorButton.tintColor = self.tweetView.textColor ?? UIColor.blackColor()
+                textFont = self.tweetView.font ?? UIFont.systemFontOfSize(12)
+            }
+            
+            //if we have an attribute set, use it; else go for the default
+            
+            if let color = attributes[NSForegroundColorAttributeName] as? UIColor {
+                textColor = color
+            } else {
+                textColor = self.tweetView.textColor ?? UIColor.blackColor()
             }
             
             if let highlight = attributes[NSBackgroundColorAttributeName] as? UIColor {
-                self.highlightButton.tintColor = highlight
+                highlightColor = highlight
             } else {
-                self.highlightButton.tintColor = self.tweetView.backgroundColor ?? UIColor.whiteColor()
+                highlightColor = self.tweetView.backgroundColor ?? UIColor.whiteColor()
             }
             
             if let paragraph = attributes[NSParagraphStyleAttributeName] as? NSParagraphStyle {
-                self.alignmentButton!.image = paragraph.alignment.image()
+                alignment = paragraph.alignment
             } else {
-                self.alignmentButton!.image = self.tweetView.textAlignment.image()
+                alignment = self.tweetView.textAlignment
             }
         })
+        
+        self.delegate!.selectedTextHasProperties(textFont!, alignment: alignment!, highlight: highlightColor!, color: textColor!, background: self.view.backgroundColor!)
+    }
+    
+    //user moved the cursor; update toolbar buttons to match current formatting
+    func textViewDidChangeSelection(textView: UITextView) {
+        if !editingText {
+            hideOptionsView()
+        }
     }
     
     //something changed in the text view; update lastKnownState (and background)
@@ -305,6 +369,10 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         defaults.setObject(self.tweetView.backgroundColor?.toCGFloatArray(), forKey: "lastKnownBackground")
+        
+        if optionsAreShown {
+            updateOptionsView()
+        }
     }
     
     //user wants to share the infinitweet
@@ -387,47 +455,6 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         self.setTweetViewDefaults()
     }
     
-    @IBAction func changeTextSize(sender : UIBarButtonItem) {
-        //get the selected text, if available
-        var selectedRange = self.tweetView.selectedRange
-        
-        //if there is no text, make changes globally
-        if self.tweetView.text.isEmpty {
-            var newFontSize = self.tweetView.font.pointSize + CGFloat(sender.tag) //tag is negative for decrease, positive otherwise
-            self.tweetView.font = self.tweetView.font.fontWithSize(newFontSize)
-            
-            self.textViewDidChange(self.tweetView) //text changed
-            
-            return //return early
-        }
-        //if nothing selected, select nearest word
-        else if selectedRange.length == 0 {
-            let position = self.tweetView.positionFromPosition(self.tweetView.beginningOfDocument, offset: selectedRange.location)
-            let range = self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Right.rawValue as UITextDirection))
-                ?? self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Left.rawValue as UITextDirection))
-            
-            //if there is a nearest word (range exists), select the nearest word
-            if range != nil {
-                let start = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.start)
-                let end = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.end)
-                self.tweetView.selectedRange = NSMakeRange(start, end-start)
-                selectedRange = self.tweetView.selectedRange
-            } else { //if we can't get the nearest word, just select everything
-                self.tweetView.selectedRange = NSMakeRange(0, self.tweetView.attributedText.length)
-                selectedRange = self.tweetView.selectedRange
-            }
-        }
-        
-        //decrease if negative, else increase
-        if sender.tag < 0 {
-            self.tweetView.decreaseSize(self)
-        } else if sender.tag > 0 {
-            self.tweetView.increaseSize(self)
-        }
-        
-        self.textViewDidChange(self.tweetView) //text changed
-    }
-    
     @IBAction func changeColor(sender : UIBarButtonItem) {
         self.tweetView.resignFirstResponder()
         let popoverVC = storyboard?.instantiateViewControllerWithIdentifier("colorPickerPopover") as! ColorPickerViewController
@@ -445,8 +472,8 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     }
     
     func colorPicked(sender : ColorPickerViewController, color : UIColor) {
+        //TODO: Make this change optionsView colors
         if sender.callerTag! == 0 { //background color
-            self.backgroundButton.tintColor = color
             self.tweetView.backgroundColor = color //set the background color
             self.view.backgroundColor = color //set the background color (of view)
             
@@ -484,11 +511,8 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
                     var attribute = ""
                     if sender.callerTag! == 1 {
                         attribute = NSForegroundColorAttributeName
-                        
-                        self.colorButton.tintColor = color //set the button color
                     } else if sender.callerTag! == 2 {
                         attribute = NSBackgroundColorAttributeName
-                        self.highlightButton.tintColor = color //set the button color
                     }
                     newAttributes[attribute] = color
                     
@@ -525,7 +549,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         fontPicker.addAction(Cancel)
         
         if (UIDevice.currentDevice().model.hasPrefix("iPad")) {
-            fontPicker.popoverPresentationController!.barButtonItem = self.fontButton
+//            fontPicker.popoverPresentationController!.barButtonItem = self.fontButton
         }
         self.presentViewController(fontPicker, animated: true, completion: nil)
     }
@@ -600,43 +624,133 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         self.tweetView.becomeFirstResponder()
     }
     
-    @IBAction func changeAlignment(sender : UIBarButtonItem) {
-        self.tweetView.resignFirstResponder()
-        let alignPicker = UIAlertController(title: "Pick an Alignment...", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
-        let Left    = UIAlertAction(title: "Left", style: UIAlertActionStyle.Default, handler: alignPicked)
-        let Right   = UIAlertAction(title: "Right", style: UIAlertActionStyle.Default, handler: alignPicked)
-        let Center  = UIAlertAction(title: "Center", style: UIAlertActionStyle.Default, handler: alignPicked)
-        let Justify = UIAlertAction(title: "Justify", style: UIAlertActionStyle.Default, handler: alignPicked)
-        let Cancel  = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
-        
-        alignPicker.addAction(Left)
-        alignPicker.addAction(Right)
-        alignPicker.addAction(Center)
-        alignPicker.addAction(Justify)
-        alignPicker.addAction(Cancel)
-        
-        if (UIDevice.currentDevice().model.hasPrefix("iPad")) {
-            alignPicker.popoverPresentationController!.barButtonItem = self.alignmentButton
-        }
-        self.presentViewController(alignPicker, animated: true, completion: nil)
+    func showDefaultSettings() {
+        var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        var vc = storyboard.instantiateViewControllerWithIdentifier("SettingsViewController") as! SettingsViewController
+
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func alignPicked(action : UIAlertAction!) {
-        var alignName = action.title
+    // Override the iPhone behavior that presents a popover as fullscreen
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        // Return no adaptive presentation style, use default presentation behaviour
+        return .None
+    }
+    
+    
+    // Delegate Protocol Implementation
+    
+    
+    func formatSelectedText(format : TextFormat) {
+        editingText = true
+        //get the selected text, if available
+        var selectedRange = self.tweetView.selectedRange
         
+        //if nothing selected, select nearest word
+        if selectedRange.length == 0 {
+            let position = self.tweetView.positionFromPosition(self.tweetView.beginningOfDocument, offset: selectedRange.location)
+            let range = self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Right.rawValue as UITextDirection))
+                ?? self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Left.rawValue as UITextDirection))
+            
+            //if there is a nearest word (range exists), select the nearest word
+            if range != nil {
+                let start = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.start)
+                let end = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.end)
+                self.tweetView.selectedRange = NSMakeRange(start, end-start)
+                selectedRange = self.tweetView.selectedRange
+            } else { //if we can't get the nearest word, just select everything
+                self.tweetView.selectedRange = NSMakeRange(0, self.tweetView.attributedText.length)
+                selectedRange = self.tweetView.selectedRange
+            }
+        }
+        
+        //if there is no text, make changes globally
+        if self.tweetView.text.isEmpty {
+            self.tweetView.selectedRange = NSMakeRange(0, self.tweetView.attributedText.length)
+            selectedRange = self.tweetView.selectedRange
+        }
+        
+        //apply changes
+        switch format {
+        case TextFormat.Bold:
+            self.tweetView.toggleBoldface(self)
+        case TextFormat.Italics:
+            self.tweetView.toggleItalics(self)
+        case TextFormat.Underline:
+            self.tweetView.toggleUnderline(self)
+        default:
+            break
+        }
+        
+        self.textViewDidChange(self.tweetView) //text changed
+        self.tweetView.becomeFirstResponder()
+        editingText = false
+    }
+    
+    func changedFontSizeForSelectedText(#increased : Bool) {
+        editingText = true
+        //get the selected text, if available
+        var selectedRange = self.tweetView.selectedRange
+        
+        //if there is no text, make changes globally
+        if self.tweetView.text.isEmpty {
+            var newFontSize = self.tweetView.font.pointSize
+            if increased && self.tweetView.font.pointSize < 60 {
+                newFontSize = self.tweetView.font.pointSize + 2
+            }
+            if !increased && self.tweetView.font.pointSize > 8 {
+                newFontSize = self.tweetView.font.pointSize - 2
+            }
+            
+            self.tweetView.font = self.tweetView.font.fontWithSize(newFontSize)
+            
+            self.textViewDidChange(self.tweetView) //text changed
+            
+            return //return early
+        }
+        //if nothing selected, select nearest word
+        else if selectedRange.length == 0 {
+            let position = self.tweetView.positionFromPosition(self.tweetView.beginningOfDocument, offset: selectedRange.location)
+            let range = self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Right.rawValue as UITextDirection))
+                ?? self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Left.rawValue as UITextDirection))
+            
+            //if there is a nearest word (range exists), select the nearest word
+            if range != nil {
+                let start = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.start)
+                let end = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.end)
+                self.tweetView.selectedRange = NSMakeRange(start, end-start)
+                selectedRange = self.tweetView.selectedRange
+            } else { //if we can't get the nearest word, just select everything
+                self.tweetView.selectedRange = NSMakeRange(0, self.tweetView.attributedText.length)
+                selectedRange = self.tweetView.selectedRange
+            }
+        }
+        
+        if increased {
+            self.tweetView.increaseSize(self)
+        } else {
+            self.tweetView.decreaseSize(self)
+        }
+        
+        self.textViewDidChange(self.tweetView) //text changed
+        editingText = false
+    }
+    
+    func changedAlignmentForSelectedText(newAlignment : Alignment) {
+        editingText = true
         //extract the actual font; size is just a placeholder
         var alignPicked : NSTextAlignment?
-        switch alignName {
-        case "Left":
+        switch newAlignment {
+        case Alignment.Left:
             alignPicked = NSTextAlignment.Left
-        case "Right":
+        case Alignment.Right:
             alignPicked = NSTextAlignment.Right
-        case "Center":
+        case Alignment.Center:
             alignPicked = NSTextAlignment.Center
-        case "Justify":
+        case Alignment.Justify:
             alignPicked = NSTextAlignment.Justified
         default:
-            alignPicked = NSTextAlignment.Right
+            alignPicked = NSTextAlignment.Left
         }
         
         //get the selected text, if available
@@ -685,105 +799,21 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             self.tweetView.selectedRange = selectedRange
         }
         
-        self.alignmentButton!.image = alignPicked!.image()
         self.textViewDidChange(self.tweetView) //text changed
         self.tweetView.becomeFirstResponder()
+        editingText = false
     }
     
-    @IBAction func changeFormatting() {
-        self.tweetView.resignFirstResponder()
-        let formatPicker = UIAlertController(title: "Toggle Styles", message: "Select to Add or Remove Style", preferredStyle: UIAlertControllerStyle.ActionSheet)
-        let Bold      = UIAlertAction(title: "Bold", style: UIAlertActionStyle.Default, handler: formatPicked)
-        let Italicize = UIAlertAction(title: "Italicize", style: UIAlertActionStyle.Default, handler: formatPicked)
-        let Underline = UIAlertAction(title: "Underline", style: UIAlertActionStyle.Default, handler: formatPicked)
+    func highlightSelectedText() {
         
-        formatPicker.addAction(Bold)
-        formatPicker.addAction(Italicize)
-        formatPicker.addAction(Underline)
-        
-        if (UIDevice.currentDevice().model.hasPrefix("iPad")) {
-            formatPicker.popoverPresentationController!.barButtonItem = self.formatButton
-        }
-        self.presentViewController(formatPicker, animated: true, completion: nil)
     }
     
-    func formatPicked(action : UIAlertAction!) {
-        //get the selected text, if available
-        var selectedRange = self.tweetView.selectedRange
-        
-        //if nothing selected, select nearest word
-        if selectedRange.length == 0 {
-            let position = self.tweetView.positionFromPosition(self.tweetView.beginningOfDocument, offset: selectedRange.location)
-            let range = self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Right.rawValue as UITextDirection))
-                ?? self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Left.rawValue as UITextDirection))
-            
-            //if there is a nearest word (range exists), select the nearest word
-            if range != nil {
-                let start = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.start)
-                let end = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.end)
-                self.tweetView.selectedRange = NSMakeRange(start, end-start)
-                selectedRange = self.tweetView.selectedRange
-            } else { //if we can't get the nearest word, just select everything
-                self.tweetView.selectedRange = NSMakeRange(0, self.tweetView.attributedText.length)
-                selectedRange = self.tweetView.selectedRange
-            }
-        }
-        
-        //if there is no text, make changes globally
-        if self.tweetView.text.isEmpty {
-            self.tweetView.selectedRange = NSMakeRange(0, self.tweetView.attributedText.length)
-            selectedRange = self.tweetView.selectedRange
-        }
-        
-        //apply changes
-        var formatName = action.title
-        switch formatName {
-        case "Bold":
-            self.tweetView.toggleBoldface(self)
-        case "Italicize":
-            self.tweetView.toggleItalics(self)
-        case "Underline":
-            self.tweetView.toggleUnderline(self)
-        default:
-            break
-        }
-        
-        self.textViewDidChange(self.tweetView) //text changed
-        self.tweetView.becomeFirstResponder()
+    func colorSelectedText() {
+    
     }
     
-    //bar button action
-    func resetToDefaults() {
-        self.tweetView.resignFirstResponder()
-        var reset = UIAlertController(title: "Are you sure?", message: "This will reset the all text formatting to default, removing custom fonts, styling, alignment, etc.", preferredStyle: UIAlertControllerStyle.Alert)
-        
-        var yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) { (action) -> Void in
-            self.setTweetViewDefaults()
-            self.textViewDidChange(self.tweetView) //text changed
-            self.tweetView.becomeFirstResponder()
-        }
-        
-        var cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) { (action) -> Void in
-            self.tweetView.becomeFirstResponder()
-            return
-        }
-        
-        reset.addAction(yes)
-        reset.addAction(cancel)
-        self.presentViewController(reset, animated: true, completion: nil)
-    }
+    func changeBackgroundColor() {
     
-    func showDefaultSettings() {
-        var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-        var vc = storyboard.instantiateViewControllerWithIdentifier("SettingsViewController") as! SettingsViewController
-
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    // Override the iPhone behavior that presents a popover as fullscreen
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        // Return no adaptive presentation style, use default presentation behaviour
-        return .None
     }
 }
 

@@ -225,7 +225,7 @@ class Infinitweet {
         defaults.setBool(true, forKey: self.currentDefaultKey())
         defaults.setObject("Left", forKey: "Alignment")
         defaults.setObject("Helvetica", forKey: "FontName")
-        defaults.setInteger(14, forKey: "FontSize")
+        defaults.setInteger(22, forKey: "FontSize")
         
         let whiteColor = [CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(1)]
         let blackColor = [CGFloat(1), CGFloat(1), CGFloat(1), CGFloat(1)]
