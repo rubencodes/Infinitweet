@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		453C8A241B295249000FBD1F /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D568E31B2757A9009C536F /* OptionsView.swift */; };
+		3BE3E0E6CAF3D84E41023412 /* libPods-InfiniTweet Action.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 842058277B3AD87D4789406F /* libPods-InfiniTweet Action.a */; };
 		453C8A251B29524D000FBD1F /* OptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45D568E11B2754A8009C536F /* OptionsView.xib */; };
 		453C8A261B2955FB000FBD1F /* ColorOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45EB8F071B28A36800745B55 /* ColorOptionsView.xib */; };
 		453C8A271B2955FE000FBD1F /* ColorOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EB8F051B288EBE00745B55 /* ColorOptionsView.swift */; };
@@ -39,6 +39,8 @@
 		45D568E41B2757A9009C536F /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D568E31B2757A9009C536F /* OptionsView.swift */; };
 		45EB8F061B288EBE00745B55 /* ColorOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EB8F051B288EBE00745B55 /* ColorOptionsView.swift */; };
 		45EB8F081B28A36800745B55 /* ColorOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45EB8F071B28A36800745B55 /* ColorOptionsView.xib */; };
+		45EBE84B1B2A281C00014B55 /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D568E31B2757A9009C536F /* OptionsView.swift */; };
+		DB12BD7E18EC70023FBFCDC7 /* libPods-InfiniTweet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A67A0F5BE95CC7BB5D850EF0 /* libPods-InfiniTweet.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +90,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3B586384E4461B0B7D744EED /* Pods-InfiniTweet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfiniTweet.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InfiniTweet/Pods-InfiniTweet.debug.xcconfig"; sourceTree = "<group>"; };
 		4555B5351A77EE6700C14F21 /* InfiniTweet Action.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "InfiniTweet Action.entitlements"; sourceTree = SOURCE_ROOT; };
 		4555B5361A77EE9100C14F21 /* InfiniTweet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = InfiniTweet.entitlements; sourceTree = "<group>"; };
 		457CCABD1ACCA91E00C10B56 /* Preprocessing.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Preprocessing.js; sourceTree = "<group>"; };
@@ -131,6 +134,12 @@
 		45D568E31B2757A9009C536F /* OptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
 		45EB8F051B288EBE00745B55 /* ColorOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorOptionsView.swift; sourceTree = "<group>"; };
 		45EB8F071B28A36800745B55 /* ColorOptionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorOptionsView.xib; sourceTree = "<group>"; };
+		45EBE84A1B2A1FD200014B55 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		76E796DA5CE39448AFCB1FAD /* Pods-InfiniTweet Action.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfiniTweet Action.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InfiniTweet Action/Pods-InfiniTweet Action.debug.xcconfig"; sourceTree = "<group>"; };
+		842058277B3AD87D4789406F /* libPods-InfiniTweet Action.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-InfiniTweet Action.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A67A0F5BE95CC7BB5D850EF0 /* libPods-InfiniTweet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-InfiniTweet.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5E4A56D24ED3A4C95F20AD2 /* Pods-InfiniTweet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfiniTweet.release.xcconfig"; path = "Pods/Target Support Files/Pods-InfiniTweet/Pods-InfiniTweet.release.xcconfig"; sourceTree = "<group>"; };
+		BAF8B54D033998DBCA172363 /* Pods-InfiniTweet Action.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfiniTweet Action.release.xcconfig"; path = "Pods/Target Support Files/Pods-InfiniTweet Action/Pods-InfiniTweet Action.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +147,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB12BD7E18EC70023FBFCDC7 /* libPods-InfiniTweet.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,6 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BE3E0E6CAF3D84E41023412 /* libPods-InfiniTweet Action.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,6 +176,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		13D021F343895ECC808BFD4A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3B586384E4461B0B7D744EED /* Pods-InfiniTweet.debug.xcconfig */,
+				B5E4A56D24ED3A4C95F20AD2 /* Pods-InfiniTweet.release.xcconfig */,
+				76E796DA5CE39448AFCB1FAD /* Pods-InfiniTweet Action.debug.xcconfig */,
+				BAF8B54D033998DBCA172363 /* Pods-InfiniTweet Action.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		459383871AA6C627006F272D /* Infinitweet Desktop */ = {
 			isa = PBXGroup;
 			children = (
@@ -206,6 +228,7 @@
 		45B0D4F01A56590B00B4B500 = {
 			isa = PBXGroup;
 			children = (
+				45EBE84A1B2A1FD200014B55 /* Bridging-Header.h */,
 				45B0D4FB1A56590B00B4B500 /* InfiniTweet */,
 				45B0D5111A56590B00B4B500 /* InfiniTweetTests */,
 				45B0D5231A566D1A00B4B500 /* InfiniTweet Action */,
@@ -214,6 +237,8 @@
 				459383871AA6C627006F272D /* Infinitweet Desktop */,
 				4593839A1AA6C627006F272D /* Infinitweet DesktopTests */,
 				45B0D4FA1A56590B00B4B500 /* Products */,
+				13D021F343895ECC808BFD4A /* Pods */,
+				7819828E860E9CDDC78DD4DD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -335,6 +360,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		7819828E860E9CDDC78DD4DD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A67A0F5BE95CC7BB5D850EF0 /* libPods-InfiniTweet.a */,
+				842058277B3AD87D4789406F /* libPods-InfiniTweet Action.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -342,10 +376,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 45B0D5181A56590B00B4B500 /* Build configuration list for PBXNativeTarget "InfiniTweet" */;
 			buildPhases = (
+				F74A918204B6D98381A3727D /* Check Pods Manifest.lock */,
 				45B0D4F51A56590B00B4B500 /* Sources */,
 				45B0D4F61A56590B00B4B500 /* Frameworks */,
 				45B0D4F71A56590B00B4B500 /* Resources */,
 				45B0D5301A566D1A00B4B500 /* Embed App Extensions */,
+				9B783053919D693F02F27B41 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -380,9 +416,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 45B0D52D1A566D1A00B4B500 /* Build configuration list for PBXNativeTarget "InfiniTweet Action" */;
 			buildPhases = (
+				417CE0F066B72922E2190B82 /* Check Pods Manifest.lock */,
 				45B0D51E1A566D1A00B4B500 /* Sources */,
 				45B0D51F1A566D1A00B4B500 /* Frameworks */,
 				45B0D5201A566D1A00B4B500 /* Resources */,
+				0FC3CEB8A50A4736AC04836D /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -546,6 +584,69 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0FC3CEB8A50A4736AC04836D /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-InfiniTweet Action/Pods-InfiniTweet Action-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		417CE0F066B72922E2190B82 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		9B783053919D693F02F27B41 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-InfiniTweet/Pods-InfiniTweet-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F74A918204B6D98381A3727D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		45B0D4F51A56590B00B4B500 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -571,10 +672,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				453C8A241B295249000FBD1F /* OptionsView.swift in Sources */,
 				458D7CBA1AA394AA00D7D769 /* Infinitweet.swift in Sources */,
 				45B0D5271A566D1A00B4B500 /* ActionViewController.swift in Sources */,
 				453C8A271B2955FE000FBD1F /* ColorOptionsView.swift in Sources */,
+				45EBE84B1B2A281C00014B55 /* OptionsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -691,6 +792,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Infinitweet;
 				SDKROOT = iphoneos;
+				SWIFT_INCLUDE_PATHS = "Pods/**";
+				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -727,12 +830,15 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = Infinitweet;
 				SDKROOT = iphoneos;
+				SWIFT_INCLUDE_PATHS = "Pods/**";
+				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		45B0D5191A56590B00B4B500 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3B586384E4461B0B7D744EED /* Pods-InfiniTweet.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = InfiniTweet/InfiniTweet.entitlements;
@@ -748,12 +854,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		45B0D51A1A56590B00B4B500 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B5E4A56D24ED3A4C95F20AD2 /* Pods-InfiniTweet.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = InfiniTweet/InfiniTweet.entitlements;
@@ -769,6 +877,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -809,6 +918,7 @@
 		};
 		45B0D52E1A566D1A00B4B500 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 76E796DA5CE39448AFCB1FAD /* Pods-InfiniTweet Action.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -830,6 +940,7 @@
 		};
 		45B0D52F1A566D1A00B4B500 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BAF8B54D033998DBCA172363 /* Pods-InfiniTweet Action.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

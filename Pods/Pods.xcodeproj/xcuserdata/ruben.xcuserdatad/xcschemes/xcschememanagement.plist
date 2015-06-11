@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>Pods-InfiniTweet Action-pop.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-InfiniTweet Action.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-InfiniTweet-pop.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-InfiniTweet.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>19CE9F868DE04F67463858CD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B300B595FFC07F3932D1AA64</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C7A2C4EA125654418945BBA4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CD3D8036C99E794B22B3D06C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>

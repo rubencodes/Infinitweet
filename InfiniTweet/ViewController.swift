@@ -310,10 +310,9 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             optionsView!.frame = hiddenFrame
             updateOptionsView()
             
-            let transform = CGAffineTransformMakeTranslation(0, -optionsView!.minSize.height)
-            UIView.animateWithDuration(0.2, animations: { () -> Void in
-                self.optionsView!.transform = transform
-            })
+            var animation = POPSpringAnimation(propertyNamed: kPOPViewFrame)
+            animation.toValue = NSValue(CGRect: CGRectMake(0, self.view.frame.size.height-optionsView!.minSize.height, self.view.frame.size.width, optionsView!.minSize.height))
+            optionsView!.pop_addAnimation(animation, forKey: "optionsIn")
         } else {
             self.hideOptionsView()
         }
@@ -322,17 +321,16 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     func hideOptionsView() {
         if optionsAreShown {
             optionsViewWillHide()
-            
             self.tweetView.resignFirstResponder()
             
-            let transform = CGAffineTransformMakeTranslation(0, 0)
-            UIView.animateWithDuration(0.2, animations: { () -> Void in
-                self.optionsView!.transform = transform
-                }) { (Bool) in
-                    self.tweetView.becomeFirstResponder()
-                    self.optionsView!.removeFromSuperview()
-                    self.optionsAreShown = false
+            var animation = POPSpringAnimation(propertyNamed: kPOPViewFrame)
+            animation.toValue = NSValue(CGRect: CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, optionsView!.minSize.height))
+            animation.completionBlock = { animation, finished in
+                self.tweetView.becomeFirstResponder()
+                self.optionsView!.removeFromSuperview()
+                self.optionsAreShown = false
             }
+            optionsView!.pop_addAnimation(animation, forKey: "optionsOut")
         }
     }
     

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import QuartzCore
 
 class OptionsView : UIView, TextOptionsDelegate, ColorOptionsViewDelegate {
     var minSize = CGRectMake(0, 0, 300, 274)
@@ -146,11 +147,9 @@ class OptionsView : UIView, TextOptionsDelegate, ColorOptionsViewDelegate {
         self.addSubview(colorOptionsView)
         visibleColorOptions.append(colorOptionsView)
         
-        let transform = CGAffineTransformMakeTranslation(-row.frame.width, 0)
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            colorOptionsView.transform = transform
-            row.transform = transform
-        })
+        var animation = POPSpringAnimation(propertyNamed: kPOPViewCenter)
+        animation.toValue = NSValue(CGPoint: CGPointMake(row.center.x, row.center.y))
+        colorOptionsView.pop_addAnimation(animation, forKey: "colorsIn")
     }
     
     func hideColorOptionsView(view : ColorOptionsView) {
@@ -166,14 +165,13 @@ class OptionsView : UIView, TextOptionsDelegate, ColorOptionsViewDelegate {
             break
         }
         
-        let transform = CGAffineTransformMakeTranslation(0, 0)
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            view.transform = transform
-            row!.transform = transform
-        }) { (Bool) in
+        var animation = POPSpringAnimation(propertyNamed: kPOPViewCenter)
+        animation.toValue = NSValue(CGPoint: CGPointMake(view.center.x + view.frame.size.width, view.center.y))
+        animation.completionBlock = { animation, finished in
             view.removeFromSuperview()
             self.visibleColorOptions.removeAtIndex(0)
         }
+        view.pop_addAnimation(animation, forKey: "colorsOut")
     }
 }
 
