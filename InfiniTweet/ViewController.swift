@@ -19,6 +19,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     var keyboardIsShown : Bool = false
     var optionsAreShown : Bool = false
     var editingText : Bool = false
+    var barButtonItemShouldAnimate : Bool = false
     
     //cache of last known state
     let cache = (NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String).stringByAppendingPathComponent("lastKnownState.infinitweet")
@@ -72,6 +73,12 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             self.restoreLastKnownState()
             //then just focus on the textview
             self.tweetView.becomeFirstResponder()
+        }
+        
+        if !defaults.boolForKey("userHasPressedOptionsButton") {
+            println("User hasn't pressed button, animate it")
+            barButtonItemShouldAnimate = true
+            self.animateBarButtonTint(self.optionsButton!)
         }
     }
     
@@ -290,6 +297,15 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     
     func showOptionsView() {
         if !optionsAreShown {
+            var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
+            
+            if !defaults.boolForKey("userHasPressedOptionsButton") {
+                barButtonItemShouldAnimate = false
+                optionsButton!.tintColor = UIColor.darkGrayColor()
+                defaults.setBool(true, forKey: "userHasPressedOptionsButton")
+                defaults.synchronize()
+            }
+            
             optionsViewWillShow()
             
             let window = UIApplication.sharedApplication().windows.last! as! UIWindow
@@ -369,6 +385,22 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         }
         
         self.delegate!.selectedTextHasProperties(textFont!, alignment: alignment!, highlight: highlightColor, color: textColor!, background: self.view.backgroundColor!)
+    }
+    
+    func animateBarButtonTint(barButton : UIBarButtonItem) {
+        if barButtonItemShouldAnimate {
+            var r = CGFloat(Float(arc4random()) / Float(UINT32_MAX))
+            var g = CGFloat(Float(arc4random()) / Float(UINT32_MAX))
+            var b = CGFloat(Float(arc4random()) / Float(UINT32_MAX))
+            
+            var animation = POPBasicAnimation(propertyNamed: kPOPViewTintColor)
+            animation.toValue = UIColor(red: r, green: g, blue: b, alpha: 1).CGColor
+            animation.duration = 1.0
+            animation.completionBlock = { animation in
+                self.animateBarButtonTint(barButton)
+            }
+            barButton.pop_addAnimation(animation, forKey: "changeTint")
+        }
     }
     
     //user moved the cursor; update option buttons to match current formatting
