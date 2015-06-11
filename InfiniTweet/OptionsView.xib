@@ -55,10 +55,10 @@
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="0ZB-xB-zg0">
                     <rect key="frame" x="8" y="44" width="584" height="29"/>
                     <segments>
-                        <segment title="Left"/>
-                        <segment title="Center"/>
-                        <segment title="Right"/>
-                        <segment title="Justify"/>
+                        <segment title="" image="align-left"/>
+                        <segment title="" image="align-center"/>
+                        <segment title="" image="align-left"/>
+                        <segment title="" image="align-justified"/>
                     </segments>
                     <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
@@ -276,6 +276,11 @@
             </connections>
         </tapGestureRecognizer>
     </objects>
+    <resources>
+        <image name="align-center" width="40" height="40"/>
+        <image name="align-justified" width="40" height="40"/>
+        <image name="align-left" width="40" height="40"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

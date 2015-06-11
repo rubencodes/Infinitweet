@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D113c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ObA-dk-sSI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E26a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ObA-dk-sSI">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -19,18 +19,13 @@
                         <subviews>
                             <navigationBar contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="NOA-Dm-cuz">
                                 <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <items>
                                     <navigationItem title="Infinitweet" id="3HJ-uW-3hn">
                                         <barButtonItem key="leftBarButtonItem" title="Done" style="done" id="WYi-yp-eM6">
                                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="done" destination="ObA-dk-sSI" id="Qdu-qn-U6V"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="g7U-GB-Bgh">
-                                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                            <connections>
-                                                <action selector="shareInfinitweet" destination="ObA-dk-sSI" id="4c4-GU-dMl"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -40,94 +35,36 @@
                                 </connections>
                             </navigationBar>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1OX-aA-5bT">
-                                <rect key="frame" x="16" y="122" width="288" height="406"/>
+                                <rect key="frame" x="16" y="75" width="288" height="453"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes"/>
                             </textView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qw6-lr-8FL">
-                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="600" id="7Io-e3-dCw"/>
-                                </constraints>
-                                <items>
-                                    <barButtonItem image="align-left" width="28" id="rCW-Wk-W2J">
-                                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="3" maxY="0.0"/>
-                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="changeAlignment:" destination="ObA-dk-sSI" id="cXr-BN-cZe"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem image="font" width="28" id="1jv-Hv-t44">
-                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="changeFont" destination="ObA-dk-sSI" id="mJb-nB-NPL"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem image="format" width="28" id="uDH-Rq-Sgz">
-                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="changeFormatting" destination="ObA-dk-sSI" id="oGg-pw-Bx7"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem tag="2" image="increase" width="27" id="Lb8-Z3-7nM">
-                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="changeTextSize:" destination="ObA-dk-sSI" id="YMm-RR-qio"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem tag="-2" image="decrease" width="27" id="Cq6-8X-nm5">
-                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="changeTextSize:" destination="ObA-dk-sSI" id="ODQ-4y-ZNv"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem image="background" width="28" id="guG-Vf-bYX">
-                                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="changeColor:" destination="ObA-dk-sSI" id="sFt-i7-3nj"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem tag="1" image="foreground" width="28" id="6Wg-ua-tmT">
-                                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="changeColor:" destination="ObA-dk-sSI" id="Fw5-3x-a1y"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem tag="2" image="highlight" width="28" id="3Rf-qw-hDg">
-                                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="changeColor:" destination="ObA-dk-sSI" id="lLc-3B-QaD"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                                <color key="barTintColor" white="0.91691509049999997" alpha="1" colorSpace="calibratedWhite"/>
-                            </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k25-cl-mZe">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="1OX-aA-5bT" firstAttribute="centerX" secondItem="NOA-Dm-cuz" secondAttribute="centerX" id="4bd-kR-Htp"/>
-                            <constraint firstItem="qw6-lr-8FL" firstAttribute="top" secondItem="NOA-Dm-cuz" secondAttribute="bottom" id="6OA-Xo-JZy"/>
                             <constraint firstAttribute="trailing" secondItem="NOA-Dm-cuz" secondAttribute="trailing" id="A05-Pj-hrr"/>
+                            <constraint firstItem="k25-cl-mZe" firstAttribute="leading" secondItem="NOA-Dm-cuz" secondAttribute="leading" id="GqH-re-5OX"/>
                             <constraint firstItem="NOA-Dm-cuz" firstAttribute="leading" secondItem="zMn-AG-sqS" secondAttribute="leading" id="HxO-8t-aoh"/>
                             <constraint firstItem="1OX-aA-5bT" firstAttribute="leading" secondItem="zMn-AG-sqS" secondAttribute="leadingMargin" id="Kwe-3T-HYB"/>
-                            <constraint firstItem="1OX-aA-5bT" firstAttribute="top" secondItem="NOA-Dm-cuz" secondAttribute="bottom" constant="58" id="ibM-wm-xwd"/>
+                            <constraint firstItem="k25-cl-mZe" firstAttribute="bottom" secondItem="NOA-Dm-cuz" secondAttribute="top" id="Mzd-21-C1e"/>
+                            <constraint firstItem="k25-cl-mZe" firstAttribute="trailing" secondItem="NOA-Dm-cuz" secondAttribute="trailing" id="Wb1-oz-Uis"/>
+                            <constraint firstItem="k25-cl-mZe" firstAttribute="top" secondItem="zMn-AG-sqS" secondAttribute="top" id="gcl-GY-3vP"/>
+                            <constraint firstItem="1OX-aA-5bT" firstAttribute="top" secondItem="NOA-Dm-cuz" secondAttribute="bottom" constant="11" id="ibM-wm-xwd"/>
                             <constraint firstAttribute="bottom" secondItem="1OX-aA-5bT" secondAttribute="bottom" id="mna-wq-UoK"/>
-                            <constraint firstItem="qw6-lr-8FL" firstAttribute="leading" secondItem="NOA-Dm-cuz" secondAttribute="leading" id="nRm-1n-BaV"/>
                             <constraint firstItem="NOA-Dm-cuz" firstAttribute="top" secondItem="qkL-Od-lgU" secondAttribute="bottom" id="we0-1t-bgp"/>
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="528"/>
                     <connections>
-                        <outlet property="alignmentButton" destination="rCW-Wk-W2J" id="NNU-Bt-6fb"/>
-                        <outlet property="backgroundButton" destination="guG-Vf-bYX" id="srD-Hz-DKq"/>
-                        <outlet property="colorButton" destination="6Wg-ua-tmT" id="e0F-pm-lAY"/>
-                        <outlet property="fontButton" destination="1jv-Hv-t44" id="tRh-1C-lTC"/>
-                        <outlet property="formatButton" destination="uDH-Rq-Sgz" id="2gf-PZ-ZFC"/>
-                        <outlet property="highlightButton" destination="3Rf-qw-hDg" id="3pm-ct-SVy"/>
-                        <outlet property="shareButton" destination="g7U-GB-Bgh" id="GqT-00-lw6"/>
-                        <outlet property="toolbar" destination="qw6-lr-8FL" id="Vmb-RX-cdm"/>
+                        <outlet property="navBar" destination="NOA-Dm-cuz" id="pKY-gU-0pN"/>
+                        <outlet property="navItem" destination="3HJ-uW-3hn" id="RpO-qk-trK"/>
                         <outlet property="tweetView" destination="1OX-aA-5bT" id="eQ3-x6-2sq"/>
                         <outlet property="view" destination="zMn-AG-sqS" id="Qma-de-2ek"/>
                     </connections>
@@ -1631,14 +1568,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="align-left" width="40" height="40"/>
-        <image name="background" width="40" height="40"/>
-        <image name="decrease" width="40" height="40"/>
-        <image name="font" width="40" height="40"/>
-        <image name="foreground" width="40" height="40"/>
-        <image name="format" width="40" height="40"/>
-        <image name="highlight" width="40" height="40"/>
-        <image name="increase" width="40" height="40"/>
         <image name="palette" width="268" height="430"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

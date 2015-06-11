@@ -158,7 +158,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             buttonTitle = "I'm Ready!"
         } else if part == 3 {
             title = "Congratulations!"
-            message = "You've shared your first Infinitweet! Remember, you can also use our Action Extension to share text from within any app that supports it (e.g. Notes)."
+            message = "You've shared your first Infinitweet! Remember, you can also use our Action Extension to share text from within any app that supports it (e.g. Notes or Safari)."
             buttonTitle = "Cool!"
         }
         
@@ -373,13 +373,10 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         self.delegate!.selectedTextHasProperties(textFont!, alignment: alignment!, highlight: highlightColor, color: textColor!, background: self.view.backgroundColor!)
     }
     
-    //user moved the cursor; update toolbar buttons to match current formatting
+    //user moved the cursor; update option buttons to match current formatting
     func textViewDidChangeSelection(textView: UITextView) {
-        if !editingText {
-//            hideOptionsView()
-            if optionsView != nil {
-                updateOptionsView()
-            }
+        if !editingText && optionsView != nil  {
+            updateOptionsView()
         }
     }
     
@@ -400,6 +397,10 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     //user wants to share the infinitweet
     func shareInfinitweet() {
         if self.tweetView.text != "" { //if text exists
+            if optionsAreShown {
+                hideOptionsView()
+            }
+            
             //get properties for new infinitweet
             let settings = Infinitweet.getDisplaySettings()
             
@@ -758,26 +759,5 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         
         self.textViewDidChange(self.tweetView) //text changed
         editingText = false
-    }
-}
-
-extension NSTextAlignment {
-    func image() -> UIImage {
-        var image : UIImage?
-        switch self {
-        case NSTextAlignment.Left:
-            image = UIImage(named: "align-left")
-        case NSTextAlignment.Right:
-            image = UIImage(named: "align-right")
-        case NSTextAlignment.Center:
-            image = UIImage(named: "align-center")
-        case NSTextAlignment.Justified:
-            image = UIImage(named: "align-justified")
-        default:
-            image = UIImage(named: "align-left")
-            break
-        }
-        
-        return image!
     }
 }

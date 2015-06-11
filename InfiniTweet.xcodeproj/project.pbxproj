@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		453C8A241B295249000FBD1F /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D568E31B2757A9009C536F /* OptionsView.swift */; };
+		453C8A251B29524D000FBD1F /* OptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45D568E11B2754A8009C536F /* OptionsView.xib */; };
+		453C8A261B2955FB000FBD1F /* ColorOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45EB8F071B28A36800745B55 /* ColorOptionsView.xib */; };
+		453C8A271B2955FE000FBD1F /* ColorOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EB8F051B288EBE00745B55 /* ColorOptionsView.swift */; };
 		455DAC761ACCB43E00B4723B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45B0D5051A56590B00B4B500 /* Images.xcassets */; };
 		457CCABE1ACCA91E00C10B56 /* Preprocessing.js in Resources */ = {isa = PBXBuildFile; fileRef = 457CCABD1ACCA91E00C10B56 /* Preprocessing.js */; };
 		458D7CB41AA03B6F00D7D769 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB31AA03B6F00D7D769 /* AlertViewController.swift */; };
@@ -517,6 +521,8 @@
 				45B0D5291A566D1A00B4B500 /* MainInterface.storyboard in Resources */,
 				455DAC761ACCB43E00B4723B /* Images.xcassets in Resources */,
 				457CCABE1ACCA91E00C10B56 /* Preprocessing.js in Resources */,
+				453C8A251B29524D000FBD1F /* OptionsView.xib in Resources */,
+				453C8A261B2955FB000FBD1F /* ColorOptionsView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,8 +571,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				453C8A241B295249000FBD1F /* OptionsView.swift in Sources */,
 				458D7CBA1AA394AA00D7D769 /* Infinitweet.swift in Sources */,
 				45B0D5271A566D1A00B4B500 /* ActionViewController.swift in Sources */,
+				453C8A271B2955FE000FBD1F /* ColorOptionsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
