@@ -9,10 +9,11 @@
 import Foundation
 import UIKit
 
-class OptionsView : UIView, TextOptionsDelegate {
-    var minSize = CGRectMake(0, 0, 300, 300)
+class OptionsView : UIView, TextOptionsDelegate, ColorOptionsViewDelegate {
+    var minSize = CGRectMake(0, 0, 300, 274)
     var delegate : OptionsViewDelegate!
-    @IBOutlet var fontLabel : UILabel!
+    var visibleColorOptions : [ColorOptionsView] = []
+
     @IBOutlet var colorLabel : UILabel!
     @IBOutlet var backgroundLabel : UILabel!
     @IBOutlet var highlightLabel : UILabel!
@@ -20,6 +21,10 @@ class OptionsView : UIView, TextOptionsDelegate {
     @IBOutlet var italicsButton : UIButton!
     @IBOutlet var underlineButton : UIButton!
     @IBOutlet var alignmentControl : UISegmentedControl!
+    @IBOutlet var fontControl : UISegmentedControl!
+    @IBOutlet var highlightRow : UIView!
+    @IBOutlet var colorRow : UIView!
+    @IBOutlet var backgroundRow : UIView!
     
     var currentFontSize : Double = 500.0
     
@@ -37,16 +42,48 @@ class OptionsView : UIView, TextOptionsDelegate {
         currentFontSize = sender.value
     }
     
-    @IBAction func highlightButtonTapped() {
+    @IBAction func colorButtonTapped(sender : UITapGestureRecognizer) {
+        if visibleColorOptions.count > 0 {
+            self.hideColorOptionsView(visibleColorOptions.first!)
+        }
         
+        var row : UIView?
+        var attribute : ColorAttribute?
+        
+        switch ColorAttribute(rawValue: sender.view!.tag)! {
+        case ColorAttribute.Text:
+            row = self.colorRow
+            attribute = ColorAttribute.Text
+        case ColorAttribute.Background:
+            row = self.backgroundRow
+            attribute = ColorAttribute.Background
+        case ColorAttribute.Highlight:
+            row = self.highlightRow
+            attribute = ColorAttribute.Highlight
+        default:
+            break
+        }
+        
+        if row != nil && attribute != nil {
+            showColorOptionsViewInPlaceOfRow(row!, tag: attribute!.rawValue)
+        }
     }
     
-    @IBAction func fontColorButtonTapped() {
-    
-    }
-    
-    @IBAction func fontButtonTapped() {
-    
+    @IBAction func fontChanged(sender : UISegmentedControl) {
+        var newFont : UIFont?
+        switch Font(rawValue: sender.selectedSegmentIndex)! {
+        case Font.Sans:
+            newFont = UIFont(name: "Helvetica", size: 12)
+        case Font.Serif:
+            newFont = UIFont(name: "Times New Roman", size: 12)
+        case Font.Mono:
+            newFont = UIFont(name: "Courier New", size: 12)
+        default:
+            newFont = UIFont(name: "Helvetica", size: 12)
+            break
+        }
+        
+        self.delegate.changedFontForSelectedText(newFont!)
     }
     
     @IBAction func alignmentChanged(sender : UISegmentedControl) {
@@ -54,22 +91,18 @@ class OptionsView : UIView, TextOptionsDelegate {
     }
     
     func selectedTextHasProperties(font : UIFont, alignment : NSTextAlignment, highlight : UIColor?, color : UIColor, background : UIColor) {
-        self.fontLabel!.text = font.familyName
         
-        switch alignment {
-        case NSTextAlignment.Left:
-            alignmentControl.selectedSegmentIndex = 0
-        case NSTextAlignment.Center:
-            alignmentControl.selectedSegmentIndex = 1
-        case NSTextAlignment.Right:
-            alignmentControl.selectedSegmentIndex = 2
-        case NSTextAlignment.Justified:
-            alignmentControl.selectedSegmentIndex = 3
-        default:
-            alignmentControl.selectedSegmentIndex = 0
+        if font.familyName == "Helvetica" {
+            fontControl.selectedSegmentIndex = Font.Sans.rawValue
+        } else if font.familyName == "Times New Roman" {
+            fontControl.selectedSegmentIndex = Font.Serif.rawValue
+        } else {
+            fontControl.selectedSegmentIndex = Font.Mono.rawValue
         }
         
-        self.highlightLabel!.text = highlight != nil ? highlight?.colorName() : "No Highlight"
+        alignmentControl.selectedSegmentIndex = alignment.rawValue
+                
+        self.highlightLabel!.text = highlight != nil ? highlight!.colorName() : "Transparent"
         self.colorLabel!.text = color.colorName()
         self.backgroundLabel!.text = background.colorName()
         
@@ -97,41 +130,57 @@ class OptionsView : UIView, TextOptionsDelegate {
 //            underlineButton!.tintColor = UIColor.darkGrayColor()
 //        }
     }
-}
-
-extension UIColor {
-    func colorName() -> String? {
-        let color = self.toCGFloatArray()
+    
+    func colorWasSelected(color: UIColor, sender: ColorOptionsView) {
+        self.delegate.changedColorTo(color, forColorAttribute: ColorAttribute(rawValue: sender.tag)!)
         
-        let black = [0, 0, 0] as [CGFloat]
-        let white = [1, 1, 1] as [CGFloat]
-        let red   = [255/255, 60/255, 60/255]
-        let blue  = [0/255, 130/255, 255/255]
-        let pink  = [255/255, 110/255, 210/255]
-        let green = [30/255, 200/255, 0/255]
-        let orange = [255/255, 180/25, 0]
-        let yellow = [255/255, 255/255, 30/255]
+        hideColorOptionsView(sender)
+    }
+    
+    func showColorOptionsViewInPlaceOfRow(row : UIView, tag : Int) {
+        var colorOptionsView = NSBundle.mainBundle().loadNibNamed("ColorOptionsView", owner: self, options: nil).first as! ColorOptionsView
         
-        if color == black {
-            return "Black"
-        } else if color == white {
-            return "White"
-        } else if color == red {
-            return "Red"
-        } else if color == blue {
-            return "Blue"
-        } else if color == pink {
-            return "Pink"
-        } else if color == green {
-            return "Green"
-        } else if color == orange {
-            return "Orange"
-        } else if color == yellow {
-            return "Yellow"
-        } else {
-            return nil
+        colorOptionsView.delegate = self
+        colorOptionsView.tag = tag
+        colorOptionsView.frame = CGRectMake(row.frame.width, row.frame.origin.y, row.frame.width, row.frame.height)
+        self.addSubview(colorOptionsView)
+        visibleColorOptions.append(colorOptionsView)
+        
+        let transform = CGAffineTransformMakeTranslation(-row.frame.width, 0)
+        UIView.animateWithDuration(0.2, animations: { () -> Void in
+            colorOptionsView.transform = transform
+            row.transform = transform
+        })
+    }
+    
+    func hideColorOptionsView(view : ColorOptionsView) {
+        var row : UIView?
+        switch ColorAttribute(rawValue: view.tag)! {
+        case ColorAttribute.Text:
+            row = self.colorRow
+        case ColorAttribute.Background:
+            row = self.backgroundRow
+        case ColorAttribute.Highlight:
+            row = self.highlightRow
+        default:
+            break
+        }
+        
+        let transform = CGAffineTransformMakeTranslation(0, 0)
+        UIView.animateWithDuration(0.2, animations: { () -> Void in
+            view.transform = transform
+            row!.transform = transform
+        }) { (Bool) in
+            view.removeFromSuperview()
+            self.visibleColorOptions.removeAtIndex(0)
         }
     }
+}
+
+enum Font: Int {
+    case Sans = 0
+    case Serif = 1
+    case Mono = 2
 }
 
 enum Alignment: Int {
@@ -147,6 +196,12 @@ enum TextFormat: Int {
     case Underline = 2
 }
 
+enum ColorAttribute: Int {
+    case Text = 0
+    case Background = 1
+    case Highlight = 2
+}
+
 protocol TextOptionsDelegate {
     func selectedTextHasProperties(font : UIFont, alignment : NSTextAlignment, highlight : UIColor?, color : UIColor, background : UIColor)
 }
@@ -155,8 +210,6 @@ protocol OptionsViewDelegate {
     func formatSelectedText(format : TextFormat)
     func changedFontSizeForSelectedText(#increased : Bool)
     func changedAlignmentForSelectedText(newAlignment : Alignment)
-    
-    func highlightSelectedText()
-    func colorSelectedText()
-    func changeBackgroundColor()
+    func changedFontForSelectedText(newFont : UIFont)
+    func changedColorTo(color : UIColor, forColorAttribute attribute : ColorAttribute)
 }

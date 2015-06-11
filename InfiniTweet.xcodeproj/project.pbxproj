@@ -7,12 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		455DAC741ACCB33400B4723B /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */; };
-		455DAC751ACCB33800B4723B /* colorPalette.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4567D7931A5A81B900D2D820 /* colorPalette.plist */; };
 		455DAC761ACCB43E00B4723B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45B0D5051A56590B00B4B500 /* Images.xcassets */; };
-		4567D7901A5A7F7800D2D820 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */; };
-		4567D7921A5A801800D2D820 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4567D7911A5A801800D2D820 /* SettingsViewController.swift */; };
-		4567D7941A5A81B900D2D820 /* colorPalette.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4567D7931A5A81B900D2D820 /* colorPalette.plist */; };
 		457CCABE1ACCA91E00C10B56 /* Preprocessing.js in Resources */ = {isa = PBXBuildFile; fileRef = 457CCABD1ACCA91E00C10B56 /* Preprocessing.js */; };
 		458D7CB41AA03B6F00D7D769 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB31AA03B6F00D7D769 /* AlertViewController.swift */; };
 		458D7CB61AA38B7200D7D769 /* Infinitweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB51AA38B7200D7D769 /* Infinitweet.swift */; };
@@ -38,6 +33,8 @@
 		45CC292E1A93E9DD00B36C40 /* Infinitweet WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 45CC29161A93E9DA00B36C40 /* Infinitweet WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		45D568E21B2754A8009C536F /* OptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45D568E11B2754A8009C536F /* OptionsView.xib */; };
 		45D568E41B2757A9009C536F /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D568E31B2757A9009C536F /* OptionsView.swift */; };
+		45EB8F061B288EBE00745B55 /* ColorOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EB8F051B288EBE00745B55 /* ColorOptionsView.swift */; };
+		45EB8F081B28A36800745B55 /* ColorOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45EB8F071B28A36800745B55 /* ColorOptionsView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,9 +86,6 @@
 /* Begin PBXFileReference section */
 		4555B5351A77EE6700C14F21 /* InfiniTweet Action.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "InfiniTweet Action.entitlements"; sourceTree = SOURCE_ROOT; };
 		4555B5361A77EE9100C14F21 /* InfiniTweet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = InfiniTweet.entitlements; sourceTree = "<group>"; };
-		4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
-		4567D7911A5A801800D2D820 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		4567D7931A5A81B900D2D820 /* colorPalette.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = colorPalette.plist; sourceTree = "<group>"; };
 		457CCABD1ACCA91E00C10B56 /* Preprocessing.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Preprocessing.js; sourceTree = "<group>"; };
 		458D7CB31AA03B6F00D7D769 /* AlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		458D7CB51AA38B7200D7D769 /* Infinitweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Infinitweet.swift; sourceTree = "<group>"; };
@@ -131,6 +125,8 @@
 		45CC292A1A93E9DD00B36C40 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		45D568E11B2754A8009C536F /* OptionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptionsView.xib; sourceTree = "<group>"; };
 		45D568E31B2757A9009C536F /* OptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
+		45EB8F051B288EBE00745B55 /* ColorOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorOptionsView.swift; sourceTree = "<group>"; };
+		45EB8F071B28A36800745B55 /* ColorOptionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorOptionsView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,9 +235,8 @@
 				45B0D5021A56590B00B4B500 /* Main.storyboard */,
 				45D568E11B2754A8009C536F /* OptionsView.xib */,
 				45D568E31B2757A9009C536F /* OptionsView.swift */,
-				4567D7911A5A801800D2D820 /* SettingsViewController.swift */,
-				4567D78F1A5A7F7800D2D820 /* ColorPickerViewController.swift */,
-				4567D7931A5A81B900D2D820 /* colorPalette.plist */,
+				45EB8F071B28A36800745B55 /* ColorOptionsView.xib */,
+				45EB8F051B288EBE00745B55 /* ColorOptionsView.swift */,
 				45B0D5051A56590B00B4B500 /* Images.xcassets */,
 				45B0D5071A56590B00B4B500 /* LaunchScreen.xib */,
 				45B0D4FC1A56590B00B4B500 /* Supporting Files */,
@@ -501,9 +496,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				45D568E21B2754A8009C536F /* OptionsView.xib in Resources */,
+				45EB8F081B28A36800745B55 /* ColorOptionsView.xib in Resources */,
 				45B0D5041A56590B00B4B500 /* Main.storyboard in Resources */,
 				45B0D5091A56590B00B4B500 /* LaunchScreen.xib in Resources */,
-				4567D7941A5A81B900D2D820 /* colorPalette.plist in Resources */,
 				45B0D5061A56590B00B4B500 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -521,7 +516,6 @@
 			files = (
 				45B0D5291A566D1A00B4B500 /* MainInterface.storyboard in Resources */,
 				455DAC761ACCB43E00B4723B /* Images.xcassets in Resources */,
-				455DAC751ACCB33800B4723B /* colorPalette.plist in Resources */,
 				457CCABE1ACCA91E00C10B56 /* Preprocessing.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -552,11 +546,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				45B0D5011A56590B00B4B500 /* ViewController.swift in Sources */,
+				45EB8F061B288EBE00745B55 /* ColorOptionsView.swift in Sources */,
 				45B0D4FF1A56590B00B4B500 /* AppDelegate.swift in Sources */,
-				4567D7901A5A7F7800D2D820 /* ColorPickerViewController.swift in Sources */,
 				45D568E41B2757A9009C536F /* OptionsView.swift in Sources */,
 				458D7CB61AA38B7200D7D769 /* Infinitweet.swift in Sources */,
-				4567D7921A5A801800D2D820 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,7 +567,6 @@
 			files = (
 				458D7CBA1AA394AA00D7D769 /* Infinitweet.swift in Sources */,
 				45B0D5271A566D1A00B4B500 /* ActionViewController.swift in Sources */,
-				455DAC741ACCB33400B4723B /* ColorPickerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

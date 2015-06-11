@@ -8,12 +8,11 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentationControllerDelegate, ColorPickerDelegate, OptionsViewDelegate {
+class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentationControllerDelegate, OptionsViewDelegate {
     var delegate : TextOptionsDelegate?
     @IBOutlet var navItem: UINavigationItem!
     @IBOutlet var tweetView: UITextView!
     var clearButton: UIBarButtonItem?
-    var settingsButton: UIBarButtonItem?
     var shareButton: UIBarButtonItem?
     var optionsButton: UIBarButtonItem?
     var optionsView: OptionsView?
@@ -33,16 +32,16 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         navBar.backgroundColor = UIColor.whiteColor()
         navBar.shadowImage = UIImage()
         
-        self.clearButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Trash, target: self, action: "clearTextField")
+        
+//        self.clearButton?.imageInsets = UIEdgeInsets(top: 0, left: -20, bottom: 0, right: 10)
         self.optionsButton = UIBarButtonItem(image: UIImage(named: "format"), style: UIBarButtonItemStyle.Plain, target: self, action: "showOptionsView")
         self.optionsButton?.imageInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 10)
-        
-        self.settingsButton = UIBarButtonItem(image: UIImage(named: "settings"), style: UIBarButtonItemStyle.Plain, target: self, action: "showDefaultSettings")
-        self.settingsButton?.imageInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: -10)
+
+        self.clearButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Trash, target: self, action: "clearTextField")
         self.shareButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "shareInfinitweet")
         
-        self.navItem.setRightBarButtonItems([self.shareButton!, self.settingsButton!], animated: false)
-        self.navItem.setLeftBarButtonItems([self.clearButton!, self.optionsButton!], animated: false)
+        self.navItem.setRightBarButtonItems([self.shareButton!, self.clearButton!], animated: false)
+        self.navItem.setLeftBarButtonItems([self.optionsButton!], animated: false)
         
         var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         //have we set the latest defaults?
@@ -267,36 +266,41 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     }
     
     func showOptionsView() {
-        let window = UIApplication.sharedApplication().windows.last! as! UIWindow
-        
-        if optionsView == nil {
-            optionsView = NSBundle.mainBundle().loadNibNamed("OptionsView", owner: self, options: nil).first as? OptionsView
-            optionsView!.delegate = self
-            self.delegate = optionsView!
+        if !optionsAreShown {
+            let window = UIApplication.sharedApplication().windows.last! as! UIWindow
+            
+            if optionsView == nil {
+                optionsView = NSBundle.mainBundle().loadNibNamed("OptionsView", owner: self, options: nil).first as? OptionsView
+                optionsView!.delegate = self as OptionsViewDelegate
+                self.delegate = optionsView!
+            }
+            
+            optionsAreShown = true
+            
+            let hiddenFrame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, optionsView!.minSize.height)
+            
+            window.addSubview(optionsView!)
+            window.bringSubviewToFront(optionsView!)
+            
+            optionsView!.frame = hiddenFrame
+            updateOptionsView()
+            
+            let transform = CGAffineTransformMakeTranslation(0, -optionsView!.minSize.height)
+            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                self.optionsView!.transform = transform
+            })
+        } else {
+            self.hideOptionsView()
         }
-        
-        optionsAreShown = true
-        
-        let hiddenFrame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, optionsView!.minSize.height)
-        let finalFrame = CGRectMake(0, self.view.frame.size.height - optionsView!.minSize.height, self.view.frame.size.width, optionsView!.minSize.height)
-        
-        window.addSubview(optionsView!)
-        window.bringSubviewToFront(optionsView!)
-        
-        optionsView!.frame = hiddenFrame
-        updateOptionsView()
-        
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.optionsView!.frame = finalFrame
-        })
     }
     
     func hideOptionsView() {
         if optionsAreShown {
-            let hiddenFrame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, optionsView!.minSize.height)
             self.tweetView.resignFirstResponder()
+            
+            let transform = CGAffineTransformMakeTranslation(0, 0)
             UIView.animateWithDuration(0.2, animations: { () -> Void in
-                self.optionsView!.frame = hiddenFrame
+                self.optionsView!.transform = transform
                 }) { (Bool) in
                     self.tweetView.becomeFirstResponder()
                     self.optionsView!.removeFromSuperview()
@@ -306,58 +310,49 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     }
     
     func updateOptionsView() {
+        var textFont : UIFont?
+        var textColor : UIColor?
+        var highlightColor : UIColor?
+        var alignment : NSTextAlignment?
+        
         //gets range with most applicable attributes
         var textRange : NSRange?
         if self.tweetView.attributedText.length > 0 {
             textRange = self.tweetView.selectedRange.location > 0 && self.tweetView.selectedRange.length == 0
                 ? NSMakeRange(self.tweetView.selectedRange.location-1, 1)
                 : NSMakeRange(self.tweetView.selectedRange.location, 1)
-        } else {
-            textRange = NSMakeRange(self.tweetView.selectedRange.location, 0)
+            
+            //for attributes in this range, change toolbar buttons to match,
+            self.tweetView.attributedText.enumerateAttributesInRange(textRange!, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
+                
+                textFont = attributes[NSFontAttributeName] as? UIFont
+                textColor = attributes[NSForegroundColorAttributeName] as? UIColor
+                highlightColor = attributes[NSBackgroundColorAttributeName] as? UIColor
+                if let paragraphStyle = attributes[NSParagraphStyleAttributeName] as? NSParagraphStyle {
+                    alignment = paragraphStyle.alignment
+                }
+            })
+        }
+        if textFont == nil {
+            textFont = self.tweetView.font ?? UIFont.systemFontOfSize(12)
+        }
+        if textColor == nil {
+            textColor = self.tweetView.textColor ?? UIColor.blackColor()
+        }
+        if alignment == nil {
+            alignment = self.tweetView.textAlignment
         }
         
-        var textFont : UIFont?
-        var textColor : UIColor?
-        var highlightColor : UIColor?
-        var alignment : NSTextAlignment?
-        
-        //for attributes in this range, change toolbar buttons to match,
-        self.tweetView.attributedText.enumerateAttributesInRange(textRange!, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
-            
-            if let font = attributes[NSFontAttributeName] as? UIFont {
-                textFont = font
-            } else {
-                textFont = self.tweetView.font ?? UIFont.systemFontOfSize(12)
-            }
-            
-            //if we have an attribute set, use it; else go for the default
-            
-            if let color = attributes[NSForegroundColorAttributeName] as? UIColor {
-                textColor = color
-            } else {
-                textColor = self.tweetView.textColor ?? UIColor.blackColor()
-            }
-            
-            if let highlight = attributes[NSBackgroundColorAttributeName] as? UIColor {
-                highlightColor = highlight
-            } else {
-                highlightColor = self.tweetView.backgroundColor ?? UIColor.whiteColor()
-            }
-            
-            if let paragraph = attributes[NSParagraphStyleAttributeName] as? NSParagraphStyle {
-                alignment = paragraph.alignment
-            } else {
-                alignment = self.tweetView.textAlignment
-            }
-        })
-        
-        self.delegate!.selectedTextHasProperties(textFont!, alignment: alignment!, highlight: highlightColor!, color: textColor!, background: self.view.backgroundColor!)
+        self.delegate!.selectedTextHasProperties(textFont!, alignment: alignment!, highlight: highlightColor, color: textColor!, background: self.view.backgroundColor!)
     }
     
     //user moved the cursor; update toolbar buttons to match current formatting
     func textViewDidChangeSelection(textView: UITextView) {
         if !editingText {
-            hideOptionsView()
+//            hideOptionsView()
+            if optionsView != nil {
+                updateOptionsView()
+            }
         }
     }
     
@@ -455,182 +450,6 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         self.setTweetViewDefaults()
     }
     
-    @IBAction func changeColor(sender : UIBarButtonItem) {
-        self.tweetView.resignFirstResponder()
-        let popoverVC = storyboard?.instantiateViewControllerWithIdentifier("colorPickerPopover") as! ColorPickerViewController
-        popoverVC.modalPresentationStyle = .Popover
-        popoverVC.preferredContentSize = CGSizeMake(284, 446)
-        if let popoverController = popoverVC.popoverPresentationController {
-            popoverController.barButtonItem = sender
-            popoverController.sourceRect = CGRect(x: 0, y: 0, width: 85, height: 30)
-            popoverController.permittedArrowDirections = .Any
-            popoverController.delegate = self
-            popoverVC.callerTag = sender.tag
-            popoverVC.delegate = self
-        }
-        self.presentViewController(popoverVC, animated: true, completion: nil)
-    }
-    
-    func colorPicked(sender : ColorPickerViewController, color : UIColor) {
-        //TODO: Make this change optionsView colors
-        if sender.callerTag! == 0 { //background color
-            self.tweetView.backgroundColor = color //set the background color
-            self.view.backgroundColor = color //set the background color (of view)
-            
-        } else if sender.callerTag! == 1 || sender.callerTag! == 2 { //text color
-            var selectedRange = self.tweetView.selectedRange
-            
-            //if nothing selected, select nearest word
-            if selectedRange.length == 0 {
-                let position = self.tweetView.positionFromPosition(self.tweetView.beginningOfDocument, offset: selectedRange.location)
-                let range = self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Right.rawValue as UITextDirection))
-                    ?? self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Left.rawValue as UITextDirection))
-                
-                //if there is a nearest word (range exists), select the nearest word
-                if range != nil {
-                    let start = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.start)
-                    let end = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.end)
-                    self.tweetView.selectedRange = NSMakeRange(start, end-start)
-                    selectedRange = self.tweetView.selectedRange
-                } else { //if we can't get the nearest word, just select everything
-                    self.tweetView.selectedRange = NSMakeRange(0, self.tweetView.attributedText.length)
-                    selectedRange = self.tweetView.selectedRange
-                }
-            }
-            
-            //if there is no text, make changes globally
-            if self.tweetView.text.isEmpty {
-                self.tweetView.textColor = color
-            } else {
-                var mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
-                
-                self.tweetView.attributedText.enumerateAttributesInRange(selectedRange, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
-                    var newAttributes = attributes as [NSObject : AnyObject] //make a copy of the attributes
-                    
-                    //ichange the color of the font ONLY
-                    var attribute = ""
-                    if sender.callerTag! == 1 {
-                        attribute = NSForegroundColorAttributeName
-                    } else if sender.callerTag! == 2 {
-                        attribute = NSBackgroundColorAttributeName
-                    }
-                    newAttributes[attribute] = color
-                    
-                    //update the attributes to new standard
-                    mutableCopy.addAttributes(newAttributes, range: range)
-                })
-                
-                //set the attributes of our attributed text to the updated copy
-                self.tweetView.attributedText = mutableCopy
-                self.tweetView.selectedRange = selectedRange
-            }
-        }
-        
-        self.textViewDidChange(self.tweetView) //text changed
-        sender.dismissViewControllerAnimated(true, completion: { () -> Void in
-            self.tweetView.becomeFirstResponder()
-            return
-        })
-    }
-    
-    @IBAction func changeFont() {
-        self.tweetView.resignFirstResponder()
-        let fontPicker = UIAlertController(title: "Pick a Font...", message: "Note: Changing fonts will remove all bolding or italics.", preferredStyle: UIAlertControllerStyle.ActionSheet)
-        let Helvetica  = UIAlertAction(title: "Helvetica", style: UIAlertActionStyle.Default, handler: fontPicked)
-        let Times      = UIAlertAction(title: "Times New Roman", style: UIAlertActionStyle.Default, handler: fontPicked)
-        let Georgia    = UIAlertAction(title: "Georgia", style: UIAlertActionStyle.Default, handler: fontPicked)
-        let Courier    = UIAlertAction(title: "Courier", style: UIAlertActionStyle.Default, handler: fontPicked)
-        let Cancel     = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
-        
-        fontPicker.addAction(Helvetica)
-        fontPicker.addAction(Times)
-        fontPicker.addAction(Georgia)
-        fontPicker.addAction(Courier)
-        fontPicker.addAction(Cancel)
-        
-        if (UIDevice.currentDevice().model.hasPrefix("iPad")) {
-//            fontPicker.popoverPresentationController!.barButtonItem = self.fontButton
-        }
-        self.presentViewController(fontPicker, animated: true, completion: nil)
-    }
-    
-    func fontPicked(action : UIAlertAction!) {
-        var fontName = action.title
-        
-        //extract the actual font; size is just a placeholder
-        var fontPicked : UIFont?
-        switch fontName {
-        case "Helvetica":
-            fontPicked = UIFont(name: "Helvetica", size: 10)
-        case "Georgia":
-            fontPicked = UIFont(name: "Georgia", size: 10)
-        case "Times New Roman":
-            fontPicked = UIFont(name: "Times New Roman", size: 10)
-        case "Courier":
-            fontPicked = UIFont(name: "Courier", size: 10)
-        default:
-            fontPicked = UIFont(name: "Helvetica", size: 10)
-        }
-        
-        //get the selected text, if available
-        var selectedRange = self.tweetView.selectedRange
-        
-        //if nothing selected, select nearest word
-        if selectedRange.length == 0 {
-            let position = self.tweetView.positionFromPosition(self.tweetView.beginningOfDocument, offset: selectedRange.location)
-            let range = self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Right.rawValue as UITextDirection))
-                ?? self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Left.rawValue as UITextDirection))
-            
-            //if there is a nearest word (range exists), select the nearest word
-            if range != nil {
-                let start = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.start)
-                let end = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.end)
-                self.tweetView.selectedRange = NSMakeRange(start, end-start)
-                selectedRange = self.tweetView.selectedRange
-            } else { //if we can't get the nearest word, just select everything
-                self.tweetView.selectedRange = NSMakeRange(0, self.tweetView.attributedText.length)
-                selectedRange = self.tweetView.selectedRange
-            }
-        }
-        
-        //if there is no text, make changes globally
-        if self.tweetView.text.isEmpty {
-            let currentFont = self.tweetView.font as UIFont
-            let newFont = UIFont(name: fontPicked!.fontName, size: currentFont.pointSize)
-            self.tweetView.font = newFont
-        } else {
-            var mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
-            
-            self.tweetView.attributedText.enumerateAttributesInRange(selectedRange, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
-                var newAttributes = attributes as [NSObject : AnyObject] //make a copy of the attributes
-                
-                //if we have a font set, change the size of the font ONLY
-                if newAttributes[NSFontAttributeName] != nil {
-                    let currentFont = newAttributes[NSFontAttributeName] as! UIFont
-                    let newFont = UIFont(name: fontPicked!.fontName, size: currentFont.pointSize)
-                    newAttributes[NSFontAttributeName] = newFont
-                }
-                
-                //update the attributes to new standard
-                mutableCopy.addAttributes(newAttributes, range: range)
-            })
-            
-            //set the attributes of our attributed text to the updated copy
-            self.tweetView.attributedText = mutableCopy
-            self.tweetView.selectedRange = selectedRange
-        }
-        
-        self.textViewDidChange(self.tweetView) //text changed
-        self.tweetView.becomeFirstResponder()
-    }
-    
-    func showDefaultSettings() {
-        var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-        var vc = storyboard.instantiateViewControllerWithIdentifier("SettingsViewController") as! SettingsViewController
-
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
     // Override the iPhone behavior that presents a popover as fullscreen
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
         // Return no adaptive presentation style, use default presentation behaviour
@@ -639,8 +458,6 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     
     
     // Delegate Protocol Implementation
-    
-    
     func formatSelectedText(format : TextFormat) {
         editingText = true
         //get the selected text, if available
@@ -736,6 +553,59 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         editingText = false
     }
     
+    func changedFontForSelectedText(newFont : UIFont) {
+        //get the selected text, if available
+        var selectedRange = self.tweetView.selectedRange
+        
+        //if nothing selected, select nearest word
+        if selectedRange.length == 0 {
+            let position = self.tweetView.positionFromPosition(self.tweetView.beginningOfDocument, offset: selectedRange.location)
+            let range = self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Right.rawValue as UITextDirection))
+                ?? self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Left.rawValue as UITextDirection))
+            
+            //if there is a nearest word (range exists), select the nearest word
+            if range != nil {
+                let start = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.start)
+                let end = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.end)
+                self.tweetView.selectedRange = NSMakeRange(start, end-start)
+                selectedRange = self.tweetView.selectedRange
+            } else { //if we can't get the nearest word, just select everything
+                self.tweetView.selectedRange = NSMakeRange(0, self.tweetView.attributedText.length)
+                selectedRange = self.tweetView.selectedRange
+            }
+        }
+        
+        //if there is no text, make changes globally
+        if self.tweetView.text.isEmpty {
+            let currentFont = self.tweetView.font as UIFont
+            let updatedFont = UIFont(name: newFont.fontName, size: currentFont.pointSize)
+            self.tweetView.font = updatedFont
+        } else {
+            var mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
+            
+            self.tweetView.attributedText.enumerateAttributesInRange(selectedRange, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
+                var newAttributes = attributes as [NSObject : AnyObject] //make a copy of the attributes
+                
+                //if we have a font set, change the size of the font ONLY
+                if newAttributes[NSFontAttributeName] != nil {
+                    let currentFont = newAttributes[NSFontAttributeName] as! UIFont
+                    let updatedFont = UIFont(name: newFont.fontName, size: currentFont.pointSize)
+                    newAttributes[NSFontAttributeName] = updatedFont
+                }
+                
+                //update the attributes to new standard
+                mutableCopy.addAttributes(newAttributes, range: range)
+            })
+            
+            //set the attributes of our attributed text to the updated copy
+            self.tweetView.attributedText = mutableCopy
+            self.tweetView.selectedRange = selectedRange
+        }
+        
+        self.textViewDidChange(self.tweetView) //text changed
+        self.tweetView.becomeFirstResponder()
+    }
+    
     func changedAlignmentForSelectedText(newAlignment : Alignment) {
         editingText = true
         //extract the actual font; size is just a placeholder
@@ -804,16 +674,63 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         editingText = false
     }
     
-    func highlightSelectedText() {
+    func changedColorTo(color : UIColor, forColorAttribute attribute : ColorAttribute) {
+        editingText = true
+        //TODO: Make this change optionsView colors
+        if attribute == ColorAttribute.Background { //background color
+            self.tweetView.backgroundColor = color //set the background color
+            self.view.backgroundColor = color //set the background color (of view)
+            
+        } else if attribute == ColorAttribute.Text || attribute == ColorAttribute.Highlight {
+            var selectedRange = self.tweetView.selectedRange
+            
+            //if nothing selected, select nearest word
+            if selectedRange.length == 0 {
+                let position = self.tweetView.positionFromPosition(self.tweetView.beginningOfDocument, offset: selectedRange.location)
+                let range = self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Right.rawValue as UITextDirection))
+                    ?? self.tweetView.tokenizer.rangeEnclosingPosition(position!, withGranularity: UITextGranularity.Word, inDirection: (UITextLayoutDirection.Left.rawValue as UITextDirection))
+                
+                //if there is a nearest word (range exists), select the nearest word
+                if range != nil {
+                    let start = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.start)
+                    let end = self.tweetView.offsetFromPosition(self.tweetView.beginningOfDocument, toPosition: range!.end)
+                    self.tweetView.selectedRange = NSMakeRange(start, end-start)
+                    selectedRange = self.tweetView.selectedRange
+                } else { //if we can't get the nearest word, just select everything
+                    self.tweetView.selectedRange = NSMakeRange(0, self.tweetView.attributedText.length)
+                    selectedRange = self.tweetView.selectedRange
+                }
+            }
+            
+            //if there is no text, make changes globally
+            if self.tweetView.text.isEmpty {
+                self.tweetView.textColor = color
+            } else {
+                var mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
+                
+                self.tweetView.attributedText.enumerateAttributesInRange(selectedRange, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
+                    var newAttributes = attributes as [NSObject : AnyObject] //make a copy of the attributes
+                    
+                    //ichange the color of the font ONLY
+                    if attribute == ColorAttribute.Text {
+                        newAttributes[NSForegroundColorAttributeName] = color
+                    } else if attribute == ColorAttribute.Highlight {
+                        newAttributes[NSBackgroundColorAttributeName] = color
+                    }
+                    
+                    
+                    //update the attributes to new standard
+                    mutableCopy.addAttributes(newAttributes, range: range)
+                })
+                
+                //set the attributes of our attributed text to the updated copy
+                self.tweetView.attributedText = mutableCopy
+                self.tweetView.selectedRange = selectedRange
+            }
+        }
         
-    }
-    
-    func colorSelectedText() {
-    
-    }
-    
-    func changeBackgroundColor() {
-    
+        self.textViewDidChange(self.tweetView) //text changed
+        editingText = false
     }
 }
 
