@@ -38,10 +38,10 @@
             </objects>
             <point key="canvasLocation" x="190" y="207"/>
         </scene>
-        <!--AccountSelection-->
+        <!--AccountsController-->
         <scene sceneID="7LJ-1m-v7H">
             <objects>
-                <controller identifier="AccountSelection" id="TIO-Xw-6fZ" customClass="AccountSelectionInterfaceController" customModule="Infinitweet_WatchKit_Extension">
+                <controller identifier="AccountsController" id="TIO-Xw-6fZ" customClass="AccountsController" customModule="Infinitweet_WatchKit_Extension">
                     <items>
                         <label alignment="center" text="Select a Twitter Account" textAlignment="center" numberOfLines="0" id="Bvt-HE-Ggq"/>
                         <table alignment="center" verticalAlignment="bottom" id="vdL-z4-M8g">
@@ -63,16 +63,16 @@
                         </table>
                     </items>
                     <connections>
-                        <outlet property="menu" destination="vdL-z4-M8g" id="YBu-GN-XCz"/>
+                        <outlet property="accountsTable" destination="vdL-z4-M8g" id="iUg-6v-9uz"/>
                     </connections>
                 </controller>
             </objects>
             <point key="canvasLocation" x="348" y="207"/>
         </scene>
-        <!--PresentationViewController-->
+        <!--PreviewController-->
         <scene sceneID="7jh-vh-vfI">
             <objects>
-                <controller identifier="PresentationViewController" id="MdU-aD-yXZ" customClass="PresentationViewController" customModule="Infinitweet_WatchKit_Extension">
+                <controller identifier="PreviewController" id="MdU-aD-yXZ" customClass="PreviewController" customModule="Infinitweet_WatchKit_Extension">
                     <items>
                         <imageView alignment="center" verticalAlignment="center" id="V2L-dB-td8"/>
                         <button width="1" alignment="center" verticalAlignment="bottom" title="Share" id="gLv-4F-hdj">
@@ -84,16 +84,16 @@
                         </button>
                     </items>
                     <connections>
-                        <outlet property="wkImage" destination="V2L-dB-td8" id="iVF-OK-DbT"/>
+                        <outlet property="imageDisplay" destination="V2L-dB-td8" id="fuF-zl-pvA"/>
                     </connections>
                 </controller>
             </objects>
             <point key="canvasLocation" x="506" y="207"/>
         </scene>
-        <!--SuccessViewController-->
+        <!--AlertController-->
         <scene sceneID="SCg-Sn-vYW">
             <objects>
-                <controller identifier="SuccessViewController" id="gBp-4P-fUb" customClass="AlertViewController" customModule="Infinitweet_WatchKit_Extension">
+                <controller identifier="AlertController" id="gBp-4P-fUb" customClass="AlertController" customModule="Infinitweet_WatchKit_Extension">
                     <items>
                         <group width="1" alignment="left" id="Bfv-EG-cVQ">
                             <items>
@@ -105,8 +105,8 @@
                         </group>
                     </items>
                     <connections>
-                        <outlet property="group" destination="Bfv-EG-cVQ" id="fK7-1X-hm5"/>
-                        <outlet property="textLabel" destination="4hI-mt-QVy" id="djR-fe-zd1"/>
+                        <outlet property="group" destination="Bfv-EG-cVQ" id="pjc-fF-5Y7"/>
+                        <outlet property="label" destination="4hI-mt-QVy" id="SQo-Eu-h2T"/>
                     </connections>
                 </controller>
             </objects>

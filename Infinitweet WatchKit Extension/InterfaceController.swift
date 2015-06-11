@@ -14,7 +14,6 @@ class InterfaceController: WKInterfaceController {
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        
         // Configure interface objects here.
     }
 
@@ -34,7 +33,7 @@ class InterfaceController: WKInterfaceController {
                 let infinitweet = Infinitweet(text: text, font: settings.font, color: settings.color, background: settings.background, wordmarkHidden : settings.wordmark)
                 
                 self.dismissTextInputController()
-                self.pushControllerWithName("PresentationViewController", context: ["image": infinitweet.image])
+                self.pushControllerWithName("PreviewController", context: ["image": infinitweet.image])
             }
         }
     }
