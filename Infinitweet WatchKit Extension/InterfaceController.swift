@@ -30,7 +30,7 @@ class InterfaceController: WKInterfaceController {
                 var settings = Infinitweet.getDisplaySettings()
                 
                 //create infinitweet with properties
-                let infinitweet = Infinitweet(text: text, font: settings.font, color: settings.color, background: settings.background, wordmarkHidden : settings.wordmark)
+                let infinitweet = Infinitweet(text: text, font: settings.font, color: settings.color, background: settings.background, wordmarkHidden : settings.wordmarkHidden)
                 
                 self.dismissTextInputController()
                 self.pushControllerWithName("PreviewController", context: ["image": infinitweet.image])

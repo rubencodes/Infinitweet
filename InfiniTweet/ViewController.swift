@@ -150,11 +150,11 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         
         if part == 1 {
             title = "Tutorial"
-            message = "Welcome to Infinitweet! To start, type some text! You can use the toolbar above to change things like alignment, fonts, sizes, and colors. Select some of the text you wrote to change only that piece, or change everything. You can also bold, italicize, or underline using the iOS options you're familiar with."
+            message = "Welcome to Infinitweet! To start, type some text! When you're ready, you can press the Formatting icon on the top-left to change things like alignment, fonts, sizes, and colors. Select some of the text you wrote to change only that piece, or change everything."
             buttonTitle = "Next"
         } else if part == 2 {
             title = "Tutorial"
-            message = "Lastly, you can the change default global settings by going to the Defaults menu on the top-left. When you're ready to share, tap the Share icon on the top-right to post your Infinitweet to Twitter (or elsewhere)."
+            message = "When you're ready to share your Infinitweet, tap the Share icon on the top-right to post to Twitter (or elsewhere)."
             buttonTitle = "I'm Ready!"
         } else if part == 3 {
             title = "Congratulations!"
@@ -405,7 +405,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             let settings = Infinitweet.getDisplaySettings()
             
             //create infinitweet with properties
-            let infinitweet = Infinitweet(text: self.tweetView.attributedText, background: self.tweetView.backgroundColor ?? UIColor.whiteColor(), wordmarkHidden: settings.wordmark)
+            let infinitweet = Infinitweet(text: self.tweetView.attributedText, background: self.tweetView.backgroundColor ?? UIColor.whiteColor(), wordmarkHidden: settings.wordmarkHidden)
             
             //preload text on share
             var shareText : String?

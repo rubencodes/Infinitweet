@@ -220,13 +220,13 @@ class Infinitweet {
         UIGraphicsEndImageContext()
     }
     
-    class func getDisplaySettings() -> (font : UIFont, color : UIColor, background : UIColor, alignment : NSTextAlignment, wordmark : Bool) {
+    class func getDisplaySettings() -> (font : UIFont, color : UIColor, background : UIColor, alignment : NSTextAlignment, wordmarkHidden : Bool) {
         let font = UIFont(name: "Helvetica", size: 18.0)
         let color = UIColor.blackColor()
         let backgroundColor = UIColor.whiteColor()
         let alignment = NSTextAlignment.Left
         
-        return (font : font!, color : color, background : backgroundColor, alignment : alignment, wordmark : true)
+        return (font : font!, color : color, background : backgroundColor, alignment : alignment, wordmarkHidden : false)
     }
     
     class func currentDefaultKey() -> String {

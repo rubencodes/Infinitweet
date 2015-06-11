@@ -170,7 +170,7 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
                 let settings = Infinitweet.getDisplaySettings()
                 
                 //create infinitweet with properties
-                let infinitweet = Infinitweet(text: self.tweetView.attributedText ?? NSAttributedString(string: self.tweetView.text), background: self.tweetView.backgroundColor ?? settings.background, wordmarkHidden: settings.wordmark)
+                let infinitweet = Infinitweet(text: self.tweetView.attributedText ?? NSAttributedString(string: self.tweetView.text), background: self.tweetView.backgroundColor ?? settings.background, wordmarkHidden: settings.wordmarkHidden)
                 
                 //preload text on share
                 var shareText : String?
