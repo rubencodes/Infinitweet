@@ -220,51 +220,13 @@ class Infinitweet {
         UIGraphicsEndImageContext()
     }
     
-    class func setDefaults() {
-        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-        defaults.setBool(true, forKey: self.currentDefaultKey())
-        defaults.setObject("Left", forKey: "Alignment")
-        defaults.setObject("Helvetica", forKey: "FontName")
-        defaults.setInteger(22, forKey: "FontSize")
-        
-        let whiteColor = [CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(1)]
-        let blackColor = [CGFloat(1), CGFloat(1), CGFloat(1), CGFloat(1)]
-        defaults.setObject(whiteColor, forKey: "TextColor")
-        defaults.setObject(blackColor, forKey: "BackgroundColor")
-        defaults.setInteger(20, forKey: "Padding")
-        defaults.setBool(false, forKey: "WordmarkHidden")
-        defaults.synchronize()
-    }
-    
     class func getDisplaySettings() -> (font : UIFont, color : UIColor, background : UIColor, alignment : NSTextAlignment, wordmark : Bool) {
-        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-        let alignmentName = defaults.objectForKey("Alignment") as! String
-        let fontName = defaults.objectForKey("FontName") as! String
-        let fontSize = CGFloat(defaults.integerForKey("FontSize"))
-        let font = UIFont(name: fontName, size: fontSize)
+        let font = UIFont(name: "Helvetica", size: 18.0)
+        let color = UIColor.blackColor()
+        let backgroundColor = UIColor.whiteColor()
+        let alignment = NSTextAlignment.Left
         
-        var colorArray = defaults.objectForKey("TextColor") as! [CGFloat]
-        let color = colorArray.toUIColor()
-        var backgroundColorArray = defaults.objectForKey("BackgroundColor") as! [CGFloat]
-        let backgroundColor = backgroundColorArray.toUIColor()
-        
-        let wordmark = defaults.boolForKey("WordmarkHidden")
-        
-        var alignment : NSTextAlignment
-        switch alignmentName {
-        case "Left":
-            alignment = NSTextAlignment.Left
-        case "Center":
-            alignment = NSTextAlignment.Center
-        case "Right":
-            alignment = NSTextAlignment.Right
-        case "Justified":
-            alignment = NSTextAlignment.Justified
-        default:
-            alignment = NSTextAlignment.Left
-        }
-        
-        return (font : font!, color : color, background : backgroundColor, alignment : alignment, wordmark : wordmark)
+        return (font : font!, color : color, background : backgroundColor, alignment : alignment, wordmark : true)
     }
     
     class func currentDefaultKey() -> String {
@@ -280,16 +242,6 @@ enum InfinitweetMode {
     case Exponential, Linear
 }
 
-extension Array {
-    mutating func toUIColor() -> UIColor {
-        var r = self[0] as! CGFloat
-        var g = self[1] as! CGFloat
-        var b = self[2] as! CGFloat
-        var a = self[3] as! CGFloat
-        return UIColor(red: r, green: g, blue: b, alpha: a)
-    }
-}
-
 extension UIColor {
      func toCGFloatArray() -> [CGFloat] {
         var r = CGFloat()
@@ -299,31 +251,6 @@ extension UIColor {
         self.getRed(&r, green: &g, blue: &b, alpha: &a)
         
         return [r, g, b, a]
-    }
-}
-
-extension String {
-    // This function converts from HTML colors (hex strings of the form '#ffffff') to UIColors
-    mutating func hexStringToUIColor() -> UIColor {
-        var cString : String = self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
-        
-        if cString.hasPrefix("#") {
-            cString = cString.substringFromIndex(advance(cString.startIndex, 1))
-        }
-        
-        if count(cString) != 6 {
-            return UIColor.grayColor()
-        }
-        
-        var rgbValue:UInt32 = 0
-        NSScanner(string: cString).scanHexInt(&rgbValue)
-        
-        return UIColor(
-            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-            alpha: CGFloat(1.0)
-        )
     }
 }
 

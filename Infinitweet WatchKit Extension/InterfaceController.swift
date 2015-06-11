@@ -21,11 +21,6 @@ class InterfaceController: WKInterfaceController {
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
-        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-        // Do any additional setup after loading the view, typically from a nib.
-        if !defaults.boolForKey("TutorialShown") || !defaults.boolForKey(Infinitweet.currentDefaultKey()) {
-            Infinitweet.setDefaults() //set the default text attributes in memory
-        }
     }
     
     @IBAction func captureTweet() {

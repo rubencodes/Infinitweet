@@ -32,7 +32,6 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         navBar.backgroundColor = UIColor.whiteColor()
         navBar.shadowImage = UIImage()
         
-        
 //        self.clearButton?.imageInsets = UIEdgeInsets(top: 0, left: -20, bottom: 0, right: 10)
         self.optionsButton = UIBarButtonItem(image: UIImage(named: "format"), style: UIBarButtonItemStyle.Plain, target: self, action: "showOptionsView")
         self.optionsButton?.imageInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 10)
@@ -43,13 +42,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         self.navItem.setRightBarButtonItems([self.shareButton!, self.clearButton!], animated: false)
         self.navItem.setLeftBarButtonItems([self.optionsButton!], animated: false)
         
-        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-        //have we set the latest defaults?
-        if !defaults.boolForKey(Infinitweet.currentDefaultKey()) {
-            Infinitweet.setDefaults() //set the default text attributes in memory
-        } else { //if so, make the tweetView reflect the defaults
-            self.setTweetViewDefaults()
-        }
+        self.setTweetViewDefaults()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -107,10 +100,10 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         if attrString != nil && attrString?.length > 0 {
             self.tweetView.attributedText  = attrString
             
-            var lastKnownBackground = defaults.objectForKey("lastKnownBackground") as? [CGFloat]
-            if let background = lastKnownBackground?.toUIColor() {
-                self.tweetView.backgroundColor  = background
-                self.view.backgroundColor       = background
+            if let lastKnownBackground = defaults.objectForKey("lastKnownBackground") as? [CGFloat] {
+                let backgroundColor = UIColor(rgbaArray: lastKnownBackground)
+                self.tweetView.backgroundColor  = backgroundColor
+                self.view.backgroundColor       = backgroundColor
             }
         } else {
             self.setTweetViewDefaults()
@@ -265,8 +258,40 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow", name: UIMenuControllerWillShowMenuNotification, object: nil)
     }
     
+    //resizes TweetView when options are shown
+    func optionsViewWillShow() {
+        if self.optionsAreShown {
+            return
+        }
+        
+        let optionsSize = OptionsView().minSize
+        
+        let contentInsets = UIEdgeInsetsMake(0.0, 0.0, optionsSize.height, 0.0)
+        self.tweetView.contentInset = contentInsets
+        self.tweetView.scrollIndicatorInsets = contentInsets
+    }
+    
+    func optionsViewWillHide() {
+        let optionsSize = OptionsView().minSize
+        
+        let contentInsets = UIEdgeInsetsZero
+        self.tweetView.contentInset = contentInsets
+        self.tweetView.scrollIndicatorInsets = contentInsets
+        
+        var viewFrame = self.tweetView.frame
+        
+        viewFrame.size.height += optionsSize.height
+        
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        self.tweetView.frame = viewFrame
+        UIView.commitAnimations()
+    }
+    
     func showOptionsView() {
         if !optionsAreShown {
+            optionsViewWillShow()
+            
             let window = UIApplication.sharedApplication().windows.last! as! UIWindow
             
             if optionsView == nil {
@@ -296,6 +321,8 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     
     func hideOptionsView() {
         if optionsAreShown {
+            optionsViewWillHide()
+            
             self.tweetView.resignFirstResponder()
             
             let transform = CGAffineTransformMakeTranslation(0, 0)

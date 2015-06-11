@@ -61,12 +61,6 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
                                 let textData = (text as! NSString).dataUsingEncoding(NSUnicodeStringEncoding, allowLossyConversion: true)!
                                 self.tweetView.attributedText = NSAttributedString(data: textData, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil, error: nil)
                                 
-                                var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-                                // Do any additional setup after loading the view, typically from a nib.
-                                if !defaults.boolForKey(Infinitweet.currentDefaultKey()) {
-                                    Infinitweet.setDefaults()
-                                }
-                                
                                 self.setTweetViewDefaults()
                                 
                                 self.tweetView.becomeFirstResponder()
@@ -89,10 +83,6 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
                             self.tweetView.text = title+"\n\n"+text+"\n\nSource: "+url
                             
                             var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-                            // Do any additional setup after loading the view, typically from a nib.
-                            if !defaults.boolForKey(Infinitweet.currentDefaultKey()) {
-                                Infinitweet.setDefaults()
-                            }
                             
                             self.setTweetViewDefaults()
                             
