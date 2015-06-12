@@ -508,13 +508,6 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         self.setTweetViewDefaults()
     }
     
-    // Override the iPhone behavior that presents a popover as fullscreen
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        // Return no adaptive presentation style, use default presentation behaviour
-        return .None
-    }
-    
-    
     // Delegate Protocol Implementation
     func formatSelectedText(format : TextFormat) {
         editingText = true
