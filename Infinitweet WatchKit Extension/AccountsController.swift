@@ -29,7 +29,7 @@ class AccountsController: WKInterfaceController {
                 
                 //Populate rows with Account usernames
                 for var i = 0; i < self.accountsTable.numberOfRows; i++ {
-                    var row = self.accountsTable.rowControllerAtIndex(i) as! AccountRow
+                    let row = self.accountsTable.rowControllerAtIndex(i) as! AccountRow
                     row.name.setText("@\(self.accounts![i].username)")
                 }
             }

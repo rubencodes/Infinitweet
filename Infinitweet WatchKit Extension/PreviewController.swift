@@ -43,7 +43,7 @@ class PreviewController: WKInterfaceController, AccountSelectionDelegate, AlertC
         let accountType = accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierTwitter)
         
         // Check if we already have permission
-        var defaults = NSUserDefaults.standardUserDefaults()
+        let defaults = NSUserDefaults.standardUserDefaults()
         if defaults.boolForKey("permissionsGranted") {
             chooseAccount(accountType, fromStore: accountStore)
         } else {
@@ -55,7 +55,7 @@ class PreviewController: WKInterfaceController, AccountSelectionDelegate, AlertC
                 granted, error in
                 
                 if granted {
-                    var defaults = NSUserDefaults.standardUserDefaults()
+                    let defaults = NSUserDefaults.standardUserDefaults()
                     defaults.setBool(true, forKey: "permissionsGranted")
                     defaults.synchronize()
                     
@@ -89,7 +89,7 @@ class PreviewController: WKInterfaceController, AccountSelectionDelegate, AlertC
             let requestURL = NSURL(string: "https://api.twitter.com/1.1/statuses/update_with_media.json")
             
             // Prepare image posting request
-            var postRequest = SLRequest(forServiceType: SLServiceTypeTwitter, requestMethod: SLRequestMethod.POST, URL: requestURL, parameters: nil)
+            let postRequest = SLRequest(forServiceType: SLServiceTypeTwitter, requestMethod: SLRequestMethod.POST, URL: requestURL, parameters: nil)
             postRequest.addMultipartData(UIImageJPEGRepresentation(image, 1.0), withName: "media[]", type: "multipart/form-data", filename: nil)
             postRequest.addMultipartData("".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false), withName: "status", type: "multipart/form-data", filename: nil)
             postRequest.account = account

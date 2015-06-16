@@ -24,10 +24,10 @@ class InterfaceController: WKInterfaceController {
     
     @IBAction func captureTweet() {
         self.presentTextInputControllerWithSuggestions(["Infinitweeting via Apple Watch! Good to go!"], allowedInputMode: WKTextInputMode.Plain) { (results) -> Void in
-            if results != nil && results.count > 0 {
+            if results.count > 0 {
                 let text = results.first as! String
                 
-                var settings = Infinitweet.getDisplaySettings()
+                let settings = Infinitweet.getDisplaySettings()
                 
                 //create infinitweet with properties
                 let infinitweet = Infinitweet(text: text, font: settings.font, color: settings.color, background: settings.background, wordmarkHidden : settings.wordmarkHidden)

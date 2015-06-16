@@ -2,7 +2,7 @@
 # platform :ios, '6.0'
 
 target 'InfiniTweet' do
-    pod 'pop', '~> 1.0'
+    pod 'pop', :git => 'https://github.com/facebook/pop.git'
 end
 
 target 'InfiniTweetTests' do
@@ -10,7 +10,7 @@ target 'InfiniTweetTests' do
 end
 
 target 'InfiniTweet Action' do
-    pod 'pop', '~> 1.0'
+    pod 'pop', :git => 'https://github.com/facebook/pop.git'
 end
 
 target 'Infinitweet WatchKit Extension' do

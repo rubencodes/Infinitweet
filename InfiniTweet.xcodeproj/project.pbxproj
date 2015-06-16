@@ -17,6 +17,12 @@
 		458D7CB61AA38B7200D7D769 /* Infinitweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB51AA38B7200D7D769 /* Infinitweet.swift */; };
 		458D7CBA1AA394AA00D7D769 /* Infinitweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB51AA38B7200D7D769 /* Infinitweet.swift */; };
 		458D7CBB1AA3B76B00D7D769 /* Infinitweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458D7CB51AA38B7200D7D769 /* Infinitweet.swift */; };
+		45938B731B2F6E7700A85F72 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 45938B701B2F6E7700A85F72 /* Nunito-Bold.ttf */; };
+		45938B741B2F6E7700A85F72 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 45938B701B2F6E7700A85F72 /* Nunito-Bold.ttf */; };
+		45938B751B2F6E7700A85F72 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 45938B711B2F6E7700A85F72 /* Nunito-Light.ttf */; };
+		45938B761B2F6E7700A85F72 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 45938B711B2F6E7700A85F72 /* Nunito-Light.ttf */; };
+		45938B771B2F6E7700A85F72 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 45938B721B2F6E7700A85F72 /* Nunito-Regular.ttf */; };
+		45938B781B2F6E7700A85F72 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 45938B721B2F6E7700A85F72 /* Nunito-Regular.ttf */; };
 		45A243BD1A93EB4F00644A52 /* AccountRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A243BA1A93EB4F00644A52 /* AccountRow.swift */; };
 		45A243BE1A93EB4F00644A52 /* AccountsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A243BB1A93EB4F00644A52 /* AccountsController.swift */; };
 		45A243BF1A93EB4F00644A52 /* PreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A243BC1A93EB4F00644A52 /* PreviewController.swift */; };
@@ -105,6 +111,9 @@
 		4593839C1AA6C627006F272D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4593839D1AA6C627006F272D /* Infinitweet_DesktopTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Infinitweet_DesktopTests.swift; sourceTree = "<group>"; };
 		459383A71AA6D37A006F272D /* InfinitweetDesktop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfinitweetDesktop.swift; sourceTree = "<group>"; };
+		45938B701B2F6E7700A85F72 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Bold.ttf"; sourceTree = "<group>"; };
+		45938B711B2F6E7700A85F72 /* Nunito-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Light.ttf"; sourceTree = "<group>"; };
+		45938B721B2F6E7700A85F72 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Regular.ttf"; sourceTree = "<group>"; };
 		45A243BA1A93EB4F00644A52 /* AccountRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountRow.swift; sourceTree = "<group>"; };
 		45A243BB1A93EB4F00644A52 /* AccountsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountsController.swift; sourceTree = "<group>"; };
 		45A243BC1A93EB4F00644A52 /* PreviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewController.swift; sourceTree = "<group>"; };
@@ -276,6 +285,9 @@
 		45B0D4FC1A56590B00B4B500 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				45938B701B2F6E7700A85F72 /* Nunito-Bold.ttf */,
+				45938B711B2F6E7700A85F72 /* Nunito-Light.ttf */,
+				45938B721B2F6E7700A85F72 /* Nunito-Regular.ttf */,
 				45B0D4FD1A56590B00B4B500 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -539,9 +551,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				45D568E21B2754A8009C536F /* OptionsView.xib in Resources */,
+				45938B751B2F6E7700A85F72 /* Nunito-Light.ttf in Resources */,
+				45938B771B2F6E7700A85F72 /* Nunito-Regular.ttf in Resources */,
 				45EB8F081B28A36800745B55 /* ColorOptionsView.xib in Resources */,
 				45B0D5041A56590B00B4B500 /* Main.storyboard in Resources */,
 				45B0D5091A56590B00B4B500 /* LaunchScreen.xib in Resources */,
+				45938B731B2F6E7700A85F72 /* Nunito-Bold.ttf in Resources */,
 				45B0D5061A56590B00B4B500 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -558,9 +573,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				45B0D5291A566D1A00B4B500 /* MainInterface.storyboard in Resources */,
+				45938B761B2F6E7700A85F72 /* Nunito-Light.ttf in Resources */,
+				45938B781B2F6E7700A85F72 /* Nunito-Regular.ttf in Resources */,
 				455DAC761ACCB43E00B4723B /* Images.xcassets in Resources */,
 				457CCABE1ACCA91E00C10B56 /* Preprocessing.js in Resources */,
 				453C8A251B29524D000FBD1F /* OptionsView.xib in Resources */,
+				45938B741B2F6E7700A85F72 /* Nunito-Bold.ttf in Resources */,
 				453C8A261B2955FB000FBD1F /* ColorOptionsView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

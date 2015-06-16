@@ -7,7 +7,7 @@
  of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#import <QuartzCore/CAAnimation.h>
+#import <QuartzCore/QuartzCore.h>
 
 #import <pop/POPDefines.h>
 #import <pop/POPSpringAnimation.h>

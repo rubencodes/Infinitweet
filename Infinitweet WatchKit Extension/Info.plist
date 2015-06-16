@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>rubencodes.Infinitweet.watchkitextension</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)rubencodes.Infinitweet.watchkitextension</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

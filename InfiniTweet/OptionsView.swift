@@ -61,8 +61,6 @@ class OptionsView : UIView, TextOptionsDelegate, ColorOptionsViewDelegate {
         case ColorAttribute.Highlight:
             row = self.highlightRow
             attribute = ColorAttribute.Highlight
-        default:
-            break
         }
         
         if row != nil && attribute != nil {
@@ -79,9 +77,6 @@ class OptionsView : UIView, TextOptionsDelegate, ColorOptionsViewDelegate {
             newFont = UIFont(name: "Times New Roman", size: 12)
         case Font.Mono:
             newFont = UIFont(name: "Courier New", size: 12)
-        default:
-            newFont = UIFont(name: "Helvetica", size: 12)
-            break
         }
         
         self.delegate.changedFontForSelectedText(newFont!)
@@ -139,7 +134,7 @@ class OptionsView : UIView, TextOptionsDelegate, ColorOptionsViewDelegate {
     }
     
     func showColorOptionsViewInPlaceOfRow(row : UIView, tag : Int) {
-        var colorOptionsView = NSBundle.mainBundle().loadNibNamed("ColorOptionsView", owner: self, options: nil).first as! ColorOptionsView
+        let colorOptionsView = NSBundle.mainBundle().loadNibNamed("ColorOptionsView", owner: self, options: nil).first as! ColorOptionsView
         
         colorOptionsView.delegate = self
         colorOptionsView.tag = tag
@@ -147,25 +142,13 @@ class OptionsView : UIView, TextOptionsDelegate, ColorOptionsViewDelegate {
         self.addSubview(colorOptionsView)
         visibleColorOptions.append(colorOptionsView)
         
-        var animation = POPSpringAnimation(propertyNamed: kPOPViewCenter)
+        let animation = POPSpringAnimation(propertyNamed: kPOPViewCenter)
         animation.toValue = NSValue(CGPoint: CGPointMake(row.center.x, row.center.y))
         colorOptionsView.pop_addAnimation(animation, forKey: "colorsIn")
     }
     
-    func hideColorOptionsView(view : ColorOptionsView) {
-        var row : UIView?
-        switch ColorAttribute(rawValue: view.tag)! {
-        case ColorAttribute.Text:
-            row = self.colorRow
-        case ColorAttribute.Background:
-            row = self.backgroundRow
-        case ColorAttribute.Highlight:
-            row = self.highlightRow
-        default:
-            break
-        }
-        
-        var animation = POPSpringAnimation(propertyNamed: kPOPViewCenter)
+    func hideColorOptionsView(view : ColorOptionsView) {        
+        let animation = POPSpringAnimation(propertyNamed: kPOPViewCenter)
         animation.toValue = NSValue(CGPoint: CGPointMake(view.center.x + view.frame.size.width, view.center.y))
         animation.completionBlock = { animation, finished in
             view.removeFromSuperview()
@@ -206,7 +189,7 @@ protocol TextOptionsDelegate {
 
 protocol OptionsViewDelegate {
     func formatSelectedText(format : TextFormat)
-    func changedFontSizeForSelectedText(#increased : Bool)
+    func changedFontSizeForSelectedText(increased increased : Bool)
     func changedAlignmentForSelectedText(newAlignment : Alignment)
     func changedFontForSelectedText(newFont : UIFont)
     func changedColorTo(color : UIColor, forColorAttribute attribute : ColorAttribute)

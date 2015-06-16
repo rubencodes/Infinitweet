@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentationControllerDelegate, OptionsViewDelegate {
     var delegate : TextOptionsDelegate?
@@ -22,7 +23,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     var barButtonItemShouldAnimate : Bool = false
     
     //cache of last known state
-    let cache = (NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String).stringByAppendingPathComponent("lastKnownState.infinitweet")
+    let cache = (NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String).stringByAppendingPathComponent("lastKnownState.infinitweet")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +65,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         
         self.keyboardIsShown = false
         
-        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
+        let defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         //have we shown the tutorial?
         if !defaults.boolForKey("TutorialShown3") {
             self.beginTutorialPart(1) //if not, show it
@@ -76,7 +77,6 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         }
         
         if !defaults.boolForKey("userHasPressedOptionsButton") {
-            println("User hasn't pressed button, animate it")
             barButtonItemShouldAnimate = true
             self.animateBarButtonTint(self.optionsButton!)
         }
@@ -99,9 +99,15 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     
     //restores the last state if there was one; else, just sets everything to default
     func restoreLastKnownState() {
-        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
-        var error : NSError?
-        var attrString = NSAttributedString(fileURL: NSURL(fileURLWithPath: self.cache)!, options: [NSDocumentTypeDocumentAttribute:NSRTFTextDocumentType], documentAttributes: nil, error: &error)
+        let defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
+
+        var attrString: NSAttributedString?
+        do {
+            attrString = try NSAttributedString(fileURL: NSURL(fileURLWithPath: self.cache), options: [NSDocumentTypeDocumentAttribute : NSRTFTextDocumentType], documentAttributes: nil)
+        } catch let error as NSError {
+            attrString = nil
+            print(error.description)
+        }
         
         //if we had a significant lastKnownState, restore it and the background; else set defaults
         if attrString != nil && attrString?.length > 0 {
@@ -125,11 +131,11 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         self.tweetView.font = settings.font
         self.tweetView.textColor = settings.color //set the text color
         
-        var mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
-        var textRange = NSMakeRange(0, self.tweetView.attributedText.length)
+        let mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
+        let textRange = NSMakeRange(0, self.tweetView.attributedText.length)
         //for attributes in this range, change toolbar buttons to match,
         self.tweetView.attributedText.enumerateAttributesInRange(textRange, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
-            var newAttributes = attributes as [NSObject : AnyObject] //make a copy of the attributes
+            var newAttributes = attributes as [String : AnyObject] //make a copy of the attributes
             
             //if we have a font set, change the size of the font ONLY
             if newAttributes[NSBackgroundColorAttributeName] != nil {
@@ -149,7 +155,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     
     //tutorial alers
     func beginTutorialPart(part : Int) {
-        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
+        let defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         
         var title : String?
         var message : String?
@@ -199,7 +205,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     func keyboardWillHide(notification : NSNotification) {
         let userInfo = notification.userInfo as [NSObject : AnyObject]!
         
-        let keyboardSize = userInfo[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue().size
+        let keyboardSize = userInfo[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue.size
         
         let contentInsets = UIEdgeInsetsZero
         self.tweetView.contentInset = contentInsets
@@ -224,7 +230,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         
         let userInfo = notification.userInfo as [NSObject : AnyObject]!
         
-        let keyboardSize = userInfo[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue().size
+        let keyboardSize = userInfo[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue.size
         
         let contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height, 0.0)
         self.tweetView.contentInset = contentInsets
@@ -247,11 +253,11 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
         
         let navBar = self.navigationController!.navigationBar
-        var menuController = UIMenuController.sharedMenuController()
+        let menuController = UIMenuController.sharedMenuController()
         if menuController.menuFrame.origin.y < navBar.frame.origin.y+navBar.frame.height {
-            var size = menuController.menuFrame.size
-            var origin = CGPoint(x: menuController.menuFrame.origin.x, y: menuController.menuFrame.origin.y+size.height)
-            var menuFrame = CGRect(origin: origin, size: size)
+            let size = menuController.menuFrame.size
+            let origin = CGPoint(x: menuController.menuFrame.origin.x, y: menuController.menuFrame.origin.y+size.height)
+            let menuFrame = CGRect(origin: origin, size: size)
             menuController.setMenuVisible(false, animated: false)
             
             menuController.arrowDirection = UIMenuControllerArrowDirection.Up
@@ -297,7 +303,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     
     func showOptionsView() {
         if !optionsAreShown {
-            var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
+            let defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
             
             if !defaults.boolForKey("userHasPressedOptionsButton") {
                 barButtonItemShouldAnimate = false
@@ -308,7 +314,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             
             optionsViewWillShow()
             
-            let window = UIApplication.sharedApplication().windows.last! as! UIWindow
+            let window = UIApplication.sharedApplication().windows.last! as UIWindow
             
             if optionsView == nil {
                 optionsView = NSBundle.mainBundle().loadNibNamed("OptionsView", owner: self, options: nil).first as? OptionsView
@@ -326,7 +332,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             optionsView!.frame = hiddenFrame
             updateOptionsView()
             
-            var animation = POPSpringAnimation(propertyNamed: kPOPViewFrame)
+            let animation = POPSpringAnimation(propertyNamed: kPOPViewFrame)
             animation.toValue = NSValue(CGRect: CGRectMake(0, self.view.frame.size.height-optionsView!.minSize.height, self.view.frame.size.width, optionsView!.minSize.height))
             optionsView!.pop_addAnimation(animation, forKey: "optionsIn")
         } else {
@@ -339,7 +345,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             optionsViewWillHide()
             self.tweetView.resignFirstResponder()
             
-            var animation = POPSpringAnimation(propertyNamed: kPOPViewFrame)
+            let animation = POPSpringAnimation(propertyNamed: kPOPViewFrame)
             animation.toValue = NSValue(CGRect: CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, optionsView!.minSize.height))
             animation.completionBlock = { animation, finished in
                 self.tweetView.becomeFirstResponder()
@@ -389,11 +395,11 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     
     func animateBarButtonTint(barButton : UIBarButtonItem) {
         if barButtonItemShouldAnimate {
-            var r = CGFloat(Float(arc4random()) / Float(UINT32_MAX))
-            var g = CGFloat(Float(arc4random()) / Float(UINT32_MAX))
-            var b = CGFloat(Float(arc4random()) / Float(UINT32_MAX))
+            let r = CGFloat(Float(arc4random()) / Float(UINT32_MAX))
+            let g = CGFloat(Float(arc4random()) / Float(UINT32_MAX))
+            let b = CGFloat(Float(arc4random()) / Float(UINT32_MAX))
             
-            var animation = POPBasicAnimation(propertyNamed: kPOPViewTintColor)
+            let animation = POPBasicAnimation(propertyNamed: kPOPViewTintColor)
             animation.toValue = UIColor(red: r, green: g, blue: b, alpha: 1).CGColor
             animation.duration = 1.0
             animation.completionBlock = { animation in
@@ -412,11 +418,16 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
     
     //something changed in the text view; update lastKnownState (and background)
     func textViewDidChange(textView: UITextView) {
-        var rtfData = self.tweetView.attributedText.dataFromRange(NSMakeRange(0, self.tweetView.attributedText.length), documentAttributes:[NSDocumentTypeDocumentAttribute: NSRTFTextDocumentType], error:nil)
+        var rtfData: NSData?
+        do {
+            rtfData = try self.tweetView.attributedText.dataFromRange(NSMakeRange(0, self.tweetView.attributedText.length), documentAttributes:[NSDocumentTypeDocumentAttribute: NSRTFTextDocumentType])
+        } catch _ {
+            rtfData = nil
+        }
         
         rtfData?.writeToFile(self.cache, atomically: true)
         
-        var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
+        let defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
         defaults.setObject(self.tweetView.backgroundColor?.toCGFloatArray(), forKey: "lastKnownBackground")
         
         if optionsAreShown {
@@ -439,7 +450,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             
             //preload text on share
             var shareText : String?
-            var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
+            let defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
             let firstShare = !defaults.boolForKey("FirstShare")
             if firstShare {
                 shareText = "Sharing from @InfinitweetApp for the first time!"
@@ -464,7 +475,7 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
                     let alert = UIAlertController(title: "Success!", message: "", preferredStyle: UIAlertControllerStyle.Alert)
                     
                     self.presentViewController(alert, animated: true, completion: { () -> Void in
-                        delay(0.75, { () -> () in
+                        delay(0.75, closure: { () -> () in
                             UIView.animateWithDuration(0.25, animations: { () -> Void in
                                 alert.view.alpha = 0
                             }, completion: { (Bool) -> Void in
@@ -546,8 +557,6 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             self.tweetView.toggleItalics(self)
         case TextFormat.Underline:
             self.tweetView.toggleUnderline(self)
-        default:
-            break
         }
         
         self.textViewDidChange(self.tweetView) //text changed
@@ -555,22 +564,22 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         editingText = false
     }
     
-    func changedFontSizeForSelectedText(#increased : Bool) {
+    func changedFontSizeForSelectedText(increased increased : Bool) {
         editingText = true
         //get the selected text, if available
         var selectedRange = self.tweetView.selectedRange
         
         //if there is no text, make changes globally
         if self.tweetView.text.isEmpty {
-            var newFontSize = self.tweetView.font.pointSize
-            if increased && self.tweetView.font.pointSize < 60 {
-                newFontSize = self.tweetView.font.pointSize + 2
+            var newFontSize = self.tweetView.font!.pointSize
+            if increased && self.tweetView.font!.pointSize < 60 {
+                newFontSize = self.tweetView.font!.pointSize + 2
             }
-            if !increased && self.tweetView.font.pointSize > 8 {
-                newFontSize = self.tweetView.font.pointSize - 2
+            if !increased && self.tweetView.font!.pointSize > 8 {
+                newFontSize = self.tweetView.font!.pointSize - 2
             }
             
-            self.tweetView.font = self.tweetView.font.fontWithSize(newFontSize)
+            self.tweetView.font = self.tweetView.font!.fontWithSize(newFontSize)
             
             self.textViewDidChange(self.tweetView) //text changed
             
@@ -628,14 +637,14 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         
         //if there is no text, make changes globally
         if self.tweetView.text.isEmpty {
-            let currentFont = self.tweetView.font as UIFont
+            let currentFont = self.tweetView.font! as UIFont
             let updatedFont = UIFont(name: newFont.fontName, size: currentFont.pointSize)
             self.tweetView.font = updatedFont
         } else {
-            var mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
+            let mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
             
             self.tweetView.attributedText.enumerateAttributesInRange(selectedRange, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
-                var newAttributes = attributes as [NSObject : AnyObject] //make a copy of the attributes
+                var newAttributes = attributes as [String : AnyObject] //make a copy of the attributes
                 
                 //if we have a font set, change the size of the font ONLY
                 if newAttributes[NSFontAttributeName] != nil {
@@ -670,8 +679,6 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             alignPicked = NSTextAlignment.Center
         case Alignment.Justify:
             alignPicked = NSTextAlignment.Justified
-        default:
-            alignPicked = NSTextAlignment.Left
         }
         
         //get the selected text, if available
@@ -699,14 +706,14 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
         if self.tweetView.text.isEmpty {
             self.tweetView.textAlignment = alignPicked!
         } else {
-            var mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
+            let mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
             
             self.tweetView.attributedText.enumerateAttributesInRange(selectedRange, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
-                var newAttributes = attributes as [NSObject : AnyObject] //make a copy of the attributes
+                var newAttributes = attributes as [String : AnyObject] //make a copy of the attributes
                 
                 //if we have a font set, change the size of the font ONLY
                 if newAttributes[NSParagraphStyleAttributeName] != nil {
-                    var style = NSMutableParagraphStyle()
+                    let style = NSMutableParagraphStyle()
                     style.alignment = alignPicked!
                     newAttributes[NSParagraphStyleAttributeName] = style
                 }
@@ -757,10 +764,10 @@ class ViewController: UIViewController, UITextViewDelegate, UIPopoverPresentatio
             if self.tweetView.text.isEmpty {
                 self.tweetView.textColor = color
             } else {
-                var mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
+                let mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
                 
                 self.tweetView.attributedText.enumerateAttributesInRange(selectedRange, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
-                    var newAttributes = attributes as [NSObject : AnyObject] //make a copy of the attributes
+                    var newAttributes = attributes as [String : AnyObject] //make a copy of the attributes
                     
                     //ichange the color of the font ONLY
                     if attribute == ColorAttribute.Text {

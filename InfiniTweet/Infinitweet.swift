@@ -95,7 +95,7 @@ class Infinitweet {
         
         //generate image
         UIGraphicsBeginImageContextWithOptions(outerRectSize, true, 0.0)
-        var image = UIGraphicsGetImageFromCurrentImageContext()
+        let image = UIGraphicsGetImageFromCurrentImageContext()
         
         image.drawInRect(CGRectMake(0,0,outerRectSize.width,outerRectSize.height))
         
@@ -189,14 +189,14 @@ class Infinitweet {
         }
         
         //round sizes and add padding
-        let minSize = (width : CGFloat(440), height : CGFloat(220))
+        _ = (width : CGFloat(440), height : CGFloat(220))
         let adjustedWidth  = CGFloat(ceilf(Float(currentWidth)))
         let adjustedHeight = CGFloat(ceilf(Float(currentHeight)))
         let outerRectSize  = CGSizeMake(adjustedWidth + 2*padding, adjustedHeight + 2*padding)
         
         //generate image
         UIGraphicsBeginImageContextWithOptions(outerRectSize, true, 0.0)
-        var image = UIGraphicsGetImageFromCurrentImageContext()
+        let image = UIGraphicsGetImageFromCurrentImageContext()
         
         image.drawInRect(CGRectMake(0,0,outerRectSize.width,outerRectSize.height))
         

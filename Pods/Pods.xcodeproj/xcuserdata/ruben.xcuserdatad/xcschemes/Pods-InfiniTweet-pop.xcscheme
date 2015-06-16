@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0510"
+   LastUpgradeVersion = "0640"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "19CE9F868DE04F67463858CD"
+               BlueprintIdentifier = "4B9022E3DC243BB9652D3159"
                BuildableName = "libPods-InfiniTweet-pop.a"
                BlueprintName = "Pods-InfiniTweet-pop"
                ReferencedContainer = "container:Pods.xcodeproj">

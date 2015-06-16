@@ -65,7 +65,11 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
                         if text != nil {
                             dispatch_async(dispatch_get_main_queue()) {
                                 let textData = (text as! NSString).dataUsingEncoding(NSUnicodeStringEncoding, allowLossyConversion: true)!
-                                self.tweetView.attributedText = NSAttributedString(data: textData, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil, error: nil)
+                                do {
+                                    self.tweetView.attributedText = try NSAttributedString(data: textData, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+                                } catch _ {
+                                    self.tweetView.attributedText = nil
+                                }
                                 
                                 self.setTweetViewDefaults()
                                 
@@ -87,8 +91,6 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
                             let title = results["title"] as! String
                             let url = results["URL"] as! String
                             self.tweetView.text = title+"\n\n"+text+"\n\nSource: "+url
-                            
-                            var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
                             
                             self.setTweetViewDefaults()
                             
@@ -137,11 +139,11 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
         self.tweetView.font = settings.font
         self.tweetView.textColor = settings.color //set the text color
         
-        var mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
-        var textRange = NSMakeRange(0, self.tweetView.attributedText.length)
+        let mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
+        let textRange = NSMakeRange(0, self.tweetView.attributedText.length)
         //for attributes in this range, change toolbar buttons to match,
         self.tweetView.attributedText.enumerateAttributesInRange(textRange, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
-            var newAttributes = attributes as [NSObject : AnyObject] //make a copy of the attributes
+            var newAttributes = attributes as [String : AnyObject] //make a copy of the attributes
             
             //if we have a font set, change the size of the font ONLY
             if newAttributes[NSBackgroundColorAttributeName] != nil {
@@ -174,7 +176,7 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
                 
                 //preload text on share
                 var shareText : String?
-                var defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
+                let defaults = NSUserDefaults(suiteName: "group.Codes.Ruben.InfinitweetPro")!
                 let firstShare = !defaults.boolForKey("FirstShare")
                 if firstShare {
                     shareText = "Sharing from @InfinitweetApp for the first time!"
@@ -200,7 +202,7 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
                         defaults.setBool(true, forKey: "FirstShare")
                         
                         self.presentViewController(alert, animated: true, completion: { () -> Void in
-                            delay(0.75, { () -> () in
+                            delay(0.75, closure: { () -> () in
                                 UIView.animateWithDuration(0.25, animations: { () -> Void in
                                     alert.view.alpha = 0
                                     }, completion: { (Bool) -> Void in
@@ -239,7 +241,7 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
     func keyboardWillHide(notification : NSNotification) {
         let userInfo = notification.userInfo as [NSObject : AnyObject]!
         
-        let keyboardSize = userInfo[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue().size
+        let keyboardSize = userInfo[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue.size
         
         let contentInsets = UIEdgeInsetsZero
         self.tweetView.contentInset = contentInsets
@@ -264,7 +266,7 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
         
         let userInfo = notification.userInfo as [NSObject : AnyObject]!
         
-        let keyboardSize = userInfo[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue().size
+        let keyboardSize = userInfo[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue.size
         
         let contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height, 0.0)
         self.tweetView.contentInset = contentInsets
@@ -286,11 +288,11 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
     func menuControllerWillShow() {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
         
-        var menuController = UIMenuController.sharedMenuController()
+        let menuController = UIMenuController.sharedMenuController()
         if menuController.menuFrame.origin.y < navBar.frame.origin.y+navBar.frame.height {
-            var size = menuController.menuFrame.size
-            var origin = CGPoint(x: menuController.menuFrame.origin.x, y: menuController.menuFrame.origin.y+size.height)
-            var menuFrame = CGRect(origin: origin, size: size)
+            let size = menuController.menuFrame.size
+            let origin = CGPoint(x: menuController.menuFrame.origin.x, y: menuController.menuFrame.origin.y+size.height)
+            let menuFrame = CGRect(origin: origin, size: size)
             menuController.setMenuVisible(false, animated: false)
             
             menuController.arrowDirection = UIMenuControllerArrowDirection.Up
@@ -473,30 +475,28 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
             self.tweetView.toggleItalics(self)
         case TextFormat.Underline:
             self.tweetView.toggleUnderline(self)
-        default:
-            break
         }
         
         self.textViewDidChange(self.tweetView) //text changed
         editingText = false
     }
     
-    func changedFontSizeForSelectedText(#increased : Bool) {
+    func changedFontSizeForSelectedText(increased increased : Bool) {
         editingText = true
         //get the selected text, if available
         var selectedRange = self.tweetView.selectedRange
         
         //if there is no text, make changes globally
         if self.tweetView.text.isEmpty {
-            var newFontSize = self.tweetView.font.pointSize
-            if increased && self.tweetView.font.pointSize < 60 {
-                newFontSize = self.tweetView.font.pointSize + 2
+            var newFontSize = self.tweetView.font!.pointSize
+            if increased && self.tweetView.font!.pointSize < 60 {
+                newFontSize = self.tweetView.font!.pointSize + 2
             }
-            if !increased && self.tweetView.font.pointSize > 8 {
-                newFontSize = self.tweetView.font.pointSize - 2
+            if !increased && self.tweetView.font!.pointSize > 8 {
+                newFontSize = self.tweetView.font!.pointSize - 2
             }
             
-            self.tweetView.font = self.tweetView.font.fontWithSize(newFontSize)
+            self.tweetView.font = self.tweetView.font!.fontWithSize(newFontSize)
             
             self.textViewDidChange(self.tweetView) //text changed
             
@@ -554,14 +554,14 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
         
         //if there is no text, make changes globally
         if self.tweetView.text.isEmpty {
-            let currentFont = self.tweetView.font as UIFont
+            let currentFont = self.tweetView.font! as UIFont
             let updatedFont = UIFont(name: newFont.fontName, size: currentFont.pointSize)
             self.tweetView.font = updatedFont
         } else {
-            var mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
+            let mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
             
             self.tweetView.attributedText.enumerateAttributesInRange(selectedRange, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
-                var newAttributes = attributes as [NSObject : AnyObject] //make a copy of the attributes
+                var newAttributes = attributes as [String : AnyObject] //make a copy of the attributes
                 
                 //if we have a font set, change the size of the font ONLY
                 if newAttributes[NSFontAttributeName] != nil {
@@ -595,8 +595,6 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
             alignPicked = NSTextAlignment.Center
         case Alignment.Justify:
             alignPicked = NSTextAlignment.Justified
-        default:
-            alignPicked = NSTextAlignment.Left
         }
         
         //get the selected text, if available
@@ -624,14 +622,14 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
         if self.tweetView.text.isEmpty {
             self.tweetView.textAlignment = alignPicked!
         } else {
-            var mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
+            let mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
             
             self.tweetView.attributedText.enumerateAttributesInRange(selectedRange, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
-                var newAttributes = attributes as [NSObject : AnyObject] //make a copy of the attributes
+                var newAttributes = attributes as [String : AnyObject] //make a copy of the attributes
                 
                 //if we have a font set, change the size of the font ONLY
                 if newAttributes[NSParagraphStyleAttributeName] != nil {
-                    var style = NSMutableParagraphStyle()
+                    let style = NSMutableParagraphStyle()
                     style.alignment = alignPicked!
                     newAttributes[NSParagraphStyleAttributeName] = style
                 }
@@ -681,10 +679,10 @@ class ActionViewController: UIViewController, UINavigationBarDelegate, UITextVie
             if self.tweetView.text.isEmpty {
                 self.tweetView.textColor = color
             } else {
-                var mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
+                let mutableCopy = NSMutableAttributedString(attributedString: self.tweetView.attributedText)
                 
                 self.tweetView.attributedText.enumerateAttributesInRange(selectedRange, options: NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock: { (attributes, range, stop) -> Void in
-                    var newAttributes = attributes as [NSObject : AnyObject] //make a copy of the attributes
+                    var newAttributes = attributes as [String : AnyObject] //make a copy of the attributes
                     
                     //ichange the color of the font ONLY
                     if attribute == ColorAttribute.Text {
